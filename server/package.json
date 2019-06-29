@@ -82,7 +82,6 @@
     "jsonwebtoken": "^8.4.0",
     "node-nlp": "^3.0.3",
     "node-webcrypto-ossl": "^1.0.48",
-    "path-to-regexp": "^3.0.0",
     "queue": "^6.0.0",
     "semver": "^6.1.1",
     "sequelize": "^4.42.0",
