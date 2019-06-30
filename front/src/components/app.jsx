@@ -75,6 +75,11 @@ import MqttSetupPage from '../routes/integration/all/mqtt/setup-page';
 import SonoffPage from '../routes/integration/all/sonoff/device-page';
 import SonoffDiscoverPage from '../routes/integration/all/sonoff/discover-page';
 
+// Integrations Bluetooth
+import BluetoothDevicePage from '../routes/integration/all/bluetooth/device-page';
+import BluetoothSetupPage from '../routes/integration/all/bluetooth/setup-page';
+import BluetoothSetupPeripheralPage from '../routes/integration/all/bluetooth/setup-page/setup-peripheral';
+
 const defaultState = getDefaultState();
 const store = createStore(defaultState);
 
@@ -167,6 +172,11 @@ const AppRouter = connect(
         <EditXiaomiPage path="/dashboard/integration/device/xiaomi/edit/:deviceSelector" />
         <SonoffPage path="/dashboard/integration/device/sonoff" />
         <SonoffDiscoverPage path="/dashboard/integration/device/sonoff/discover" />
+
+        <Redirect path="/dashboard/integration/device/bluetooth" to="/dashboard/integration/device/bluetooth/device" />
+        <BluetoothDevicePage path="/dashboard/integration/device/bluetooth/device" />
+        <BluetoothSetupPage path="/dashboard/integration/device/bluetooth/setup" />
+        <BluetoothSetupPeripheralPage path="/dashboard/integration/device/bluetooth/setup/:uuid" />
 
         <ChatPage path="/dashboard/chat" />
         <MapPage path="/dashboard/maps" />
