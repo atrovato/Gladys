@@ -349,6 +349,10 @@ const WEBSOCKET_MESSAGE_TYPES = {
   XIAOMI: {
     NEW_DEVICE: 'xiaomi.new-device',
   },
+  BLUETOOTH: {
+    STATE: 'bluetooth.status',
+    DISCOVER: 'bluetooth.discover',
+  },
 };
 
 const DASHBOARD_TYPE = {
