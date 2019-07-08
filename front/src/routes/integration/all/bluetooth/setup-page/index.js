@@ -14,10 +14,12 @@ class BluetoothSetupPage extends Component {
     this.props.getPeripherals();
     this.props.getStatus();
 
-    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.SCAN_COMPLETE, payload => {
-      this.props.getStatus();
-      this.props.getPeripherals();
-    });
+    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.STATE, payload =>
+      this.props.updateStatus(payload)
+    );
+    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER, payload =>
+      this.props.addPeripheral(payload)
+    );
   }
 
   render(props, {}) {

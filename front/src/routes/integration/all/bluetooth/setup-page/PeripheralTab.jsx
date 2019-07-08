@@ -3,12 +3,14 @@ import cx from 'classnames';
 
 import Node from './Peripheral';
 import { RequestStatus } from '../../../../../utils/consts';
+import style from './style.css';
 
 const NodeTab = ({ children, ...props }) => {
   const bluetoothNotReady =
     props.bluetoothGetDriverStatus === RequestStatus.Error ||
     props.bluetoothStatus === 'loading' ||
     props.bluetoothStatus === 'poweredOff';
+
   return (
     <div class="card">
       <div class="card-header">
@@ -17,9 +19,12 @@ const NodeTab = ({ children, ...props }) => {
         </h3>
         <div class="page-options d-flex">
           <button
-            class="btn btn-outline-primary"
+            class={cx('btn', {
+              'btn-outline-danger': props.bluetoothStatus === 'scanning',
+              'btn-outline-primary': props.bluetoothStatus !== 'scanning'
+            })}
             onClick={props.scan}
-            disabled={bluetoothNotReady || props.bluetoothStatus === 'scanning'}
+            disabled={bluetoothNotReady}
           >
             <Text id="integration.bluetooth.setup.scanButton" /> <i class="fe fe-radio" />
           </button>
@@ -34,6 +39,9 @@ const NodeTab = ({ children, ...props }) => {
         >
           <div class="loader" />
           <div class="dimmer-content">
+            {!bluetoothNotReady && (!props.bluetoothPeripheralUuids || !props.bluetoothPeripheralUuids.length) && (
+              <div class={style.emptyDiv} />
+            )}
             {bluetoothNotReady && (
               <div class="alert alert-warning">
                 <Text id="integration.bluetooth.setup.bluetoothNotReadyError" />
