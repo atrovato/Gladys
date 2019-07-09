@@ -1,5 +1,6 @@
 const logger = require('../../../../utils/logger');
 
+const scanTimeout = 15000;
 let timer;
 
 /**
@@ -18,7 +19,7 @@ function scan(state = false) {
     timer = setTimeout(() => {
       this.bluetooth.stopScanning();
       logger.debug('Scan timeout');
-    }, 60000);
+    }, scanTimeout);
   } else {
     this.bluetooth.stopScanning();
   }
