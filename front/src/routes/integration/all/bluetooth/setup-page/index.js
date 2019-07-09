@@ -2,7 +2,7 @@ import { Component } from 'preact';
 import { connect } from 'unistore/preact';
 import actions from './actions';
 import BluetoothPage from '../BluetoothPage';
-import NodeTab from './PeripheralTab';
+import PeripheralTab from './PeripheralTab';
 import { WEBSOCKET_MESSAGE_TYPES } from '../../../../../../../server/utils/constants';
 
 @connect(
@@ -25,7 +25,7 @@ class BluetoothSetupPage extends Component {
   render(props, {}) {
     return (
       <BluetoothPage>
-        <NodeTab {...props} />
+        <PeripheralTab {...props} />
       </BluetoothPage>
     );
   }
