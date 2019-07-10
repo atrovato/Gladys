@@ -318,7 +318,7 @@ class ConfigurePeripheral extends Component {
             </button>
           </div>
           <div class="col text-right">
-            <Link href="/dashboard/integration/device/bluetooth/config">
+            <Link href="/dashboard/integration/device/bluetooth/setup">
               <button type="button" class="btn btn-danger" disabled={disableForm}>
                 <Text id="integration.bluetooth.setup.peripheral.cancelLabel" />
               </button>

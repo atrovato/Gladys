@@ -3,6 +3,7 @@ import { Component } from 'preact';
 import cx from 'classnames';
 
 import { RequestStatus } from '../../../../../utils/consts';
+import { Link } from 'preact-router';
 
 class BluetoothNode extends Component {
   createDevice = async () => {
@@ -58,9 +59,11 @@ class BluetoothNode extends Component {
               />
             </div>
             <div class="form-group">
-              <button class="btn btn-success">
-                <Text id="integration.bluetooth.setup.createDeviceInGladys" />
-              </button>
+              <Link href={'/dashboard/integration/device/bluetooth/setup/' + props.peripheral.uuid}>
+                <button class="btn btn-success" disabled={!props.peripheral.connectable}>
+                  <Text id="integration.bluetooth.setup.createDeviceInGladys" />
+                </button>
+              </Link>
             </div>
           </div>
         </div>
