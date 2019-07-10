@@ -48,7 +48,8 @@ const NodeTab = ({ children, ...props }) => {
               </div>
             )}
             <div class="row">
-              {props.bluetoothPeripheralUuids &&
+              {!bluetoothNotReady &&
+                props.bluetoothPeripheralUuids &&
                 props.bluetoothPeripheralUuids.map((uuid, index) => (
                   <Node
                     peripheral={props.bluetoothPeripherals[uuid]}

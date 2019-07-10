@@ -168,9 +168,14 @@ class ConfigurePeripheral extends Component {
             <span>
               <Text id="integration.bluetooth.setup.peripheral.autoDetectSuccess" />
               &nbsp;
-              <Text id={'integration.bluetooth.setup.peripheral.brands.' + device.brand + '.title'}>{device.brand}</Text>
+              <Text id={'integration.bluetooth.setup.peripheral.brands.' + device.brand + '.title'}>
+                {device.brand}
+              </Text>
               &nbsp;-&nbsp;
-              <Text id={'integration.bluetooth.setup.peripheral.brands.' + device.brand + '.models.' + device.model}>{device.model}</Text>.
+              <Text id={'integration.bluetooth.setup.peripheral.brands.' + device.brand + '.models.' + device.model}>
+                {device.model}
+              </Text>
+              .
             </span>
           );
           autoDetectColor = 'success';
