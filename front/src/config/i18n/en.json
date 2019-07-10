@@ -422,7 +422,7 @@
       },
       "setup": {
         "title": "Bluetooth Setup",
-        "bluetoothNotAvailableError": "Bluetooth device is not reachable, please check it is enabled.",
+        "bluetoothNotReadyError": "Bluetooth device is not reachable, please check it is enabled.",
         "scanButton": "Scan",
         "rssiLabel": "RSSI",
         "addressLabel": "MAC address",
