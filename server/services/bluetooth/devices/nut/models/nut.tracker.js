@@ -9,6 +9,7 @@ module.exports = {
       min: 0,
       max: 100,
       read_only: true,
+      has_feedback: false,
     },
   ],
 };

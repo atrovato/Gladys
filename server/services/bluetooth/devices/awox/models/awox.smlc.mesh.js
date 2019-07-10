@@ -11,6 +11,7 @@ module.exports = {
       min: 0,
       max: 1,
       read_only: false,
+      has_feedback: true,
     },
     {
       category: 'light',
@@ -19,6 +20,7 @@ module.exports = {
       min: 0,
       max: 100,
       read_only: false,
+      has_feedback: true,
     },
     {
       category: 'light',
@@ -27,6 +29,7 @@ module.exports = {
       min: 0,
       max: 100,
       read_only: false,
+      has_feedback: true,
     },
     {
       category: 'light',
@@ -35,6 +38,7 @@ module.exports = {
       min: 0,
       max: 100,
       read_only: false,
+      has_feedback: true,
     },
     {
       category: 'light',
@@ -43,6 +47,7 @@ module.exports = {
       min: 0,
       max: 3,
       read_only: true,
+      has_feedback: true,
     },
   ],
 };
