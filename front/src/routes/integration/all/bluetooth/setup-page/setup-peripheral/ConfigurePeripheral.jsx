@@ -137,7 +137,9 @@ class ConfigurePeripheral extends Component {
   componentWillMount() {
     this.props.loadBrands();
 
-    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DETERMINE, data => this.connected(data));
+    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DETERMINE, data =>
+      this.connected(data)
+    );
   }
 
   render(props, {}) {
