@@ -4,6 +4,7 @@ import { connect } from 'unistore/preact';
 import { Link } from 'preact-router/match';
 import actions from '../actions';
 import { RequestStatus, DeviceFeatureCategoriesIcon } from '../../../../../../utils/consts';
+import { WEBSOCKET_MESSAGE_TYPES } from '../../../../../../../../server/utils/constants';
 
 @connect(
   'session,httpClient,bluetoothBrands,houses',
@@ -136,7 +137,7 @@ class ConfigurePeripheral extends Component {
   componentWillMount() {
     this.props.loadBrands();
 
-    this.props.session.dispatcher.addListener('bluetooth.determine', data => this.connected(data));
+    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DETERMINE, data => this.connected(data));
   }
 
   render(props, {}) {

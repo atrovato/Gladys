@@ -23,7 +23,7 @@ async function determinePeripheral(uuid) {
     logger.error(`Error during determination of ${uuid} device : %j`, error);
 
     this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
+      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DETERMINE,
       payload: {
         uuid,
         status: 'error',
