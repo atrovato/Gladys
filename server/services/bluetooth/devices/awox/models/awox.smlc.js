@@ -1,7 +1,7 @@
 const { isRemote, isMesh, isColor } = require('../lib/awox.utils');
 
 module.exports = {
-  name: 'SmartLIGHT Color',
+  name: 'smlc',
   matches: (deviceModel, deviceType) => !isRemote(deviceModel) && isColor(deviceType) && !isMesh(deviceModel),
   features: [
     {

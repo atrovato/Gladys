@@ -1,7 +1,7 @@
 const { isRemote, isMesh } = require('../lib/awox.utils');
 
 module.exports = {
-  name: 'SmartLIGHT Mesh Remote',
+  name: 'rcum',
   matches: (deviceModel, deviceType) => isRemote(deviceModel) && isMesh(deviceModel),
   features: [
     {

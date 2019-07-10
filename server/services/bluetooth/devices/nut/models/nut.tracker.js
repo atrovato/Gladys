@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Smart Tracker',
+  name: 'tracker',
   matches: () => true,
   features: [
     {
