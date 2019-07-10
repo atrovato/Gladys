@@ -22,6 +22,11 @@ class ConfigurePeripheral extends Component {
             ...data.device
           }
         });
+
+        const { device } = this.state;
+        if (device.brand && device.model) {
+          this.loadDeviceFeatures(device.brand, device.model);
+        }
       } else {
         this.setState({
           autoDetect: false,
@@ -163,8 +168,9 @@ class ConfigurePeripheral extends Component {
             <span>
               <Text id="integration.bluetooth.setup.peripheral.autoDetectSuccess" />
               &nbsp;
-              <Text id={'integration.bluetooth.brands.' + device.brand + '.title'}>{device.brand}</Text>
-              &nbsp;-&nbsp;{device.model}.
+              <Text id={'integration.bluetooth.setup.peripheral.brands.' + device.brand + '.title'}>{device.brand}</Text>
+              &nbsp;-&nbsp;
+              <Text id={'integration.bluetooth.setup.peripheral.brands.' + device.brand + '.models.' + device.model}>{device.model}</Text>.
             </span>
           );
           autoDetectColor = 'success';

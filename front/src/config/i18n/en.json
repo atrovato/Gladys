@@ -448,7 +448,10 @@
               "title": "AwoX",
               "models": {
                 "smlw": "SmartLIGHT White",
-                "smlc": "SmartLIGHT Color"
+                "smlc": "SmartLIGHT Color",
+                "rcum": "SmartLIGHT Mesh Remote",
+                "smlcm": "SmartLIGHT Mesh Color",
+                "smlwm": "SmartLIGHT Mesh White"
               }
             },
             "nut": {
