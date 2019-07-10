@@ -17,7 +17,6 @@ function determinePeripheral(uuid) {
   const emitErrorMessage = (error) => {
     if (peripheral) {
       peripheral.removeAllListeners();
-      peripheral.disconnect();
     }
 
     logger.error(`Error during determination of ${uuid} device : %j`, error);
@@ -70,7 +69,6 @@ function determinePeripheral(uuid) {
                       logger.debug(`Reading ${characteristic.uuid} as ${nbCharsRead}`);
                       if (nbCharsRead === nbCharsToRead) {
                         logger.debug(`Sending response ${nbCharsRead} === ${nbCharsToRead}`);
-                        peripheral.disconnect();
                         peripheral.removeAllListeners();
 
                         const matchingDevices = this.getMatchingDevices(peripheralInfo);
