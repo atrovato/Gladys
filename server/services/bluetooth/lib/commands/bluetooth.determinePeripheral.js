@@ -11,7 +11,7 @@ const { read } = require('../utils/read.js');
  * @example
  * bluetooth.determinePeripheral('a4c13802e340');
  */
-async function determinePeripheral(uuid) {
+function determinePeripheral(uuid) {
   const peripheral = this.peripherals[uuid];
 
   const emitErrorMessage = (error) => {
@@ -48,9 +48,9 @@ async function determinePeripheral(uuid) {
           if (errorServices) {
             emitErrorMessage(errorServices);
           } else {
-            const nbServsToRead = serviceMap.size;
             const peripheralInfo = {};
-            let nbServsRead = 0;
+            const nbCharsToRead = Object.values(servicesAndChars).reduce((acc, element) => acc + element.length, 0);
+            let nbCharsRead = 0;
 
             serviceMap.forEach((service, serviceUUID) => {
               const requiredChars = servicesAndChars[serviceUUID];
@@ -58,12 +58,8 @@ async function determinePeripheral(uuid) {
                 if (errorChar && errorChar.code !== 'noCharacteristicFound') {
                   emitErrorMessage(errorChar);
                 } else {
-                  const nbCharsToRead = charMap.size;
-                  let nbCharsRead = 0;
-                  nbServsRead += 1;
-
-                  charMap.forEach((characterisctic, charUuid) => {
-                    read(peripheral, characterisctic, (errorReading, value) => {
+                  charMap.forEach((characteristic, charUuid) => {
+                    read(peripheral, characteristic, (errorReading, value) => {
                       if (errorReading) {
                         logger.error(errorReading);
                       }
@@ -71,7 +67,9 @@ async function determinePeripheral(uuid) {
                       peripheralInfo[charUuid] = (value || '').toString('utf-8').replace('\u0000', '');
 
                       nbCharsRead += 1;
-                      if (nbCharsRead === nbCharsToRead && nbServsToRead === nbServsRead) {
+                      logger.debug(`Reading ${characteristic.uuid} as ${nbCharsRead}`);
+                      if (nbCharsRead === nbCharsToRead) {
+                        logger.debug(`Sending response ${nbCharsRead} === ${nbCharsToRead}`);
                         peripheral.disconnect();
                         peripheral.removeAllListeners();
 
