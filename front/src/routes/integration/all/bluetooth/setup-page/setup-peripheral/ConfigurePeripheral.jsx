@@ -19,7 +19,10 @@ class ConfigurePeripheral extends Component {
           autoDetect: false,
           bluetoothConnectStatut: RequestStatus.Success,
           device: {
-            ...data.device
+            ...this.state.device,
+            brand: data.device.brand,
+            model: data.device.model,
+            features: data.device.features
           }
         });
 
@@ -114,6 +117,15 @@ class ConfigurePeripheral extends Component {
     }
   }
 
+  updateRoom(e) {
+    this.setState({
+      device: {
+        ...this.state.device,
+        room_id: e.target.value
+      }
+    })
+  }
+
   createDevice(e) {
     e.preventDefault();
     this.props.saveDevice(this.state.device);
@@ -124,11 +136,11 @@ class ConfigurePeripheral extends Component {
 
     this.state = {
       device: {
-        name: props.peripheral.name
+        name: props.peripheral.name,
+        uuid: props.peripheral.uuid
       },
       autoDetect: false,
-      enableAutoDetect: true,
-      disableForm: false
+      enableAutoDetect: true
     };
 
     this.autoDetect = this.autoDetect.bind(this);
@@ -137,10 +149,12 @@ class ConfigurePeripheral extends Component {
 
     this.selectBrand = this.selectBrand.bind(this);
     this.selectModel = this.selectModel.bind(this);
+    this.updateRoom = this.updateRoom.bind(this);
   }
 
   componentWillMount() {
     this.props.loadBrands();
+    this.props.getIntegrationByName('bluetooth');
 
     this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DETERMINE, data =>
       this.connected(data)
@@ -231,7 +245,9 @@ class ConfigurePeripheral extends Component {
               <Text id="integration.bluetooth.device.roomLabel" />
             </label>
             <select name="room" onChange={this.updateRoom} class="form-control" disabled={disableForm}>
-              <option value=""><Text id="global.emptySelectOption" /></option>
+              <option value="">
+                <Text id="global.emptySelectOption" />
+              </option>
               {houses &&
                 houses.map(house => (
                   <optgroup label={house.name}>
@@ -269,7 +285,9 @@ class ConfigurePeripheral extends Component {
             onChange={this.selectBrand}
             disabled={autoDetect || disableForm}
           >
-            <option hidden disabled value selected={!(device || {}).brand}><Text id="global.emptySelectOption" /></option>
+            <option hidden disabled value selected={!(device || {}).brand}>
+              <Text id="global.emptySelectOption" />
+            </option>
             {bluetoothBrands &&
               Object.keys(bluetoothBrands).map(brand => (
                 <option value={brand} selected={brand === device.brand}>
@@ -289,7 +307,9 @@ class ConfigurePeripheral extends Component {
             onChange={this.selectModel}
             disabled={autoDetect || !device.brand || disableForm}
           >
-            <option hidden disabled value selected={!(device || {}).model}><Text id="global.emptySelectOption" /></option>
+            <option hidden disabled value selected={!(device || {}).model}>
+              <Text id="global.emptySelectOption" />
+            </option>
             {bluetoothBrands &&
               bluetoothBrands[device.brand] &&
               bluetoothBrands[device.brand].map(model => (

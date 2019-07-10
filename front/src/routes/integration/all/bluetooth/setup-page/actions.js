@@ -107,22 +107,31 @@ const createActions = store => {
       store.setState({
         bluetoothSaveStatus: RequestStatus.Getting
       });
+
+      device.service_id = state.currentIntegration.id;
+      device.external_id = `bluetooth:${device.uuid}:${device.brand}:${device.model}`;
       device.features.forEach(feature => {
-        feature.name = device.name;
+        feature.name = `${device.name} ${feature.type}`;
+        feature.external_id = `${device.external_id}:${feature.type.replace(' ', '_')}`;
+        feature.selector = feature.external_id;
       });
 
       try {
         await state.httpClient.post(`/api/v1/device`, device);
         store.setState({
-          disableForm: false,
           bluetoothSaveStatus: RequestStatus.Success
         });
       } catch (e) {
         store.setState({
-          disableForm: false,
           bluetoothSaveStatus: RequestStatus.Error
         });
       }
+    },
+    async getIntegrationByName(state, name) {
+      const currentIntegration = await state.httpClient.get(`/api/v1/service/${name}`);
+      store.setState({
+        currentIntegration
+      });
     }
   };
   return Object.assign({}, actions, houseActions);
