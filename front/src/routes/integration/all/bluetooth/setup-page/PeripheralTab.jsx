@@ -3,7 +3,6 @@ import cx from 'classnames';
 
 import Node from './Peripheral';
 import { RequestStatus } from '../../../../../utils/consts';
-import style from './style.css';
 
 const NodeTab = ({ children, ...props }) => {
   const bluetoothNotReady =
@@ -39,9 +38,6 @@ const NodeTab = ({ children, ...props }) => {
         >
           <div class="loader" />
           <div class="dimmer-content">
-            {!bluetoothNotReady && (!props.bluetoothPeripheralUuids || !props.bluetoothPeripheralUuids.length) && (
-              <div class={style.emptyDiv} />
-            )}
             {bluetoothNotReady && (
               <div class="alert alert-warning">
                 <Text id="integration.bluetooth.setup.bluetoothNotReadyError" />
