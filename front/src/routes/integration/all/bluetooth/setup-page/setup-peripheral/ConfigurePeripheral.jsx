@@ -281,7 +281,7 @@ class ConfigurePeripheral extends Component {
           </label>
           <select
             name="brand"
-            class="form-control custom-select"
+            class="form-control"
             onChange={this.selectBrand}
             disabled={autoDetect || disableForm}
           >
@@ -303,7 +303,7 @@ class ConfigurePeripheral extends Component {
           </label>
           <select
             name="model"
-            class="form-control custom-select"
+            class="form-control"
             onChange={this.selectModel}
             disabled={autoDetect || !device.brand || disableForm}
           >
