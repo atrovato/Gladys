@@ -20,7 +20,7 @@ function determinePeripheral(uuid) {
       peripheral.removeAllListeners();
     }
 
-    logger.error(`Error during determination of ${uuid} device : %j`, error);
+    logger.error(`Error during determination of ${uuid} device : ${error.message}`);
 
     this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
       type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DETERMINE,

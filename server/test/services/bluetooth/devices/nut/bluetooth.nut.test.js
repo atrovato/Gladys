@@ -20,6 +20,6 @@ describe('Bluetooth Nut -> getMatchingModels', () => {
 
   it('valid constructor', () => {
     const result = awox.getMatchingModels({ '2a00': 'Nut' });
-    expect(result).deep.eq(['Smart Tracker']);
+    expect(result).deep.eq(['tracker']);
   });
 });
