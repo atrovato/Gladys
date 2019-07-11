@@ -103,21 +103,28 @@ const createActions = store => {
         });
       }
     },
-    async saveDevice(state, device) {
+    async resetSaveStatus() {
+      store.setState({
+        bluetoothSaveStatus: undefined
+      });
+    },
+    async createDevice(state, device) {
       store.setState({
         bluetoothSaveStatus: RequestStatus.Getting
       });
 
-      device.service_id = state.currentIntegration.id;
+      const { currentIntegration, httpClient } = state;
+
+      device.service_id = currentIntegration.id;
       device.external_id = `bluetooth:${device.uuid}:${device.brand}:${device.model}`;
       device.features.forEach(feature => {
-        feature.name = `${device.name} ${feature.type}`;
+        feature.name = feature.name ? feature.name : `${device.name} ${feature.type}`;
         feature.external_id = `${device.external_id}:${feature.type.replace(' ', '_')}`;
         feature.selector = feature.external_id;
       });
 
       try {
-        await state.httpClient.post(`/api/v1/device`, device);
+        await httpClient.post(`/api/v1/device`, device);
         store.setState({
           bluetoothSaveStatus: RequestStatus.Success
         });

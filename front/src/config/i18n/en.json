@@ -417,6 +417,7 @@
         "namePlaceholder": "Enter device name",
         "roomLabel": "Room",
         "featuresLabel": "Features",
+        "featureNamePlaceholder": "Enter feature name for \"{{type}}\" : default is \"{{name}}\"",
         "saveButton": "Save",
         "deleteButton": "Delete"
       },
@@ -428,6 +429,7 @@
         "addressLabel": "MAC address",
         "lastSeenLabel": "Last seen",
         "createDeviceInGladys": "Create in Gladys",
+        "saveSuccess": "Bluetooth device successfully created.",
         "saveError": "There was an error creating the device.",
         "peripheral": {
           "title": "Bluetooth Peripheral Configuration",
@@ -443,6 +445,7 @@
           "matchingDevices": "Select matching device",
           "createLabel": "Create",
           "cancelLabel": "Cancel",
+          "successLabel": "Done",
           "brands": {
             "awox": {
               "title": "AwoX",
