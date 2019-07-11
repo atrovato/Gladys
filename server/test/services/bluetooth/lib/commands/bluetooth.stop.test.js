@@ -43,5 +43,4 @@ describe('BluetoothManager stop command', () => {
     assert.calledOnce(bluetooth.stopScanning);
     assert.notCalled(eventWS);
   });
-
 });
