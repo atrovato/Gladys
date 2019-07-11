@@ -5,6 +5,7 @@ const { discoverServices } = require('../utils/discoverServices.js');
 const { discoverCharacteristics } = require('../utils/discoverCharacteristics.js');
 const { read } = require('../utils/read.js');
 
+/* eslint-disable jsdoc/require-returns */
 /**
  * @description Connect to Bluetooth peripheral and read informationto determine which kind of device.
  * @param {string} uuid - Peripheral UUID.
