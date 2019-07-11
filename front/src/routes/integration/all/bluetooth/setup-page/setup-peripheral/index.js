@@ -1,16 +1,16 @@
 import { Component } from 'preact';
 import { connect } from 'unistore/preact';
 import { Text } from 'preact-i18n';
-import cx from 'classnames';
 
 import BluetoothPage from '../../BluetoothPage';
 import PeripheralNotFound from './PeripheralNotFound';
 import ConfigurePeripheral from './ConfigurePeripheral';
 import { RequestStatus } from '../../../../../../utils/consts';
 import actions from '../actions';
+import { WEBSOCKET_MESSAGE_TYPES } from '../../../../../../../../server/utils/constants';
 
 @connect(
-  'httpClient,houses',
+  'session,httpClient,houses,bluetoothStatus',
   actions
 )
 class BluetoothConnnectPage extends Component {
@@ -26,7 +26,12 @@ class BluetoothConnnectPage extends Component {
   }
 
   async componentWillMount() {
+    this.props.getStatus();
     this.props.getHouses();
+
+    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.STATE, payload =>
+      this.props.updateStatus(payload)
+    );
 
     try {
       const peripheral = await this.props.httpClient.get(`/api/v1/service/bluetooth/peripheral/${this.state.uuid}`);
@@ -44,19 +49,31 @@ class BluetoothConnnectPage extends Component {
 
   render() {
     const { uuid, peripheral, status } = this.state;
-    const { props } = this;
+    const { bluetoothStatus } = this.props;
 
     let content;
-    switch (status) {
-      case RequestStatus.Getting:
-        content = <div class="dimmer active"><div class="loader"></div></div>;
-        break;
-      case RequestStatus.Success:
-        content = <ConfigurePeripheral peripheral={peripheral} />;
-        break;
-      case RequestStatus.Error:
-      default:
-        content = <PeripheralNotFound uuid={uuid} />;
+    if (bluetoothStatus !== 'poweredOff') {
+      switch (status) {
+        case RequestStatus.Getting:
+          content = (
+            <div class="dimmer active">
+              <div class="loader" />
+            </div>
+          );
+          break;
+        case RequestStatus.Success:
+          content = <ConfigurePeripheral peripheral={peripheral} />;
+          break;
+        case RequestStatus.Error:
+        default:
+          content = <PeripheralNotFound uuid={uuid} />;
+      }
+    } else {
+      content = (
+        <div class="alert alert-warning">
+          <Text id="integration.bluetooth.setup.bluetoothNotReadyError" />
+        </div>
+      );
     }
 
     return (
@@ -67,18 +84,7 @@ class BluetoothConnnectPage extends Component {
               <Text id="integration.bluetooth.setup.peripheral.title" />
             </h3>
           </div>
-          <div class="card-body">
-            <div
-              class={cx('dimmer', {
-                active:
-                  props.bluetoothStatus === 'scanning' || props.bluetoothGetPeripheralsStatus === RequestStatus.Getting
-              })}
-            >
-              <div class="loader" />
-              <div class="dimmer-content" />
-              {content}
-            </div>
-          </div>
+          <div class="card-body">{content}</div>
         </div>
       </BluetoothPage>
     );
