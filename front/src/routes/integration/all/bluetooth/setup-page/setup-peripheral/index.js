@@ -49,7 +49,7 @@ class BluetoothConnnectPage extends Component {
     let content;
     switch (status) {
       case RequestStatus.Getting:
-        content = <div>Loading...</div>;
+        content = <div class="dimmer active"><div class="loader"></div></div>;
         break;
       case RequestStatus.Success:
         content = <ConfigurePeripheral peripheral={peripheral} />;
