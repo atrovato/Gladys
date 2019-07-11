@@ -1,8 +1,7 @@
 const logger = require('../../../../utils/logger');
 const BluetoothError = require('../BluetoothError');
 const { timeout } = require('./timeout');
-
-const readTimeout = 5000;
+const { TIMERS } = require('./constants');
 
 /**
  * @description Try to read Noble peripheral characteristic.
@@ -23,7 +22,7 @@ function read(peripheral, characteristic, callback) {
   } else {
     const connectTimeout = setTimeout(
       timeout,
-      readTimeout,
+      TIMERS.READ,
       callback,
       `Read ${characteristic.uuid} characteristic timeout for ${peripheral.address}`,
     );

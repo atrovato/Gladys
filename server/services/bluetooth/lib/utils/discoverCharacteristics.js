@@ -1,8 +1,7 @@
 const logger = require('../../../../utils/logger');
 const BluetoothError = require('../BluetoothError');
 const { timeout } = require('./timeout');
-
-const characteristicTimeout = 5000;
+const { TIMERS } = require('./constants');
 
 /**
  * @description Try to discover Noble peripheral services.
@@ -40,7 +39,7 @@ function discoverCharacteristics(peripheral, service, uuids, callback) {
   } else {
     const connectTimeout = setTimeout(
       timeout,
-      characteristicTimeout,
+      TIMERS.DISCOVER_CHARACTERISTICS,
       callback,
       `Discover characteristics timeout for ${peripheral.address}`,
     );

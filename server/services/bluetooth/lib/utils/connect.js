@@ -1,8 +1,7 @@
 const logger = require('../../../../utils/logger');
 const BluetoothError = require('../BluetoothError');
 const { timeout } = require('./timeout');
-
-const connectTimeout = 5000;
+const { TIMERS } = require('./constants');
 
 /**
  * @description Try to connect to Noble peripheral.
@@ -19,7 +18,7 @@ function connect(peripheral, callback) {
   } else if (peripheral.connectable) {
     logger.debug(`Connecting to peripheral ${peripheral.address}`);
 
-    const connectTimer = setTimeout(timeout, connectTimeout, callback, `Connection timeout for ${peripheral.address}`);
+    const connectTimer = setTimeout(timeout, TIMERS.CONNECT, callback, `Connection timeout for ${peripheral.address}`);
     peripheral.connect((error) => {
       clearTimeout(connectTimer);
       if (error) {

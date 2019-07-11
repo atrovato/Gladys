@@ -1,9 +1,10 @@
 const logger = require('../../../../utils/logger');
 const { EVENTS, WEBSOCKET_MESSAGE_TYPES } = require('../../../../utils/constants');
-const { connect } = require('../utils/connect.js');
-const { discoverServices } = require('../utils/discoverServices.js');
-const { discoverCharacteristics } = require('../utils/discoverCharacteristics.js');
-const { read } = require('../utils/read.js');
+const { connect } = require('../utils/connect');
+const { discoverServices } = require('../utils/discoverServices');
+const { discoverCharacteristics } = require('../utils/discoverCharacteristics');
+const { read } = require('../utils/read');
+const { TIMERS } = require('../utils/constants');
 
 /* eslint-disable jsdoc/require-returns */
 /**
@@ -14,6 +15,28 @@ const { read } = require('../utils/read.js');
  */
 function determinePeripheral(uuid) {
   const peripheral = this.peripherals[uuid];
+
+  const emitSuccessMessage = (peripheralInfo) => {
+    peripheral.removeAllListeners();
+
+    const matchingDevices = this.getMatchingDevices(peripheralInfo);
+    let matchingDevice;
+    if (matchingDevices.length === 1) {
+      [matchingDevice] = matchingDevices;
+      logger.debug(`Found matching device for ${uuid} : %j`, matchingDevice);
+    }
+
+    this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
+      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DETERMINE,
+      payload: {
+        uuid,
+        status: 'done',
+        code: undefined,
+        message: undefined,
+        device: matchingDevice,
+      },
+    });
+  };
 
   const emitErrorMessage = (error) => {
     if (peripheral) {
@@ -49,52 +72,45 @@ function determinePeripheral(uuid) {
             emitErrorMessage(errorServices);
           } else {
             const peripheralInfo = {};
-            const nbCharsToRead = Object.values(servicesAndChars).reduce((acc, element) => acc + element.length, 0);
             let nbCharsRead = 0;
+            let nbCharsToRead = 0;
+            requiredServices.forEach((service) => {
+              if (serviceMap.has(service)) {
+                nbCharsToRead += (servicesAndChars[service] || []).length;
+              }
+            });
 
-            serviceMap.forEach((service, serviceUUID) => {
-              const requiredChars = servicesAndChars[serviceUUID];
-              discoverCharacteristics(peripheral, service, requiredChars, (errorChar, charMap = new Map()) => {
-                if (errorChar && errorChar.code !== 'noCharacteristicFound') {
-                  emitErrorMessage(errorChar);
-                } else {
-                  charMap.forEach((characteristic, charUuid) => {
-                    read(peripheral, characteristic, (errorReading, value) => {
-                      if (errorReading) {
-                        logger.error(errorReading);
-                      }
+            setTimeout(emitSuccessMessage, TIMERS.DETERMINE_DEVICE, peripheralInfo);
 
-                      peripheralInfo[charUuid] = (value || '').toString('utf-8').replace('\u0000', '');
-
-                      nbCharsRead += 1;
-                      logger.debug(`Reading ${characteristic.uuid} as ${nbCharsRead}`);
-                      if (nbCharsRead === nbCharsToRead) {
-                        logger.debug(`Sending response ${nbCharsRead} === ${nbCharsToRead}`);
-                        peripheral.removeAllListeners();
-
-                        const matchingDevices = this.getMatchingDevices(peripheralInfo);
-                        let matchingDevice;
-                        if (matchingDevices.length === 1) {
-                          [matchingDevice] = matchingDevices;
-                          logger.debug(`Found matching device for ${uuid} : %j`, matchingDevice);
+            if (nbCharsToRead === 0) {
+              emitErrorMessage({ code: 'notFound', message: 'No characteristics found' });
+            } else {
+              serviceMap.forEach((service, serviceUUID) => {
+                const requiredChars = servicesAndChars[serviceUUID];
+                discoverCharacteristics(peripheral, service, requiredChars, (errorChar, charMap = new Map()) => {
+                  if (errorChar && errorChar.code !== 'noCharacteristicFound') {
+                    emitErrorMessage(errorChar);
+                  } else {
+                    charMap.forEach((characteristic, charUuid) => {
+                      read(peripheral, characteristic, (errorReading, value) => {
+                        if (errorReading) {
+                          logger.error(errorReading);
                         }
 
-                        this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
-                          type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DETERMINE,
-                          payload: {
-                            uuid,
-                            status: 'done',
-                            code: undefined,
-                            message: undefined,
-                            device: matchingDevice,
-                          },
-                        });
-                      }
+                        peripheralInfo[charUuid] = (value || '').toString('utf-8').replace('\u0000', '');
+
+                        nbCharsRead += 1;
+                        logger.debug(`Reading ${characteristic.uuid} as ${nbCharsRead} on ${nbCharsToRead}`);
+                        if (nbCharsRead === nbCharsToRead) {
+                          logger.debug(`Sending response ${nbCharsRead} === ${nbCharsToRead}`);
+                          emitSuccessMessage(peripheralInfo);
+                        }
+                      });
                     });
-                  });
-                }
+                  }
+                });
               });
-            });
+            }
           }
         });
       }
