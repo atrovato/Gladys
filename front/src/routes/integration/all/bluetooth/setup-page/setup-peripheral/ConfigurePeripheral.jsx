@@ -123,7 +123,7 @@ class ConfigurePeripheral extends Component {
         ...this.state.device,
         room_id: e.target.value
       }
-    })
+    });
   }
 
   createDevice(e) {
