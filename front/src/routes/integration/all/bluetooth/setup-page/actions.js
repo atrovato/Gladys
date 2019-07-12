@@ -116,7 +116,6 @@ const createActions = store => {
       const { currentIntegration, httpClient } = state;
 
       device.service_id = currentIntegration.id;
-      device.external_id = `bluetooth:${device.uuid}:${device.brand}:${device.model}`;
       device.features.forEach(feature => {
         feature.name = feature.name ? feature.name : `${device.name} ${feature.type}`;
         feature.external_id = `${device.external_id}:${feature.type.replace(' ', '_')}`;

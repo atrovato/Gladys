@@ -13,23 +13,21 @@ import cx from 'classnames';
 )
 class ConfigurePeripheral extends Component {
   connected(data) {
-    if (data.uuid === this.props.peripheral.uuid) {
-      if (data.status === 'done') {
+    const { device } = this.state;
+    if (data.uuid === device.external_id) {
+      const dataDevice = data.device;
+
+      if (data.status === 'done' && dataDevice) {
         this.setState({
           enableAutoDetect: false,
           autoDetect: false,
           bluetoothConnectStatut: RequestStatus.Success,
-          device: {
-            ...this.state.device,
-            brand: data.device.brand,
-            model: data.device.model,
-            features: data.device.features
-          }
+          brand: dataDevice.brand,
+          model: dataDevice.model
         });
 
-        const { device } = this.state;
-        if (device.brand && device.model) {
-          this.loadDeviceFeatures(device.brand, device.model);
+        if (dataDevice.brand && dataDevice.model) {
+          this.loadDeviceFeatures(dataDevice.brand, dataDevice.model);
         }
       } else {
         this.setState({
@@ -41,40 +39,65 @@ class ConfigurePeripheral extends Component {
   }
 
   selectBrand(event) {
-    const { device } = this.state;
+    const { device, brand } = this.state;
     const selectedBrand = event.target.value;
 
-    if (device.brand !== selectedBrand) {
+    if (brand !== selectedBrand) {
       let model;
 
-      if (this.props.bluetoothBrands[selectedBrand].length === 1) {
-        model = this.props.bluetoothBrands[selectedBrand][0];
-        this.loadDeviceFeatures(selectedBrand, model);
+      const params = (device.params || []).slice();
+      const brandParam = params.find(p => p.name === 'brand');
+      if (brandParam) {
+        brandParam.value = selectedBrand;
+      } else {
+        params.push({
+          name: 'brand',
+          value: brand
+        });
       }
 
       this.setState({
         device: {
           ...device,
-          brand: selectedBrand,
-          model,
-          features: undefined
-        }
+          features: undefined,
+          params
+        },
+        brand: selectedBrand,
+        model
       });
+
+      if (this.props.bluetoothBrands[selectedBrand].length === 1) {
+        model = this.props.bluetoothBrands[selectedBrand][0];
+        this.selectModel({ target: { value: model } });
+      }
     }
   }
 
   selectModel(event) {
-    const { device } = this.state;
+    const { device, model, brand } = this.state;
     const selectedModel = event.target.value;
 
-    if (device.model !== selectedModel) {
-      this.loadDeviceFeatures(device.brand, selectedModel);
+    console.log(model, selectedModel);
+    if (model !== selectedModel) {
+      this.loadDeviceFeatures(brand, selectedModel);
+
+      const params = (device.params || []).slice();
+      const brandParam = params.find(p => p.name === 'model');
+      if (brandParam) {
+        brandParam.value = selectedModel;
+      } else {
+        params.push({
+          name: 'model',
+          value: model
+        });
+      }
 
       this.setState({
         device: {
           ...device,
-          model: selectedModel
-        }
+          params
+        },
+        model: selectedModel
       });
     }
   }
@@ -85,14 +108,14 @@ class ConfigurePeripheral extends Component {
     });
 
     try {
-      const features = await this.props.httpClient.get(`/api/v1/service/bluetooth/brand/${brand}/${model}`);
+      const bluetoothDevice = await this.props.httpClient.get(`/api/v1/service/bluetooth/brand/${brand}/${model}`);
 
       const { device } = this.state;
       this.setState({
         bluetoothFeatureStatus: RequestStatus.Success,
         device: {
           ...device,
-          features
+          ...bluetoothDevice
         }
       });
     } catch (e) {
@@ -109,7 +132,7 @@ class ConfigurePeripheral extends Component {
     });
 
     try {
-      this.props.httpClient.post(`/api/v1/service/bluetooth/peripheral/${this.props.peripheral.uuid}/connect`);
+      this.props.httpClient.post(`/api/v1/service/bluetooth/peripheral/${this.state.device.external_id}/connect`);
     } catch (e) {
       this.setState({
         autoDetect: false,
@@ -157,7 +180,7 @@ class ConfigurePeripheral extends Component {
     this.state = {
       device: {
         name: props.peripheral.name,
-        uuid: props.peripheral.uuid
+        external_id: props.peripheral.uuid
       },
       autoDetect: false,
       enableAutoDetect: true
@@ -193,7 +216,15 @@ class ConfigurePeripheral extends Component {
   }
 
   render(props, {}) {
-    const { device, autoDetect, enableAutoDetect, bluetoothConnectStatut, bluetoothSaveStatus } = this.state;
+    const {
+      device,
+      brand,
+      model,
+      autoDetect,
+      enableAutoDetect,
+      bluetoothConnectStatut,
+      bluetoothSaveStatus
+    } = this.state;
     const { peripheral, bluetoothBrands, houses } = props;
 
     let autoDetectText;
@@ -208,19 +239,14 @@ class ConfigurePeripheral extends Component {
         autoDetectColor = 'danger';
         break;
       case RequestStatus.Success:
-        if (device && device.brand) {
+        if (brand) {
           autoDetectText = (
             <span>
               <Text id="integration.bluetooth.setup.peripheral.autoDetectSuccess" />
               &nbsp;
-              <Text id={'integration.bluetooth.setup.peripheral.brands.' + device.brand + '.title'}>
-                {device.brand}
-              </Text>
+              <Text id={'integration.bluetooth.setup.peripheral.brands.' + brand + '.title'}>{brand}</Text>
               &nbsp;-&nbsp;
-              <Text id={'integration.bluetooth.setup.peripheral.brands.' + device.brand + '.models.' + device.model}>
-                {device.model}
-              </Text>
-              .
+              <Text id={'integration.bluetooth.setup.peripheral.brands.' + brand + '.models.' + model}>{model}</Text>.
             </span>
           );
           autoDetectColor = 'success';
@@ -314,13 +340,13 @@ class ConfigurePeripheral extends Component {
               <Text id="integration.bluetooth.setup.peripheral.brandSelection" />
             </label>
             <select name="brand" class="form-control" onChange={this.selectBrand} disabled={autoDetect || disableForm}>
-              <option hidden disabled value selected={!(device || {}).brand}>
+              <option hidden disabled value selected={!brand}>
                 <Text id="global.emptySelectOption" />
               </option>
               {bluetoothBrands &&
-                Object.keys(bluetoothBrands).map(brand => (
-                  <option value={brand} selected={brand === device.brand}>
-                    <Text id={'integration.bluetooth.setup.peripheral.brands.' + brand + '.title'}>{brand}</Text>
+                Object.keys(bluetoothBrands).map(b => (
+                  <option value={b} selected={b === brand}>
+                    <Text id={'integration.bluetooth.setup.peripheral.brands.' + b + '.title'}>{b}</Text>
                   </option>
                 ))}
             </select>
@@ -334,18 +360,16 @@ class ConfigurePeripheral extends Component {
               name="model"
               class="form-control"
               onChange={this.selectModel}
-              disabled={autoDetect || !device.brand || disableForm}
+              disabled={autoDetect || !brand || disableForm}
             >
-              <option hidden disabled value selected={!(device || {}).model}>
+              <option hidden disabled value selected={!model}>
                 <Text id="global.emptySelectOption" />
               </option>
               {bluetoothBrands &&
-                bluetoothBrands[device.brand] &&
-                bluetoothBrands[device.brand].map(model => (
-                  <option value={model} selected={model === device.model}>
-                    <Text id={'integration.bluetooth.setup.peripheral.brands.' + device.brand + '.models.' + model}>
-                      {model}
-                    </Text>
+                bluetoothBrands[brand] &&
+                bluetoothBrands[brand].map(m => (
+                  <option value={m} selected={m === model}>
+                    <Text id={'integration.bluetooth.setup.peripheral.brands.' + brand + '.models.' + m}>{m}</Text>
                   </option>
                 ))}
             </select>

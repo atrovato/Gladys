@@ -10,13 +10,11 @@ class ConfigurePeripheralSuccess extends Component {
           <Text id="integration.bluetooth.setup.saveSuccess" />
         </div>
 
-        <div class="text-center">
-          <Link href="/dashboard/integration/device/bluetooth/setup">
-            <button type="button" class="btn btn-success">
-              <Text id="integration.bluetooth.setup.peripheral.successLabel" />
-            </button>
-          </Link>
-        </div>
+        <Link href="/dashboard/integration/device/bluetooth/setup">
+          <button type="button" class="btn btn-outline-success btn-sm">
+            <Text id="integration.bluetooth.setup.peripheral.successLabel" />
+          </button>
+        </Link>
       </div>
     );
   }
