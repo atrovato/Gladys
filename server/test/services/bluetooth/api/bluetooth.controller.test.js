@@ -22,7 +22,7 @@ bluetoothManager.getStatus = fake.returns(status);
 bluetoothManager.getPeripheral = fake.returns(peripheral);
 bluetoothManager.getPeripherals = fake.returns(peripherals);
 bluetoothManager.getBrands = fake.returns(brands);
-bluetoothManager.getDeviceFeatures = fake.returns(features);
+bluetoothManager.getGladysDevice = fake.returns(features);
 bluetoothManager.determinePeripheral = fake.returns(null);
 bluetoothManager.scan = fake.returns(null);
 
@@ -117,7 +117,7 @@ describe('GET /api/v1/service/bluetooth/brand*', () => {
     const bluetoothController = BluetoothController(bluetoothManager);
     const req = { params: { brand: 'nut', model: 'tracker' } };
     await bluetoothController['get /api/v1/service/bluetooth/brand/:brand/:model'].controller(req, res);
-    assert.calledOnce(bluetoothManager.getDeviceFeatures);
+    assert.calledOnce(bluetoothManager.getGladysDevice);
     assert.calledWith(res.json, features);
   });
 });

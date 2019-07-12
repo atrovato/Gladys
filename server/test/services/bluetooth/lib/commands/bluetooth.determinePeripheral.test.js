@@ -62,7 +62,7 @@ describe('BluetoothManager determinePeripheral command', () => {
       matchingDevices: undefined,
     };
     eventWS.calledWith({ payload: expectedMessage, type: 'bluetooth.determine' });
-    assert.calledOnce(peripheral.removeAllListeners);
+    assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
 
@@ -98,7 +98,7 @@ describe('BluetoothManager determinePeripheral command', () => {
       matchingDevices: undefined,
     };
     eventWS.calledWith({ payload: expectedMessage, type: 'bluetooth.determine' });
-    assert.calledOnce(peripheral.removeAllListeners);
+    assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
 
@@ -144,7 +144,7 @@ describe('BluetoothManager determinePeripheral command', () => {
       matchingDevices: undefined,
     };
     eventWS.calledWith({ payload: expectedMessage, type: 'bluetooth.determine' });
-    assert.calledOnce(peripheral.removeAllListeners);
+    assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
 
@@ -195,5 +195,7 @@ describe('BluetoothManager determinePeripheral command', () => {
       device: { brand: 'nut', model: 'Smart Tracker' },
     };
     eventWS.calledWith({ payload: expectedMessage, type: 'bluetooth.determine' });
+    assert.notCalled(peripheral.removeAllListeners);
+    assert.notCalled(peripheral.disconnect);
   });
 });

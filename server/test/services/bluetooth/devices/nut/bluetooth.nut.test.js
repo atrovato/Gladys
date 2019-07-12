@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const awox = require('../../../../../services/bluetooth/devices/nut');
+const nut = require('../../../../../services/bluetooth/devices/nut');
 
 describe('Bluetooth Nut -> getMatchingModels', () => {
   beforeEach(() => {
@@ -9,17 +9,17 @@ describe('Bluetooth Nut -> getMatchingModels', () => {
   });
 
   it('not constructor', () => {
-    const result = awox.getMatchingModels({});
+    const result = nut.getMatchingModels({});
     expect(result).deep.eq([]);
   });
 
   it('invalid constructor', () => {
-    const result = awox.getMatchingModels({ '2a00': 'unknown' });
+    const result = nut.getMatchingModels({ '2a00': 'unknown' });
     expect(result).deep.eq([]);
   });
 
   it('valid constructor', () => {
-    const result = awox.getMatchingModels({ '2a00': 'Nut' });
+    const result = nut.getMatchingModels({ '2a00': 'Nut' });
     expect(result).deep.eq(['tracker']);
   });
 });

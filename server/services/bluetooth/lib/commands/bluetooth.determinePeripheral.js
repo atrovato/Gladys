@@ -1,10 +1,6 @@
 const logger = require('../../../../utils/logger');
 const { EVENTS, WEBSOCKET_MESSAGE_TYPES } = require('../../../../utils/constants');
-const { connect } = require('../utils/connect');
-const { discoverServices } = require('../utils/discoverServices');
-const { discoverCharacteristics } = require('../utils/discoverCharacteristics');
-const { read } = require('../utils/read');
-const { TIMERS } = require('../utils/constants');
+const { connectAndRead } = require('../utils/connectAndRead');
 
 /* eslint-disable jsdoc/require-returns */
 /**
@@ -17,7 +13,9 @@ function determinePeripheral(uuid) {
   const peripheral = this.peripherals[uuid];
 
   const emitSuccessMessage = (peripheralInfo) => {
-    peripheral.removeAllListeners();
+    Object.keys(peripheralInfo).forEach((key) => {
+      peripheralInfo[key] = (peripheralInfo[key] || '').toString('utf-8').replace('\u0000', '');
+    });
 
     const matchingDevices = this.getMatchingDevices(peripheralInfo);
     let matchingDevice;
@@ -39,11 +37,7 @@ function determinePeripheral(uuid) {
   };
 
   const emitErrorMessage = (error) => {
-    if (peripheral) {
-      peripheral.removeAllListeners();
-    }
-
-    logger.error(`Error during determination of ${uuid} device : ${error.message}`);
+    logger.error(`Error during determination of ${uuid} device : ${error}`);
 
     this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
       type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DETERMINE,
@@ -58,64 +52,16 @@ function determinePeripheral(uuid) {
     });
   };
 
-  connect(
-    peripheral,
-    (errorConnect, connectedPeripheral) => {
-      if (errorConnect) {
-        emitErrorMessage(errorConnect);
-      } else {
-        const servicesAndChars = this.getRequiredServicesAndCharacteristics();
-        const requiredServices = Object.keys(servicesAndChars);
+  const emitMessage = (error, result) => {
+    if (error) {
+      emitErrorMessage(error);
+    } else {
+      emitSuccessMessage(result);
+    }
+  };
 
-        discoverServices(connectedPeripheral, requiredServices, (errorServices, serviceMap) => {
-          if (errorServices) {
-            emitErrorMessage(errorServices);
-          } else {
-            const peripheralInfo = {};
-            let nbCharsRead = 0;
-            let nbCharsToRead = 0;
-            requiredServices.forEach((service) => {
-              if (serviceMap.has(service)) {
-                nbCharsToRead += (servicesAndChars[service] || []).length;
-              }
-            });
-
-            setTimeout(emitSuccessMessage, TIMERS.DETERMINE_DEVICE, peripheralInfo);
-
-            if (nbCharsToRead === 0) {
-              emitErrorMessage({ code: 'notFound', message: 'No characteristics found' });
-            } else {
-              serviceMap.forEach((service, serviceUUID) => {
-                const requiredChars = servicesAndChars[serviceUUID];
-                discoverCharacteristics(peripheral, service, requiredChars, (errorChar, charMap = new Map()) => {
-                  if (errorChar && errorChar.code !== 'noCharacteristicFound') {
-                    emitErrorMessage(errorChar);
-                  } else {
-                    charMap.forEach((characteristic, charUuid) => {
-                      read(peripheral, characteristic, (errorReading, value) => {
-                        if (errorReading) {
-                          logger.error(errorReading);
-                        }
-
-                        peripheralInfo[charUuid] = (value || '').toString('utf-8').replace('\u0000', '');
-
-                        nbCharsRead += 1;
-                        logger.debug(`Reading ${characteristic.uuid} as ${nbCharsRead} on ${nbCharsToRead}`);
-                        if (nbCharsRead === nbCharsToRead) {
-                          logger.debug(`Sending response ${nbCharsRead} === ${nbCharsToRead}`);
-                          emitSuccessMessage(peripheralInfo);
-                        }
-                      });
-                    });
-                  }
-                });
-              });
-            }
-          }
-        });
-      }
-    },
-  );
+  const servicesAndChars = this.getRequiredServicesAndCharacteristics();
+  connectAndRead(peripheral, servicesAndChars, emitMessage);
 }
 
 module.exports = {

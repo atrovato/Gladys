@@ -15,6 +15,9 @@ function discover(noblePeripheral) {
   noblePeripheral.lastSeen = new Date();
   this.peripherals[noblePeripheral.uuid] = noblePeripheral;
 
+  this.gladys.event.emit(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.STATE, {
+    noblePeripheral,
+  });
   this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
     type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
     payload: transformPeripheral(noblePeripheral),

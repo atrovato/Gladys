@@ -3,7 +3,7 @@ const smartTracker = require('./models/nut.tracker.js');
 const deviceModels = [smartTracker];
 
 module.exports = {
-  brand: 'awox',
+  brand: 'nut',
   requiredServicesAndCharacteristics: {
     '1800': ['2a00'],
   },

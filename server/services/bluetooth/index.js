@@ -31,6 +31,7 @@ module.exports = function BluetoothService(gladys, serviceId) {
   return Object.freeze({
     start,
     stop,
+    device: bluetoothManager,
     controllers: BluetoothController(bluetoothManager),
   });
 };

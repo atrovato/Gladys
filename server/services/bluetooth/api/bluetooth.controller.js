@@ -44,12 +44,12 @@ module.exports = function BluetoothController(bluetoothManager) {
 
   /**
    * @api {get} /api/v1/service/bluetooth/brand/:brand/:model Get device features managed according to brand and model
-   * @apiName getDeviceFeatures
+   * @apiName getGladysDevice
    * @apiGroup Bluetooth
    */
-  async function getDeviceFeatures(req, res) {
+  async function getGladysDevice(req, res) {
     const { brand, model } = req.params;
-    const features = bluetoothManager.getDeviceFeatures(brand, model);
+    const features = bluetoothManager.getGladysDevice(brand, model);
     res.json(features);
   }
 
@@ -94,7 +94,7 @@ module.exports = function BluetoothController(bluetoothManager) {
     },
     'get /api/v1/service/bluetooth/brand/:brand/:model': {
       authenticated: true,
-      controller: getDeviceFeatures,
+      controller: getGladysDevice,
     },
     'post /api/v1/service/bluetooth/scan': {
       authenticated: true,

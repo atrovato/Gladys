@@ -6,6 +6,10 @@ const logger = require('../../../../utils/logger');
  * bluetooth.stop();
  */
 function stop() {
+  Object.values(this.peripherals).forEach((peripheral) => {
+    peripheral.disconnect();
+  });
+
   logger.debug(`Bluetooth : Removing all Bluetooth listeners`);
   this.bluetooth.removeAllListeners();
 

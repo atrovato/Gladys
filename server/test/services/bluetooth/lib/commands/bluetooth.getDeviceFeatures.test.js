@@ -10,7 +10,7 @@ const BluetoothMock = require('../../BluetoothMock.test');
 
 const { EVENTS } = require('../../../../../utils/constants');
 
-describe('BluetoothManager getDeviceFeatures command', () => {
+describe('BluetoothManager getGladysDevice command', () => {
   let bluetooth;
   let bluetoothManager;
   let eventWS;
@@ -35,17 +35,17 @@ describe('BluetoothManager getDeviceFeatures command', () => {
   });
 
   it('get device features', () => {
-    const result = bluetoothManager.getDeviceFeatures('nut', 'tracker');
-    expect(1).eq(result.length);
+    const result = bluetoothManager.getGladysDevice('nut', 'tracker');
+    expect(result.features).to.be.lengthOf(1);
   });
 
   it('get device unknow moodel features', () => {
-    const result = bluetoothManager.getDeviceFeatures('nut', 'unknow');
+    const result = bluetoothManager.getGladysDevice('nut', 'unknow');
     expect(undefined).eq(result);
   });
 
   it('get unknown device features', () => {
-    const result = bluetoothManager.getDeviceFeatures('unknown', 'unknown');
+    const result = bluetoothManager.getGladysDevice('unknown', 'unknown');
     expect(undefined).eq(result);
   });
 });
