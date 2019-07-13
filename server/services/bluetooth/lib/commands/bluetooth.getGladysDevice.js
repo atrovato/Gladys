@@ -29,9 +29,8 @@ function getGladysDevice(brand, model) {
       value: model,
     });
     return device;
-  } 
-    return undefined;
-  
+  }
+  return undefined;
 }
 
 module.exports = {
