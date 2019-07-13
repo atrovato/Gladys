@@ -2,7 +2,6 @@ const logger = require('../../../../utils/logger');
 const { EVENTS, WEBSOCKET_MESSAGE_TYPES } = require('../../../../utils/constants');
 const { connectAndRead } = require('../utils/connectAndRead');
 
-/* eslint-disable jsdoc/require-returns */
 /**
  * @description Connect to Bluetooth peripheral and read informationto determine which kind of device.
  * @param {string} uuid - Peripheral UUID.
