@@ -1,3 +1,5 @@
+const { battery } = require('../../generic/generic.pollFeatures');
+
 module.exports = {
   name: 'tracker',
   matches: () => true,
@@ -17,17 +19,6 @@ module.exports = {
     ],
   },
   pollFeature: {
-    battery: {
-      services: {
-        '180f': ['2a19'],
-      },
-      transformResult: (dataMap = {}) => {
-        const data = dataMap['2a19'];
-        if (data !== undefined) {
-          return data.readUInt8(0);
-        }
-        return undefined;
-      },
-    },
+    battery,
   },
 };

@@ -149,16 +149,21 @@ describe('BluetoothManager determinePeripheral command', () => {
   });
 
   it('determine peripheral', () => {
-    const characteristic = {
+    const characteristic2a00 = {
       uuid: '2a00',
       read: (callback) => {
         callback(undefined, 'nut');
       },
+      properties: ['read'],
     };
+
+    const characteristics = new Map();
+    characteristics.set('2a00', characteristic2a00);
+
     const service1800 = {
       uuid: '1800',
       discoverCharacteristics: (arg1, callback) => {
-        callback(undefined, [characteristic]);
+        callback(undefined, characteristics);
       },
     };
 
@@ -177,10 +182,10 @@ describe('BluetoothManager determinePeripheral command', () => {
       removeAllListeners: fake.returns(null),
       disconnect: fake.returns(null),
       connect: (callback) => {
-        callback();
+        callback(null, peripheral);
       },
       discoverServices: (arg1, callback) => {
-        callback('error');
+        callback(null, services);
       },
     };
     bluetoothManager.peripherals.uuid = peripheral;
@@ -192,9 +197,9 @@ describe('BluetoothManager determinePeripheral command', () => {
       status: 'done',
       code: undefined,
       message: undefined,
-      device: { brand: 'nut', model: 'Smart Tracker' },
+      device: { brand: 'nut', model: 'tracker' },
     };
-    eventWS.calledWith({ payload: expectedMessage, type: 'bluetooth.determine' });
+    assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
