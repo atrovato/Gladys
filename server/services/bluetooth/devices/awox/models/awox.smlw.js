@@ -1,4 +1,5 @@
 const { isRemote, isMesh, isWhite } = require('../lib/awox.utils');
+const { connectAndSend } = require('../../../lib/utils/connectAndSend');
 
 module.exports = {
   name: 'smlw',
@@ -33,5 +34,25 @@ module.exports = {
         has_feedback: true,
       },
     ],
+  },
+  action: {
+    turnOn: (peripheral, callback) => {
+      connectAndSend(
+        peripheral,
+        'fff0',
+        'fff1',
+        [0xaa, 0x0a, 0xfc, 0x3a, 0x86, 0x01, 0x0a, 0x01, 0x01, 0x00, 0x28, 0x0d],
+        callback,
+      );
+    },
+    turnOff: (peripheral, callback) => {
+      connectAndSend(
+        peripheral,
+        'fff0',
+        'fff1',
+        [0xaa, 0x0a, 0xfc, 0x3a, 0x86, 0x01, 0x0a, 0x01, 0x00, 0x01, 0x28, 0x0d],
+        callback,
+      );
+    },
   },
 };

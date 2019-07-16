@@ -23,10 +23,10 @@ function poll(device) {
       }
     });
   } else {
-    const pollFeature = this.getPollData(device);
-    if (pollFeature) {
+    const deviceData = this.getDeviceData(device);
+    if (deviceData && deviceData.pollFeature) {
       device.features.forEach((feature) => {
-        const subscriptionData = pollFeature[feature.category];
+        const subscriptionData = deviceData.pollFeature[feature.category];
 
         if (subscriptionData && subscriptionData.services && subscriptionData.transformResult) {
           const handleResult = (error, dataMap) => {

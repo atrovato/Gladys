@@ -9,7 +9,7 @@ module.exports = {
     features: [
       {
         category: 'battery',
-        type: 'battery',
+        type: '',
         unit: '%',
         min: 0,
         max: 100,

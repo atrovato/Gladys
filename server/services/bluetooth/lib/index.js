@@ -22,7 +22,9 @@ const { getMatchingDevices } = require('./commands/bluetooth.getMatchingDevices'
 const { getBrands } = require('./commands/bluetooth.getBrands');
 const { getRequiredServicesAndCharacteristics } = require('./commands/bluetooth.getRequiredServicesAndCharacteristics');
 const { getGladysDevice } = require('./commands/bluetooth.getGladysDevice');
-const { getPollData } = require('./commands/bluetooth.getPollData');
+const { getDeviceData } = require('./commands/bluetooth.getDeviceData');
+
+// DEVICE
 const { poll } = require('./commands/bluetooth.poll');
 
 const BluetoothManager = function BluetoothManager(noble, gladys, serviceId) {
@@ -60,7 +62,7 @@ BluetoothManager.prototype.getMatchingDevices = getMatchingDevices;
 BluetoothManager.prototype.getBrands = getBrands;
 BluetoothManager.prototype.getRequiredServicesAndCharacteristics = getRequiredServicesAndCharacteristics;
 BluetoothManager.prototype.getGladysDevice = getGladysDevice;
-BluetoothManager.prototype.getPollData = getPollData;
+BluetoothManager.prototype.getDeviceData = getDeviceData;
 
 // DEVICE
 BluetoothManager.prototype.poll = poll;

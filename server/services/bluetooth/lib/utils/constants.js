@@ -5,6 +5,7 @@ const TIMERS = {
   DISCOVER_CHARACTERISTICS: 5000,
   DETERMINE_DEVICE: 15000,
   READ: 5000,
+  SEND: 5000,
 };
 
 module.exports = {
