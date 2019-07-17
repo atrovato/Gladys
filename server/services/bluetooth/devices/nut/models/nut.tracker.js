@@ -1,4 +1,5 @@
 const { battery } = require('../../generic/generic.pollFeatures');
+const { DEVICE_FEATURE_CATEGORIES } = require('../../../../../utils/constants');
 
 module.exports = {
   name: 'tracker',
@@ -8,7 +9,7 @@ module.exports = {
     poll_frequency: 60000,
     features: [
       {
-        category: 'battery',
+        category: DEVICE_FEATURE_CATEGORIES.BATTERY,
         type: '',
         unit: '%',
         min: 0,
