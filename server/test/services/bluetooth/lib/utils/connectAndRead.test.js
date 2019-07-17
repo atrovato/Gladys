@@ -51,7 +51,7 @@ describe('Bluetooth connectAndRead', () => {
 
     connectAndRead(peripheral, {}, callback);
 
-    callback.calledWith('error', undefined);
+    assert.calledWith(callback, 'error');
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
@@ -80,7 +80,7 @@ describe('Bluetooth connectAndRead', () => {
 
     connectAndRead(peripheral, {}, callback);
 
-    callback.calledWith('error', undefined);
+    assert.calledWith(callback, 'error');
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
@@ -119,7 +119,7 @@ describe('Bluetooth connectAndRead', () => {
 
     connectAndRead(peripheral, {}, callback);
 
-    callback.calledWith('error', undefined);
+    assert.calledWith(callback, 'error');
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
@@ -129,6 +129,7 @@ describe('Bluetooth connectAndRead', () => {
 
     const characteristic2a00 = {
       uuid: '2a00',
+      properties: ['read'],
       read: (callback) => {
         callback(undefined, 'nut');
       },
@@ -170,7 +171,7 @@ describe('Bluetooth connectAndRead', () => {
 
     connectAndRead(peripheral, {}, callback);
 
-    callback.calledWith(undefined, resultMap);
+    assert.calledWith(callback, undefined, resultMap);
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
