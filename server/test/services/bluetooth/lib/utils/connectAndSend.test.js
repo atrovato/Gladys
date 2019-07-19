@@ -1,8 +1,10 @@
+const {expect } = require('chai');
 const sinon = require('sinon');
 
 const { assert, fake } = sinon;
 
 const { connectAndSend } = require('../../../../../services/bluetooth/lib/utils/connectAndSend');
+const BluetoothError = require('../../../../../services/bluetooth/lib/BluetoothError');
 
 describe('Bluetooth connectAndSend', () => {
   beforeEach(() => {
@@ -88,7 +90,12 @@ describe('Bluetooth connectAndSend', () => {
 
     connectAndSend(peripheral, serviceUuid, characteristicUuid, value, callback);
 
-    assert.calledWith(callback, 'error');
+    const expectedError = new BluetoothError('connectFail', 'error');
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(1);
+    expect(callback.lastCall.args[0].code).eq(expectedError.code);
+    expect(callback.lastCall.args[0].message).eq(expectedError.message);
+
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
@@ -120,7 +127,12 @@ describe('Bluetooth connectAndSend', () => {
 
     connectAndSend(peripheral, serviceUuid, characteristicUuid, value, callback);
 
-    assert.calledWith(callback, 'error');
+    const expectedError = new BluetoothError('discoverServiceError', 'error');
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(1);
+    expect(callback.lastCall.args[0].code).eq(expectedError.code);
+    expect(callback.lastCall.args[0].message).eq(expectedError.message);
+
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
@@ -133,7 +145,7 @@ describe('Bluetooth connectAndSend', () => {
 
     const service1800 = {
       uuid: '1800',
-      discoverCharacteristics: (c) => {
+      discoverCharacteristics: (arg0, c) => {
         c('error');
       },
     };
@@ -156,13 +168,18 @@ describe('Bluetooth connectAndSend', () => {
         c();
       },
       discoverServices: (arg1, c) => {
-        c('error');
+        c(null, services);
       },
     };
 
     connectAndSend(peripheral, serviceUuid, characteristicUuid, value, callback);
 
-    assert.calledWith(callback, 'error');
+    const expectedError = new BluetoothError('discoverCharacteristicError', 'error');
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(1);
+    expect(callback.lastCall.args[0].code).eq(expectedError.code);
+    expect(callback.lastCall.args[0].message).eq(expectedError.message);
+
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
@@ -215,9 +232,11 @@ describe('Bluetooth connectAndSend', () => {
 
     connectAndSend(peripheral, serviceUuid, characteristicUuid, value, callback);
 
-    assert.calledWith(callback, 'error', undefined);
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(2);
+    expect(callback.lastCall.args[0]).eq(null);
+    expect(callback.lastCall.args[1]).deep.eq(value);
 
-    callback.calledWith(undefined, value);
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });

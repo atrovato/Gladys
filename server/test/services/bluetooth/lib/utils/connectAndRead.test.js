@@ -1,12 +1,23 @@
+const { expect } = require('chai');
 const sinon = require('sinon');
 
 const { assert, fake } = sinon;
 
 const { connectAndRead } = require('../../../../../services/bluetooth/lib/utils/connectAndRead');
+const BluetoothError = require('../../../../../services/bluetooth/lib/BluetoothError');
 
 describe('Bluetooth connectAndRead', () => {
+  let now;
+  let clock;
+
   beforeEach(() => {
     sinon.reset();
+    now = new Date();
+    clock = sinon.useFakeTimers(now.getTime());
+  });
+
+  afterEach(() => {
+    clock.restore();
   });
 
   it('connectAndRead no callback', () => {
@@ -32,6 +43,8 @@ describe('Bluetooth connectAndRead', () => {
   });
 
   it('connectAndRead errorneous on connect', () => {
+    const callback = fake.returns(null);
+
     const peripheral = {
       uuid: 'uuid',
       address: 'A1',
@@ -43,20 +56,26 @@ describe('Bluetooth connectAndRead', () => {
       connectable: true,
       removeAllListeners: fake.returns(null),
       disconnect: fake.returns(null),
-      connect: (callback) => {
-        callback('error');
+      connect: (c) => {
+        c('error');
       },
     };
-    const callback = fake.returns(null);
 
     connectAndRead(peripheral, {}, callback);
 
-    assert.calledWith(callback, 'error');
+    const expectedError = new BluetoothError('connectFail', 'error');
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(1);
+    expect(callback.lastCall.args[0].code).eq(expectedError.code);
+    expect(callback.lastCall.args[0].message).eq(expectedError.message);
+
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
 
   it('connectAndRead errorneous on discover services', () => {
+    const callback = fake.returns(null);
+
     const peripheral = {
       uuid: 'uuid',
       address: 'A1',
@@ -68,28 +87,33 @@ describe('Bluetooth connectAndRead', () => {
       connectable: true,
       removeAllListeners: fake.returns(null),
       disconnect: fake.returns(null),
-      connect: (callback) => {
-        callback();
+      connect: (c) => {
+        c();
       },
-      discoverServices: (arg1, callback) => {
-        callback('error');
+      discoverServices: (arg1, c) => {
+        c('error');
       },
     };
 
-    const callback = fake.returns(null);
-
     connectAndRead(peripheral, {}, callback);
 
-    assert.calledWith(callback, 'error');
+    const expectedError = new BluetoothError('discoverServiceError', 'error');
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(1);
+    expect(callback.lastCall.args[0].code).eq(expectedError.code);
+    expect(callback.lastCall.args[0].message).eq(expectedError.message);
+
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
 
   it('connectAndRead errorneous on discover characteristics', () => {
+    const callback = fake.returns(null);
+
     const service1800 = {
       uuid: '1800',
-      discoverCharacteristics: (callback) => {
-        callback('error');
+      discoverCharacteristics: (arg0, c) => {
+        c('error');
       },
     };
 
@@ -107,19 +131,23 @@ describe('Bluetooth connectAndRead', () => {
       connectable: true,
       removeAllListeners: fake.returns(null),
       disconnect: fake.returns(null),
-      connect: (callback) => {
-        callback();
+      connect: (c) => {
+        c();
       },
-      discoverServices: (arg1, callback) => {
-        callback('error');
+      discoverServices: (arg1, c) => {
+        c(null, services);
       },
     };
 
-    const callback = fake.returns(null);
+    connectAndRead(peripheral, { '1800': ['2a00'] }, callback);
 
-    connectAndRead(peripheral, {}, callback);
+    clock.tick(100000);
 
-    assert.calledWith(callback, 'error');
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(2);
+    expect(callback.lastCall.args[0]).eq(null);
+    expect(callback.lastCall.args[1]).deep.eq({});
+
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
@@ -169,9 +197,13 @@ describe('Bluetooth connectAndRead', () => {
 
     const callback = fake.returns(null);
 
-    connectAndRead(peripheral, {}, callback);
+    connectAndRead(peripheral, { '1800': ['2a00'] }, callback);
 
-    assert.calledWith(callback, undefined, resultMap);
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(2);
+    expect(callback.lastCall.args[0]).eq(null);
+    expect(callback.lastCall.args[1]).deep.eq(resultMap);
+
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });

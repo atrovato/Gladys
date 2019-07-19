@@ -3,7 +3,6 @@ const sinon = require('sinon');
 const { assert, fake } = sinon;
 const EventEmitter = require('events');
 
-const event = new EventEmitter();
 const BluetoothManager = require('../../../../../services/bluetooth/lib');
 const BluetoothMock = require('../../BluetoothMock.test');
 
@@ -13,10 +12,14 @@ describe('BluetoothManager determinePeripheral command', () => {
   let bluetooth;
   let bluetoothManager;
   let eventWS;
+  let event;
+  let now;
+  let clock;
 
   beforeEach(() => {
     bluetooth = new BluetoothMock();
 
+    event = new EventEmitter();
     const gladys = {
       event,
     };
@@ -26,11 +29,15 @@ describe('BluetoothManager determinePeripheral command', () => {
 
     eventWS = fake.returns(null);
     event.on(EVENTS.WEBSOCKET.SEND_ALL, eventWS);
+
+    now = new Date();
+    clock = sinon.useFakeTimers(now.getTime());
   });
 
   afterEach(() => {
     bluetooth.removeAllListeners();
     event.removeAllListeners();
+    clock.restore();
   });
 
   it('determine peripheral errorneous on connect', () => {
@@ -61,7 +68,8 @@ describe('BluetoothManager determinePeripheral command', () => {
       peripheralInfo: undefined,
       matchingDevices: undefined,
     };
-    eventWS.calledWith({ payload: expectedMessage, type: 'bluetooth.determine' });
+
+    assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
@@ -97,7 +105,8 @@ describe('BluetoothManager determinePeripheral command', () => {
       peripheralInfo: undefined,
       matchingDevices: undefined,
     };
-    eventWS.calledWith({ payload: expectedMessage, type: 'bluetooth.determine' });
+    
+    assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
@@ -105,7 +114,7 @@ describe('BluetoothManager determinePeripheral command', () => {
   it('determine peripheral errorneous on discover characteristics', () => {
     const service1800 = {
       uuid: '1800',
-      discoverCharacteristics: (callback) => {
+      discoverCharacteristics: (arg0, callback) => {
         callback('error');
       },
     };
@@ -128,7 +137,7 @@ describe('BluetoothManager determinePeripheral command', () => {
         callback();
       },
       discoverServices: (arg1, callback) => {
-        callback('error');
+        callback(null, services);
       },
     };
     bluetoothManager.peripherals.uuid = peripheral;
@@ -137,13 +146,15 @@ describe('BluetoothManager determinePeripheral command', () => {
 
     const expectedMessage = {
       uuid: 'uuid',
-      status: 'error',
-      code: 'discoverCharacteristicError',
-      message: 'error',
-      peripheralInfo: undefined,
-      matchingDevices: undefined,
+      status: 'done',
+      code: undefined,
+      message: undefined,
+      device: undefined,
     };
-    eventWS.calledWith({ payload: expectedMessage, type: 'bluetooth.determine' });
+
+    clock.tick(100000);
+
+    assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
@@ -199,6 +210,7 @@ describe('BluetoothManager determinePeripheral command', () => {
       message: undefined,
       device: { brand: 'nut', model: 'tracker' },
     };
+
     assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
