@@ -105,7 +105,7 @@ describe('BluetoothManager determinePeripheral command', () => {
       peripheralInfo: undefined,
       matchingDevices: undefined,
     };
-    
+
     assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
