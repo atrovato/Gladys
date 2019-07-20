@@ -27,7 +27,7 @@ function determinePeripheral(uuid) {
         status: 'done',
         code: undefined,
         message: undefined,
-        device: matchingDevice,
+        detection: matchingDevice,
       },
     });
   };

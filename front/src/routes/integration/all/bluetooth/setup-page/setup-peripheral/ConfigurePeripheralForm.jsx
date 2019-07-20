@@ -15,7 +15,7 @@ class ConfigurePeripheral extends Component {
   connected(data) {
     const { device } = this.state;
     if (data.uuid === device.external_id) {
-      const dataDevice = data.device;
+      const dataDevice = data.detection;
 
       if (data.status === 'done' && dataDevice) {
         this.setState({
@@ -23,12 +23,12 @@ class ConfigurePeripheral extends Component {
           autoDetect: false,
           bluetoothConnectStatut: RequestStatus.Success,
           brand: dataDevice.brand,
-          model: dataDevice.model
+          model: dataDevice.model,
+          device: {
+            ...this.state.device,
+            ...dataDevice.device
+          }
         });
-
-        if (dataDevice.brand && dataDevice.model) {
-          this.loadDeviceFeatures(dataDevice.brand, dataDevice.model);
-        }
       } else {
         this.setState({
           autoDetect: false,
@@ -77,7 +77,6 @@ class ConfigurePeripheral extends Component {
     const { device, model, brand } = this.state;
     const selectedModel = event.target.value;
 
-    console.log(model, selectedModel);
     if (model !== selectedModel) {
       this.loadDeviceFeatures(brand, selectedModel);
 

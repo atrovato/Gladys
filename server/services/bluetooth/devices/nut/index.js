@@ -12,7 +12,7 @@ module.exports = {
 
     if (characteristics['2a00'] && characteristics['2a00'].toLowerCase() === 'nut') {
       deviceModels.forEach((model) => {
-        models.push(model.name);
+        models.push(model);
       });
     }
 

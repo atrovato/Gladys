@@ -27,8 +27,9 @@ describe('BluetoothManager start command', () => {
     expect(bluetooth.listenerCount('scanStart')).eq(1);
     expect(bluetooth.listenerCount('scanStop')).eq(1);
     expect(bluetooth.listenerCount('discover')).eq(1);
+    expect(bluetooth.listenerCount('disconnect')).eq(1);
 
     // All listeners
-    expect(bluetooth.eventNames().length).eq(4);
+    expect(bluetooth.eventNames().length).eq(5);
   });
 });

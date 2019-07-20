@@ -21,18 +21,23 @@ function readPeripheral(peripheralUuid, characteristicUuidsByServiceUuidsMap = {
       }
     };
 
-    const removeListener = () => {
-      this.bluetooth.removeListener('discover', read);
-      this.bluetooth.removeListener('scanStop', removeListener);
+    const peripheral = this.peripherals[peripheralUuid];
+    if (peripheral) {
+      read(peripheral);
+    } else {
+      const removeListener = () => {
+        this.bluetooth.removeListener('discover', read);
+        this.bluetooth.removeListener('scanStop', removeListener);
 
-      if (!done) {
-        callback(new BluetoothError('notFound', `Request ${peripheralUuid} peripheral not fount`));
-      }
-    };
+        if (!done) {
+          callback(new BluetoothError('notFound', `Request ${peripheralUuid} peripheral not fount`));
+        }
+      };
 
-    this.bluetooth.on('discover', read);
-    this.bluetooth.on('scanStop', removeListener);
-    this.scan(true);
+      this.bluetooth.on('discover', read);
+      this.bluetooth.on('scanStop', removeListener);
+      this.scan(true);
+    }
   }
 }
 

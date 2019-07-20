@@ -8,6 +8,7 @@ const event = new EventEmitter();
 const BluetoothManager = require('../../../../../services/bluetooth/lib');
 
 const GenericDevice = require('../../../../../services/bluetooth/devices');
+const nutDevice = require('../../../../../services/bluetooth/devices/nut/models/nut.tracker');
 
 const { EVENTS } = require('../../../../../utils/constants');
 
@@ -40,7 +41,7 @@ describe('BluetoothManager getMatchingDevices command', () => {
   it('get single matching device', () => {
     const charMap = { '2a00': 'nut' };
     const result = bluetoothManager.getMatchingDevices(charMap);
-    expect(result).deep.eq([{ brand: 'nut', model: 'tracker' }]);
+    expect(result).deep.eq([{ brand: 'nut', model: 'tracker', device: nutDevice.device }]);
   });
 
   it('get matching device but missing method', () => {

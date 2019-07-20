@@ -2,6 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 
 const nut = require('../../../../../services/bluetooth/devices/nut');
+const nutDevice = require('../../../../../services/bluetooth/devices/nut/models/nut.tracker');
 
 describe('Bluetooth Nut -> getMatchingModels', () => {
   beforeEach(() => {
@@ -20,6 +21,6 @@ describe('Bluetooth Nut -> getMatchingModels', () => {
 
   it('valid constructor', () => {
     const result = nut.getMatchingModels({ '2a00': 'Nut' });
-    expect(result).deep.eq(['tracker']);
+    expect(result).deep.eq([nutDevice]);
   });
 });

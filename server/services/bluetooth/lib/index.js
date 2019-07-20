@@ -9,6 +9,7 @@ const { scanStart } = require('./events/bluetooth.scanStart');
 const { scanStop } = require('./events/bluetooth.scanStop');
 const { discover } = require('./events/bluetooth.discover');
 const { broadcastStatus } = require('./events/bluetooth.broadcastStatus');
+const { disconnect } = require('./events/bluetooth.disconnect');
 
 // COMMANDS
 const { start } = require('./commands/bluetooth.start');
@@ -50,6 +51,7 @@ BluetoothManager.prototype.scanStart = scanStart;
 BluetoothManager.prototype.scanStop = scanStop;
 BluetoothManager.prototype.discover = discover;
 BluetoothManager.prototype.broadcastStatus = broadcastStatus;
+BluetoothManager.prototype.disconnect = disconnect;
 
 // COMMANDS
 BluetoothManager.prototype.start = start;

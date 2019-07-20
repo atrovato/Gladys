@@ -21,7 +21,7 @@ module.exports = {
 
       deviceModels.forEach((model) => {
         if (model.matches(deviceModel, deviceType)) {
-          models.push(model.name);
+          models.push(model);
         }
       });
     }

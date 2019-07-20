@@ -15,7 +15,7 @@ function getMatchingDevices(characteristics) {
       case 0:
         break;
       case 1:
-        devices.push({ brand, model: models[0] });
+        devices.push({ brand, model: models[0].name, device: models[0].device });
         break;
       default:
         devices.push({ brand, models });

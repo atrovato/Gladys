@@ -6,6 +6,8 @@ const EventEmitter = require('events');
 const BluetoothManager = require('../../../../../services/bluetooth/lib');
 const BluetoothMock = require('../../BluetoothMock.test');
 
+const nutDevice = require('../../../../../services/bluetooth/devices/nut/models/nut.tracker');
+
 const { EVENTS } = require('../../../../../utils/constants');
 
 describe('BluetoothManager determinePeripheral command', () => {
@@ -154,7 +156,7 @@ describe('BluetoothManager determinePeripheral command', () => {
       status: 'done',
       code: undefined,
       message: undefined,
-      device: undefined,
+      detection: undefined,
     };
 
     clock.tick(100000);
@@ -215,7 +217,7 @@ describe('BluetoothManager determinePeripheral command', () => {
       status: 'done',
       code: undefined,
       message: undefined,
-      device: { brand: 'nut', model: 'tracker' },
+      detection: { brand: 'nut', model: 'tracker', device: nutDevice.device },
     };
 
     assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
@@ -274,7 +276,7 @@ describe('BluetoothManager determinePeripheral command', () => {
       status: 'done',
       code: undefined,
       message: undefined,
-      device: undefined,
+      detection: undefined,
     };
 
     assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });

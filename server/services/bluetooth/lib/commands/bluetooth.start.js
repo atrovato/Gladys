@@ -19,9 +19,11 @@ function start() {
   // Handle new peripheral discovered
   this.bluetooth.on('discover', this.discover.bind(this));
 
+  // Handle peripheral disconnect
+  this.bluetooth.on('disconnect', this.disconnect.bind(this));
+
   /*
   this.bluetooth.on('connect', this.connected.bind(this));
-  this.bluetooth.on('disconnect', this.disconnected.bind(this));
   this.bluetooth.on('addressChange', this.onAddressChange.bind(this));
   this.bluetooth.on('updateRSSI', this.onAddressChange.bind(this));
   this.bluetooth.on('servicesDiscover', this.onServicesDiscover.bind(this));
