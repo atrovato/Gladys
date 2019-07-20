@@ -35,6 +35,7 @@ describe('BluetoothManager discover event', () => {
   });
 
   afterEach(() => {
+    bluetooth.removeAllListeners();
     clock.restore();
     event.removeAllListeners();
   });

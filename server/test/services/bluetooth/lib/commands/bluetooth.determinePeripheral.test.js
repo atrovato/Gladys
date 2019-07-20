@@ -24,6 +24,7 @@ describe('BluetoothManager determinePeripheral command', () => {
       event,
     };
     bluetoothManager = new BluetoothManager(bluetooth, gladys, 'de051f90-f34a-4fd5-be2e-e502339ec9bc');
+    bluetoothManager.ready = true;
 
     sinon.reset();
 
@@ -56,9 +57,9 @@ describe('BluetoothManager determinePeripheral command', () => {
         callback('error');
       },
     };
-    bluetoothManager.peripherals.uuid = peripheral;
 
     bluetoothManager.determinePeripheral('uuid');
+    bluetooth.emit('discover', peripheral);
 
     const expectedMessage = {
       uuid: 'uuid',
@@ -72,6 +73,8 @@ describe('BluetoothManager determinePeripheral command', () => {
     assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(bluetooth.startScanning);
+    assert.calledOnce(bluetooth.stopScanning);
   });
 
   it('determine peripheral errorneous on discover services', () => {
@@ -93,9 +96,9 @@ describe('BluetoothManager determinePeripheral command', () => {
         callback('error');
       },
     };
-    bluetoothManager.peripherals.uuid = peripheral;
 
     bluetoothManager.determinePeripheral('uuid');
+    bluetooth.emit('discover', peripheral);
 
     const expectedMessage = {
       uuid: 'uuid',
@@ -109,6 +112,8 @@ describe('BluetoothManager determinePeripheral command', () => {
     assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(bluetooth.startScanning);
+    assert.calledOnce(bluetooth.stopScanning);
   });
 
   it('determine peripheral errorneous on discover characteristics', () => {
@@ -140,9 +145,9 @@ describe('BluetoothManager determinePeripheral command', () => {
         callback(null, services);
       },
     };
-    bluetoothManager.peripherals.uuid = peripheral;
 
     bluetoothManager.determinePeripheral('uuid');
+    bluetooth.emit('discover', peripheral);
 
     const expectedMessage = {
       uuid: 'uuid',
@@ -157,6 +162,8 @@ describe('BluetoothManager determinePeripheral command', () => {
     assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(bluetooth.startScanning);
+    assert.calledOnce(bluetooth.stopScanning);
   });
 
   it('determine peripheral', () => {
@@ -199,9 +206,9 @@ describe('BluetoothManager determinePeripheral command', () => {
         callback(null, services);
       },
     };
-    bluetoothManager.peripherals.uuid = peripheral;
 
     bluetoothManager.determinePeripheral('uuid');
+    bluetooth.emit('discover', peripheral);
 
     const expectedMessage = {
       uuid: 'uuid',
@@ -214,6 +221,8 @@ describe('BluetoothManager determinePeripheral command', () => {
     assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(bluetooth.startScanning);
+    assert.calledOnce(bluetooth.stopScanning);
   });
 
   it('determine peripheral but undefined value', () => {
@@ -256,9 +265,9 @@ describe('BluetoothManager determinePeripheral command', () => {
         callback(null, services);
       },
     };
-    bluetoothManager.peripherals.uuid = peripheral;
 
     bluetoothManager.determinePeripheral('uuid');
+    bluetooth.emit('discover', peripheral);
 
     const expectedMessage = {
       uuid: 'uuid',
@@ -271,5 +280,7 @@ describe('BluetoothManager determinePeripheral command', () => {
     assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(bluetooth.startScanning);
+    assert.calledOnce(bluetooth.stopScanning);
   });
 });

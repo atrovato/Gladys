@@ -13,6 +13,7 @@ function start() {
 
   // Handle start / stop scanning
   this.bluetooth.on('scanStart', this.scanStart.bind(this));
+
   this.bluetooth.on('scanStop', this.scanStop.bind(this));
 
   // Handle new peripheral discovered

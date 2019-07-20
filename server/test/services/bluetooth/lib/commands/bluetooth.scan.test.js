@@ -14,8 +14,7 @@ describe('BluetoothManager scan command', () => {
     bluetooth.stopScanning = fake.returns(null);
     bluetooth.startScanning = fake.returns(null);
 
-    const gladys = {};
-    bluetoothManager = new BluetoothManager(bluetooth, gladys, 'de051f90-f34a-4fd5-be2e-e502339ec9bc');
+    bluetoothManager = new BluetoothManager(bluetooth, {}, 'de051f90-f34a-4fd5-be2e-e502339ec9bc');
 
     sinon.reset();
   });

@@ -23,6 +23,7 @@ const { getBrands } = require('./commands/bluetooth.getBrands');
 const { getRequiredServicesAndCharacteristics } = require('./commands/bluetooth.getRequiredServicesAndCharacteristics');
 const { getGladysDevice } = require('./commands/bluetooth.getGladysDevice');
 const { getDeviceData } = require('./commands/bluetooth.getDeviceData');
+const { readPeripheral } = require('./commands/bluetooth.readPeripheral');
 
 // DEVICE
 const { poll } = require('./commands/bluetooth.poll');
@@ -63,6 +64,7 @@ BluetoothManager.prototype.getBrands = getBrands;
 BluetoothManager.prototype.getRequiredServicesAndCharacteristics = getRequiredServicesAndCharacteristics;
 BluetoothManager.prototype.getGladysDevice = getGladysDevice;
 BluetoothManager.prototype.getDeviceData = getDeviceData;
+BluetoothManager.prototype.readPeripheral = readPeripheral;
 
 // DEVICE
 BluetoothManager.prototype.poll = poll;

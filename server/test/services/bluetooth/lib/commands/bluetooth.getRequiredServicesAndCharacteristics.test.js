@@ -6,22 +6,18 @@ const EventEmitter = require('events');
 
 const event = new EventEmitter();
 const BluetoothManager = require('../../../../../services/bluetooth/lib');
-const BluetoothMock = require('../../BluetoothMock.test');
 
 const { EVENTS } = require('../../../../../utils/constants');
 
 describe('BluetoothManager getRequiredServicesAndCharacteristics command', () => {
-  let bluetooth;
   let bluetoothManager;
   let eventWS;
 
   beforeEach(() => {
-    bluetooth = new BluetoothMock();
-
     const gladys = {
       event,
     };
-    bluetoothManager = new BluetoothManager(bluetooth, gladys, 'de051f90-f34a-4fd5-be2e-e502339ec9bc');
+    bluetoothManager = new BluetoothManager({}, gladys, 'de051f90-f34a-4fd5-be2e-e502339ec9bc');
 
     sinon.reset();
 
@@ -30,7 +26,6 @@ describe('BluetoothManager getRequiredServicesAndCharacteristics command', () =>
   });
 
   afterEach(() => {
-    bluetooth.removeAllListeners();
     event.removeAllListeners();
   });
 

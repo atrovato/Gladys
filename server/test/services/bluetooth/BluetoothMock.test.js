@@ -1,9 +1,9 @@
 const { fake } = require('sinon');
 const EventEmitter = require('events');
 
-const BluetoothMock = function BluetoothMock(options) {};
+const BluetoothMock = function BluetoothMock() {};
 
-BluetoothMock.prototype = Object.create(new EventEmitter());
+BluetoothMock.prototype = EventEmitter.prototype;
 
 BluetoothMock.prototype.startScanning = fake.returns(null);
 BluetoothMock.prototype.stopScanning = fake.returns(null);

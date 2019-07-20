@@ -2,23 +2,14 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 
 const BluetoothManager = require('../../../../../services/bluetooth/lib');
-const BluetoothMock = require('../../BluetoothMock.test');
 
 describe('BluetoothManager getDeviceData command', () => {
-  let bluetooth;
   let bluetoothManager;
 
   beforeEach(() => {
-    bluetooth = new BluetoothMock();
-
-    const gladys = {};
-    bluetoothManager = new BluetoothManager(bluetooth, gladys, 'de051f90-f34a-4fd5-be2e-e502339ec9bc');
+    bluetoothManager = new BluetoothManager({}, {}, 'de051f90-f34a-4fd5-be2e-e502339ec9bc');
 
     sinon.reset();
-  });
-
-  afterEach(() => {
-    bluetooth.removeAllListeners();
   });
 
   it('getDeviceData undefined device', () => {

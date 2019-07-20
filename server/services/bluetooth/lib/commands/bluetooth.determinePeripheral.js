@@ -1,6 +1,5 @@
 const logger = require('../../../../utils/logger');
 const { EVENTS, WEBSOCKET_MESSAGE_TYPES } = require('../../../../utils/constants');
-const { connectAndRead } = require('../utils/connectAndRead');
 
 /**
  * @description Connect to Bluetooth peripheral and read informationto determine which kind of device.
@@ -9,8 +8,6 @@ const { connectAndRead } = require('../utils/connectAndRead');
  * bluetooth.determinePeripheral('a4c13802e340');
  */
 function determinePeripheral(uuid) {
-  const peripheral = this.peripherals[uuid];
-
   const emitSuccessMessage = (peripheralInfo) => {
     Object.keys(peripheralInfo).forEach((key) => {
       peripheralInfo[key] = (peripheralInfo[key] || '').toString('utf-8').replace('\u0000', '');
@@ -60,7 +57,7 @@ function determinePeripheral(uuid) {
   };
 
   const servicesAndChars = this.getRequiredServicesAndCharacteristics();
-  connectAndRead(peripheral, servicesAndChars, emitMessage);
+  this.readPeripheral(uuid, servicesAndChars, emitMessage);
 }
 
 module.exports = {
