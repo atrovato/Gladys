@@ -152,6 +152,51 @@ describe('Bluetooth connectAndRead', () => {
     assert.notCalled(peripheral.disconnect);
   });
 
+  it('connectAndRead no required characteristics', () => {
+    const callback = fake.returns(null);
+
+    const service1800 = {
+      uuid: '1800',
+      discoverCharacteristics: (arg0, c) => {
+        c('error');
+      },
+    };
+
+    const services = new Map();
+    services.set('1800', service1800);
+
+    const peripheral = {
+      uuid: 'uuid',
+      address: 'A1',
+      rssi: 'R1',
+      advertisement: {
+        localName: 'P1',
+      },
+      lastSeen: 'D1',
+      connectable: true,
+      removeAllListeners: fake.returns(null),
+      disconnect: fake.returns(null),
+      connect: (c) => {
+        c();
+      },
+      discoverServices: (arg1, c) => {
+        c(null, services);
+      },
+    };
+
+    connectAndRead(peripheral, { '1800': ['2a01'] }, callback);
+
+    clock.tick(100000);
+
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(2);
+    expect(callback.lastCall.args[0]).eq(null);
+    expect(callback.lastCall.args[1]).deep.eq({});
+
+    assert.notCalled(peripheral.removeAllListeners);
+    assert.notCalled(peripheral.disconnect);
+  });
+
   it('connectAndRead success', () => {
     const resultMap = { '2a00': 'nut' };
 
@@ -203,6 +248,150 @@ describe('Bluetooth connectAndRead', () => {
     expect(callback.lastCall.args).to.be.lengthOf(2);
     expect(callback.lastCall.args[0]).eq(null);
     expect(callback.lastCall.args[1]).deep.eq(resultMap);
+
+    assert.notCalled(peripheral.removeAllListeners);
+    assert.notCalled(peripheral.disconnect);
+  });
+
+  it('connectAndRead error on read', () => {
+    const characteristic2a00 = {
+      uuid: '2a00',
+      properties: ['read'],
+      read: (callback) => {
+        callback('error');
+      },
+    };
+
+    const characteristics = new Map();
+    characteristics.set('2a00', characteristic2a00);
+
+    const service1800 = {
+      uuid: '1800',
+      discoverCharacteristics: (arg1, callback) => {
+        callback(undefined, characteristics);
+      },
+    };
+
+    const services = new Map();
+    services.set('1800', service1800);
+
+    const peripheral = {
+      uuid: 'uuid',
+      address: 'A1',
+      rssi: 'R1',
+      advertisement: {
+        localName: 'P1',
+      },
+      lastSeen: 'D1',
+      connectable: true,
+      removeAllListeners: fake.returns(null),
+      disconnect: fake.returns(null),
+      connect: (callback) => {
+        callback(null, peripheral);
+      },
+      discoverServices: (arg1, callback) => {
+        callback(null, services);
+      },
+    };
+
+    const callback = fake.returns(null);
+
+    connectAndRead(peripheral, { '1800': ['2a00'] }, callback);
+
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(2);
+    expect(callback.lastCall.args[0]).eq(null);
+    expect(callback.lastCall.args[1]).deep.eq({});
+
+    assert.notCalled(peripheral.removeAllListeners);
+    assert.notCalled(peripheral.disconnect);
+  });
+
+  it('connectAndRead no all required found', () => {
+    const callback = fake.returns(null);
+
+    const service1800 = {
+      uuid: '1800',
+      discoverCharacteristics: (arg0, c) => {
+        c('error');
+      },
+    };
+
+    const services = new Map();
+    services.set('1800', service1800);
+
+    const peripheral = {
+      uuid: 'uuid',
+      address: 'A1',
+      rssi: 'R1',
+      advertisement: {
+        localName: 'P1',
+      },
+      lastSeen: 'D1',
+      connectable: true,
+      removeAllListeners: fake.returns(null),
+      disconnect: fake.returns(null),
+      connect: (c) => {
+        c();
+      },
+      discoverServices: (arg1, c) => {
+        c(null, services);
+      },
+    };
+
+    connectAndRead(peripheral, { '1800': ['2a01'], '2400': ['9000'] }, callback);
+
+    clock.tick(100000);
+
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(2);
+    expect(callback.lastCall.args[0]).eq(null);
+    expect(callback.lastCall.args[1]).deep.eq({});
+
+    assert.notCalled(peripheral.removeAllListeners);
+    assert.notCalled(peripheral.disconnect);
+  });
+
+  it('connectAndRead empty required', () => {
+    const callback = fake.returns(null);
+
+    const service1800 = {
+      uuid: '1800',
+      discoverCharacteristics: (arg0, c) => {
+        c('error');
+      },
+    };
+
+    const services = new Map();
+    services.set('1800', service1800);
+
+    const peripheral = {
+      uuid: 'uuid',
+      address: 'A1',
+      rssi: 'R1',
+      advertisement: {
+        localName: 'P1',
+      },
+      lastSeen: 'D1',
+      connectable: true,
+      removeAllListeners: fake.returns(null),
+      disconnect: fake.returns(null),
+      connect: (c) => {
+        c();
+      },
+      discoverServices: (arg1, c) => {
+        c(null, services);
+      },
+    };
+
+    connectAndRead(peripheral, {}, callback);
+
+    clock.tick(100000);
+
+    assert.calledOnce(callback);
+    expect(callback.lastCall.args).to.be.lengthOf(2);
+    expect(callback.lastCall.args[0]).eq(null);
+    expect(callback.lastCall.args[1]).deep.eq({});
 
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);

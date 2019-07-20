@@ -215,4 +215,61 @@ describe('BluetoothManager determinePeripheral command', () => {
     assert.notCalled(peripheral.removeAllListeners);
     assert.notCalled(peripheral.disconnect);
   });
+
+  it('determine peripheral but undefined value', () => {
+    const characteristic2a00 = {
+      uuid: '2a00',
+      read: (callback) => {
+        callback(undefined, undefined);
+      },
+      properties: ['read'],
+    };
+
+    const characteristics = new Map();
+    characteristics.set('2a00', characteristic2a00);
+
+    const service1800 = {
+      uuid: '1800',
+      discoverCharacteristics: (arg1, callback) => {
+        callback(undefined, characteristics);
+      },
+    };
+
+    const services = new Map();
+    services.set('1800', service1800);
+
+    const peripheral = {
+      uuid: 'uuid',
+      address: 'A1',
+      rssi: 'R1',
+      advertisement: {
+        localName: 'P1',
+      },
+      lastSeen: 'D1',
+      connectable: true,
+      removeAllListeners: fake.returns(null),
+      disconnect: fake.returns(null),
+      connect: (callback) => {
+        callback(null, peripheral);
+      },
+      discoverServices: (arg1, callback) => {
+        callback(null, services);
+      },
+    };
+    bluetoothManager.peripherals.uuid = peripheral;
+
+    bluetoothManager.determinePeripheral('uuid');
+
+    const expectedMessage = {
+      uuid: 'uuid',
+      status: 'done',
+      code: undefined,
+      message: undefined,
+      device: undefined,
+    };
+
+    assert.calledWith(eventWS, { payload: expectedMessage, type: 'bluetooth.determine' });
+    assert.notCalled(peripheral.removeAllListeners);
+    assert.notCalled(peripheral.disconnect);
+  });
 });

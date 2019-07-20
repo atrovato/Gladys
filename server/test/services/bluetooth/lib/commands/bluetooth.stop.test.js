@@ -43,4 +43,19 @@ describe('BluetoothManager stop command', () => {
     assert.calledOnce(bluetooth.stopScanning);
     assert.notCalled(eventWS);
   });
+
+  it('check all periperhals disconnected', () => {
+    const disconnect = fake.returns(null);
+
+    bluetoothManager.peripherals.uuid = {
+      disconnect,
+    };
+    bluetoothManager.stop();
+
+    expect(0).eq(bluetooth.eventNames().length);
+
+    assert.calledOnce(disconnect);
+    assert.calledOnce(bluetooth.stopScanning);
+    assert.notCalled(eventWS);
+  });
 });

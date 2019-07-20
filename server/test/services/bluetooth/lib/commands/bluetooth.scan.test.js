@@ -51,4 +51,13 @@ describe('BluetoothManager scan command', () => {
 
     assert.calledOnce(bluetooth.startScanning);
   });
+
+  it('should clear timeout', () => {
+    bluetoothManager.ready = true;
+    bluetoothManager.scan(true);
+    bluetoothManager.scan(false);
+
+    assert.calledOnce(bluetooth.startScanning);
+    assert.calledOnce(bluetooth.stopScanning);
+  });
 });
