@@ -32,6 +32,7 @@ function connectAndRead(peripheral, characteristicUuidsByServiceUuidsMap = {}, c
             (errorServices, serviceMap) => {
               if (errorServices) {
                 // Error discovering services
+                peripheral.disconnect();
                 callback(errorServices);
               } else {
                 let done = false;
@@ -39,7 +40,7 @@ function connectAndRead(peripheral, characteristicUuidsByServiceUuidsMap = {}, c
                 const finish = () => {
                   if (!done) {
                     done = true;
-                    // peripheral.disconnect();
+                    peripheral.disconnect();
                     callback(null, peripheralInfo);
                   }
                 };

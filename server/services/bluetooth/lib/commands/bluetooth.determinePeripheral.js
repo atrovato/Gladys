@@ -17,6 +17,7 @@ function determinePeripheral(uuid) {
     let matchingDevice;
     if (matchingDevices.length === 1) {
       [matchingDevice] = matchingDevices;
+      matchingDevice.device = this.getGladysDevice(matchingDevice.brand, matchingDevice.model);
       logger.debug(`Found matching device for ${uuid} : %j`, matchingDevice);
     }
 
@@ -42,8 +43,7 @@ function determinePeripheral(uuid) {
         status: 'error',
         code: error.code,
         message: error.message,
-        peripheralInfo: undefined,
-        matchingDevices: undefined,
+        detection: undefined,
       },
     });
   };

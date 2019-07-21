@@ -1,5 +1,5 @@
+const logger = require('../../../../utils/logger');
 const { connectAndRead } = require('../utils/connectAndRead');
-const BluetoothError = require('../BluetoothError');
 
 /**
  * @description Scans, connects, and reads peripheral information.
@@ -10,34 +10,34 @@ const BluetoothError = require('../BluetoothError');
  * this.readPeripheral('01aa00bbcd', { '1800': ['2a00'] }, (error, result) => { logger.info(result) });
  */
 function readPeripheral(peripheralUuid, characteristicUuidsByServiceUuidsMap = {}, callback) {
-  if (callback && peripheralUuid) {
-    let done = false;
-
-    const read = (peripheral) => {
-      if (peripheral.uuid === peripheralUuid) {
-        done = true;
+  const discovered = (peripheral) => {
+    if (peripheral.uuid === peripheralUuid) {
+      this.bluetooth.removeListener('discover', discovered);
+      if (this.bluetooth.listenerCount('discover') === 1) {
+        logger.debug(`Bluetooth : stop scan on last requested peripheral`);
         this.scan(false);
-        connectAndRead(peripheral, characteristicUuidsByServiceUuidsMap, callback);
       }
-    };
-
-    const peripheral = this.peripherals[peripheralUuid];
-    if (peripheral) {
-      read(peripheral);
-    } else {
-      const removeListener = () => {
-        this.bluetooth.removeListener('discover', read);
-        this.bluetooth.removeListener('scanStop', removeListener);
-
-        if (!done) {
-          callback(new BluetoothError('notFound', `Request ${peripheralUuid} peripheral not fount`));
-        }
-      };
-
-      this.bluetooth.on('discover', read);
-      this.bluetooth.on('scanStop', removeListener);
-      this.scan(true);
     }
+  };
+
+  const read = () => {
+    this.bluetooth.removeListener('scanStop', read);
+
+    const p = this.peripherals[peripheralUuid];
+    if (p) {
+      connectAndRead(p, characteristicUuidsByServiceUuidsMap, callback);
+    } else {
+      logger.warn(`Bluetooth : peripheral ${peripheralUuid} is missing and can't be read`);
+    }
+  };
+
+  const peripheral = this.peripherals[peripheralUuid];
+  if (peripheral) {
+    connectAndRead(peripheral, characteristicUuidsByServiceUuidsMap, callback);
+  } else {
+    this.bluetooth.on('discover', discovered);
+    this.bluetooth.on('scanStop', read);
+    this.scan(true);
   }
 }
 

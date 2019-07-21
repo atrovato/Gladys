@@ -104,7 +104,7 @@ describe('Bluetooth connectAndRead', () => {
     expect(callback.lastCall.args[0].message).eq(expectedError.message);
 
     assert.notCalled(peripheral.removeAllListeners);
-    assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(peripheral.disconnect);
   });
 
   it('connectAndRead errorneous on discover characteristics', () => {
@@ -149,7 +149,7 @@ describe('Bluetooth connectAndRead', () => {
     expect(callback.lastCall.args[1]).deep.eq({});
 
     assert.notCalled(peripheral.removeAllListeners);
-    assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(peripheral.disconnect);
   });
 
   it('connectAndRead no required characteristics', () => {
@@ -194,7 +194,7 @@ describe('Bluetooth connectAndRead', () => {
     expect(callback.lastCall.args[1]).deep.eq({});
 
     assert.notCalled(peripheral.removeAllListeners);
-    assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(peripheral.disconnect);
   });
 
   it('connectAndRead success', () => {
@@ -250,7 +250,7 @@ describe('Bluetooth connectAndRead', () => {
     expect(callback.lastCall.args[1]).deep.eq(resultMap);
 
     assert.notCalled(peripheral.removeAllListeners);
-    assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(peripheral.disconnect);
   });
 
   it('connectAndRead error on read', () => {
@@ -304,7 +304,7 @@ describe('Bluetooth connectAndRead', () => {
     expect(callback.lastCall.args[1]).deep.eq({});
 
     assert.notCalled(peripheral.removeAllListeners);
-    assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(peripheral.disconnect);
   });
 
   it('connectAndRead no all required found', () => {
@@ -349,7 +349,7 @@ describe('Bluetooth connectAndRead', () => {
     expect(callback.lastCall.args[1]).deep.eq({});
 
     assert.notCalled(peripheral.removeAllListeners);
-    assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(peripheral.disconnect);
   });
 
   it('connectAndRead empty required', () => {
@@ -394,6 +394,6 @@ describe('Bluetooth connectAndRead', () => {
     expect(callback.lastCall.args[1]).deep.eq({});
 
     assert.notCalled(peripheral.removeAllListeners);
-    assert.notCalled(peripheral.disconnect);
+    assert.calledOnce(peripheral.disconnect);
   });
 });

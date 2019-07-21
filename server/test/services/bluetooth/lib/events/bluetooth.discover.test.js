@@ -49,6 +49,7 @@ describe('BluetoothManager discover event', () => {
         localName: 'NAME',
       },
       state: 'state',
+      on: fake.returns(null),
     };
 
     bluetoothManager.discover(newPeripheral);
@@ -66,6 +67,9 @@ describe('BluetoothManager discover event', () => {
     expect({ UUID: expectedPeripheral }).deep.eq(bluetoothManager.peripherals);
 
     assert.calledWith(eventWS, { payload: expectedWSPeripheral, type: 'bluetooth.discover' });
+    assert.calledOnce(newPeripheral.on);
+    expect(newPeripheral.on.lastCall.args).to.be.lengthOf(2);
+    expect(newPeripheral.on.lastCall.args[0]).eq('disconnect');
   });
 
   it('should add discovered connected peripheral', () => {
@@ -78,6 +82,7 @@ describe('BluetoothManager discover event', () => {
       },
       state: 'connected',
       connectable: true,
+      on: fake.returns(null),
     };
 
     bluetoothManager.discover(newPeripheral);
@@ -95,5 +100,8 @@ describe('BluetoothManager discover event', () => {
     expect({ UUID: expectedPeripheral }).deep.eq(bluetoothManager.peripherals);
 
     assert.calledWith(eventWS, { payload: expectedWSPeripheral, type: 'bluetooth.discover' });
+    assert.calledOnce(newPeripheral.on);
+    expect(newPeripheral.on.lastCall.args).to.be.lengthOf(2);
+    expect(newPeripheral.on.lastCall.args[0]).eq('disconnect');
   });
 });
