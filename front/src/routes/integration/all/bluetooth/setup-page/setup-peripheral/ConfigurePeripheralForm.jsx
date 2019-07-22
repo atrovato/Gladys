@@ -7,6 +7,8 @@ import { RequestStatus, DeviceFeatureCategoriesIcon } from '../../../../../../ut
 import { WEBSOCKET_MESSAGE_TYPES } from '../../../../../../../../server/utils/constants';
 import cx from 'classnames';
 
+import ConfigurePeripheralConfigrationForm from './ConfigurePeripheralConfigurationForm';
+
 @connect(
   'session,httpClient,bluetoothBrands,houses,currentIntegration',
   actions
@@ -173,6 +175,31 @@ class ConfigurePeripheral extends Component {
     });
   }
 
+  updateParamValue(e, paramName) {
+    e.preventDefault();
+
+    const { device } = this.state;
+    const params = (device.params || []).slice();
+    const param = params.find(param => param.name === paramName);
+
+    console.log('paramName =', paramName);
+    console.log('param =', param);
+
+    if (param) {
+      param.value = e.target.value;
+
+      console.log('param =', param);
+      console.log('params =', params);
+
+      this.setState({
+        device: {
+          ...device,
+          params
+        }
+      });
+    }
+  }
+
   constructor(props) {
     super(props);
 
@@ -197,6 +224,7 @@ class ConfigurePeripheral extends Component {
     this.updateName = this.updateName.bind(this);
     this.updateRoom = this.updateRoom.bind(this);
     this.updateFeatureName = this.updateFeatureName.bind(this);
+    this.updateParamValue = this.updateParamValue.bind(this);
   }
 
   createDevice(e) {
@@ -243,9 +271,9 @@ class ConfigurePeripheral extends Component {
             <span>
               <Text id="integration.bluetooth.setup.peripheral.autoDetectSuccess" />
               &nbsp;
-              <Text id={'integration.bluetooth.setup.peripheral.brands.' + brand + '.title'}>{brand}</Text>
+              <Text id={`integration.bluetooth.setup.peripheral.brands.${brand}.title`}>{brand}</Text>
               &nbsp;-&nbsp;
-              <Text id={'integration.bluetooth.setup.peripheral.brands.' + brand + '.models.' + model}>{model}</Text>.
+              <Text id={`integration.bluetooth.setup.peripheral.brands.${brand}.models.${model}`}>{model}</Text>.
             </span>
           );
           autoDetectColor = 'success';
@@ -325,7 +353,7 @@ class ConfigurePeripheral extends Component {
             <div class="col text-center">
               <button
                 type="button"
-                class={'btn btn-sm btn-outline-' + autoDetectColor}
+                class={`btn btn-sm btn-outline-${autoDetectColor}`}
                 disabled={!enableAutoDetect || autoDetect || disableForm}
                 onClick={this.autoDetect}
               >
@@ -345,7 +373,7 @@ class ConfigurePeripheral extends Component {
               {bluetoothBrands &&
                 Object.keys(bluetoothBrands).map(b => (
                   <option value={b} selected={b === brand}>
-                    <Text id={'integration.bluetooth.setup.peripheral.brands.' + b + '.title'}>{b}</Text>
+                    <Text id={`integration.bluetooth.setup.peripheral.brands.${b}.title`}>{b}</Text>
                   </option>
                 ))}
             </select>
@@ -368,7 +396,7 @@ class ConfigurePeripheral extends Component {
                 bluetoothBrands[brand] &&
                 bluetoothBrands[brand].map(m => (
                   <option value={m} selected={m === model}>
-                    <Text id={'integration.bluetooth.setup.peripheral.brands.' + brand + '.models.' + m}>{m}</Text>
+                    <Text id={`integration.bluetooth.setup.peripheral.brands.${brand}.models.${m}`}>{m}</Text>
                   </option>
                 ))}
             </select>
@@ -402,7 +430,7 @@ class ConfigurePeripheral extends Component {
                           }
                           value={feature.name}
                           disabled={disableForm}
-                          key={'feature-' + index}
+                          key={`feature-${index}`}
                           onChange={e => this.updateFeatureName(e, index)}
                           required
                         />
@@ -414,7 +442,13 @@ class ConfigurePeripheral extends Component {
             </div>
           )}
 
-          <div class="row">
+          <ConfigurePeripheralConfigrationForm
+            device={this.state.device}
+            updateParamValue={this.updateParamValue}
+            disableForm={disableForm}
+          />
+
+          <div class="row mt-10">
             <div class="col">
               <button
                 type="submit"

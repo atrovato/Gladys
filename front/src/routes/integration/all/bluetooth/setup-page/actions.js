@@ -125,7 +125,8 @@ const createActions = store => {
       try {
         await httpClient.post(`/api/v1/device`, device);
         store.setState({
-          bluetoothSaveStatus: RequestStatus.Success
+          bluetoothSaveStatus: RequestStatus.Success,
+          bluetoothCreatedDevice: device
         });
       } catch (e) {
         store.setState({

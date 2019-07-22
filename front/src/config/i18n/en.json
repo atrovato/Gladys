@@ -419,7 +419,12 @@
         "featuresLabel": "Features",
         "featureNamePlaceholder": "Enter feature name for \"{{type}}\" : default is \"{{name}}\"",
         "saveButton": "Save",
-        "deleteButton": "Delete"
+        "deleteButton": "Delete",
+        "configParam": {
+          "login": "Authentication login",
+          "password": "Authentication password",
+          "sessionKey": "Authentication session key"
+        }
       },
       "setup": {
         "title": "Bluetooth Setup",
