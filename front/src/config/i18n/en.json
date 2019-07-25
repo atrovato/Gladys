@@ -417,7 +417,7 @@
         "namePlaceholder": "Enter device name",
         "roomLabel": "Room",
         "featuresLabel": "Features",
-        "featureNamePlaceholder": "Enter feature name for \"{{type}}\" : default is \"{{name}}\"",
+        "featureNamePlaceholder": "Enter feature name",
         "saveButton": "Save",
         "deleteButton": "Delete",
         "configParam": {

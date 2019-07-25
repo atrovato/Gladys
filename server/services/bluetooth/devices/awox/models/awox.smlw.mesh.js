@@ -1,4 +1,5 @@
 const { isRemote, isMesh, isWhite } = require('../lib/awox.utils');
+const { DEVICE_FEATURE_CATEGORIES, DEVICE_FEATURE_TYPES } = require('../../../../../utils/constants');
 
 module.exports = {
   name: 'smlwm',
@@ -6,8 +7,8 @@ module.exports = {
   device: {
     features: [
       {
-        category: 'light',
-        type: 'binary',
+        category: DEVICE_FEATURE_CATEGORIES.LIGHT,
+        type: DEVICE_FEATURE_TYPES.LIGHT.BINARY,
         unit: '',
         min: 0,
         max: 1,
@@ -15,8 +16,8 @@ module.exports = {
         has_feedback: true,
       },
       {
-        category: 'light',
-        type: 'white temperature',
+        category: DEVICE_FEATURE_CATEGORIES.LIGHT,
+        type: DEVICE_FEATURE_TYPES.LIGHT.SATURATION,
         unit: '',
         min: 0,
         max: 100,
@@ -24,8 +25,8 @@ module.exports = {
         has_feedback: true,
       },
       {
-        category: 'light',
-        type: 'brightness',
+        category: DEVICE_FEATURE_CATEGORIES.LIGHT,
+        type: DEVICE_FEATURE_TYPES.LIGHT.BRIGHTNESS,
         unit: '',
         min: 0,
         max: 100,
@@ -33,8 +34,8 @@ module.exports = {
         has_feedback: true,
       },
       {
-        category: 'light',
-        type: 'mode',
+        category: DEVICE_FEATURE_CATEGORIES.UNKNOWN,
+        type: DEVICE_FEATURE_TYPES.UNKNOWN.UNKNOWN,
         unit: '',
         min: 0,
         max: 3,

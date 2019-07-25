@@ -3,6 +3,7 @@ import { Text, Localizer } from 'preact-i18n';
 import { connect } from 'unistore/preact';
 import { Link } from 'preact-router/match';
 import actions from '../actions';
+import get from 'get-value';
 import { RequestStatus, DeviceFeatureCategoriesIcon } from '../../../../../../utils/consts';
 import { WEBSOCKET_MESSAGE_TYPES } from '../../../../../../../../server/utils/constants';
 import cx from 'classnames';
@@ -165,7 +166,7 @@ class ConfigurePeripheral extends Component {
 
     const { device } = this.state;
     const features = device.features.slice();
-    features[index] = e.target.value;
+    features[index].name = e.target.value;
 
     this.setState({
       device: {
@@ -410,24 +411,25 @@ class ConfigurePeripheral extends Component {
               <ul class="tags">
                 {device.features.map((feature, index) => (
                   <li class="form-group">
-                    <div class="input-group mb-2">
+                    <div
+                      class={cx('input-group mb-2', {
+                        'was-validated': !feature.name || feature.name.length === 0
+                      })}
+                    >
                       <div class="input-group-prepend">
-                        <span class="tag input-group-text">
-                          <Text id={`deviceFeatureCategory.${feature.category}`} />
+                        <div class="tag input-group-text">
+                          <Text id={`deviceFeatureCategory.${feature.category}.${feature.type}`} />
                           <div class="tag-addon">
-                            <i class={`fe fe-${DeviceFeatureCategoriesIcon[feature.category]}`} />
+                            <i
+                              class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${feature.category}.${feature.type}`)}`}
+                            />
                           </div>
-                        </span>
+                        </div>
                       </div>
                       <Localizer>
                         <input
                           class="form-control form-control-sm"
-                          placeholder={
-                            <Text
-                              id="integration.bluetooth.device.featureNamePlaceholder"
-                              fields={{ type: feature.type, name: `${device.name} ${feature.type}` }}
-                            />
-                          }
+                          placeholder={<Text id="integration.bluetooth.device.featureNamePlaceholder" />}
                           value={feature.name}
                           disabled={disableForm}
                           key={`feature-${index}`}
@@ -448,7 +450,7 @@ class ConfigurePeripheral extends Component {
             disableForm={disableForm}
           />
 
-          <div class="row mt-10">
+          <div class="row mt-5">
             <div class="col">
               <button
                 type="submit"

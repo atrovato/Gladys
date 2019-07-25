@@ -117,7 +117,6 @@ const createActions = store => {
 
       device.service_id = currentIntegration.id;
       device.features.forEach(feature => {
-        feature.name = feature.name ? feature.name : `${device.name} ${feature.type}`;
         feature.external_id = `${device.external_id}:${feature.type.replace(' ', '_')}`;
         feature.selector = feature.external_id;
       });

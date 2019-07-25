@@ -1113,6 +1113,11 @@
       ]
     }
   ],
+  "get /api/v1/service/bluetooth": {
+    "id": "fbedb47f-4d25-4381-8923-2633b23192a0",
+    "name": "bluetooth",
+    "enabled": true
+  },
   "get /api/v1/service/bluetooth/device": [
     {
       "id": "fbedb47f-4d25-4381-8923-2633b23192a0",
@@ -1174,33 +1179,69 @@
     "awox": ["smlw", "smlc"],
     "nut": ["tracker"]
   },
-  "get /api/v1/service/bluetooth/brand/awox/smlw": [
-    {
-      "category": "light",
-      "type": "binary",
-      "unit": "",
-      "min": 0,
-      "max": 1,
-      "read_only": false
-    }
-  ],
-  "get /api/v1/service/bluetooth/brand/awox/smlc": [
-    {
-      "category": "light",
-      "type": "binary",
-      "unit": "",
-      "min": 0,
-      "max": 1,
-      "read_only": false
-    }
-  ],
-  "get /api/v1/service/bluetooth/brand/nut/tracker": [
-    {
-      "category": "battery",
-      "unit": "%",
-      "min": 0,
-      "max": 100,
-      "read_only": true
-    }
-  ]
+  "get /api/v1/service/bluetooth/brand/awox/smlw": {
+    "features": [
+      {
+        "category": "light",
+        "type": "binary",
+        "unit": "",
+        "min": 0,
+        "max": 1,
+        "read_only": false,
+        "has_feedback": true
+      },
+      {
+        "category": "light",
+        "type": "brightness",
+        "unit": "",
+        "min": 0,
+        "max": 100,
+        "read_only": false,
+        "has_feedback": true
+      }
+    ]
+  },
+  "get /api/v1/service/bluetooth/brand/awox/smlc": {
+    "features": [
+      {
+        "category": "light",
+        "type": "binary",
+        "unit": "",
+        "min": 0,
+        "max": 1,
+        "read_only": false,
+        "has_feedback": true
+      },
+      {
+        "category": "light",
+        "type": "brightness",
+        "unit": "",
+        "min": 0,
+        "max": 100,
+        "read_only": false,
+        "has_feedback": true
+      },
+      {
+        "category": "light",
+        "type": "hue",
+        "unit": "",
+        "min": 0,
+        "max": 100,
+        "read_only": false,
+        "has_feedback": true
+      }
+    ]
+  },
+  "get /api/v1/service/bluetooth/brand/nut/tracker": {
+    "features": [
+      {
+        "category": "battery",
+        "type": "integer",
+        "unit": "%",
+        "min": 0,
+        "max": 100,
+        "read_only": true
+      }
+    ]
+  }
 }
