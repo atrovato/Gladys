@@ -1,0 +1,118 @@
+import { Text, Localizer } from 'preact-i18n';
+import { Component } from 'preact';
+import cx from 'classnames';
+import { RequestStatus } from '../../../../../utils/consts';
+
+class RemoteBox extends Component {
+  saveRemote = async () => {
+    this.setState({
+      loading: true
+    });
+    try {
+      await this.props.saveDevice(this.props.cameraIndex);
+      this.setState({
+        saveError: null
+      });
+    } catch (e) {
+      this.setState({
+        saveError: RequestStatus.Error
+      });
+    }
+    this.setState({
+      loading: false
+    });
+  };
+  deleteDevice = async () => {
+    this.setState({
+      loading: true
+    });
+    try {
+      await this.props.deleteDevice(this.props.cameraIndex);
+    } catch (e) {
+      this.setState({
+        error: RequestStatus.Error
+      });
+    }
+    this.setState({
+      loading: false
+    });
+  };
+  updateRemoteName = e => {
+    this.props.updateDeviceProperty(this.props.remoteIndex, 'name', e.target.value);
+  };
+  updateRemoteRoom = e => {
+    this.props.updateDeviceProperty(this.props.remoteIndex, 'room_id', e.target.value);
+  };
+  componentWillMount() {}
+
+  render(props, { loading, saveError }) {
+    return (
+      <div class="col-md-6">
+        <div class="card">
+          <div
+            class={cx('dimmer', {
+              active: loading
+            })}
+          >
+            <div class="loader" />
+            <div class="dimmer-content">
+              <div class="card-body">
+                {saveError && (
+                  <div class="alert alert-danger">
+                    <Text id="integration.broadlink.remote.saveError" />
+                  </div>
+                )}
+                <div class="form-group">
+                  <label class="form-label" for={`name_${props.remoteIndex}`}>
+                    <Text id="integration.broadlink.remote.nameLabel" />
+                  </label>
+                  <Localizer>
+                    <input
+                      type="text"
+                      id={`name_${props.remoteIndex}`}
+                      value={props.remote.name}
+                      onInput={this.updateRemoteName}
+                      class="form-control"
+                      placeholder={<Text id="integration.broadlink.remote.namePlaceholder" />}
+                    />
+                  </Localizer>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for={`room_${props.remoteIndex}`}>
+                    <Text id="integration.broadlink.remote.roomLabel" />
+                  </label>
+                  <select onChange={this.updateRemoteRoom} class="form-control" id={`room_${props.remoteIndex}`}>
+                    <option value="">
+                      <Text id="global.emptySelectOption" />
+                    </option>
+                    {props.houses &&
+                      props.houses.map(house => (
+                        <optgroup label={house.name}>
+                          {house.rooms.map(room => (
+                            <option selected={room.id === props.remote.room_id} value={room.id}>
+                              {room.name}
+                            </option>
+                          ))}
+                        </optgroup>
+                      ))}
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <button onClick={this.saveRemote} class="btn btn-success mr-2">
+                    <Text id="integration.broadlink.remote.saveButton" />
+                  </button>
+                  <button onClick={this.deleteRemote} class="btn btn-danger">
+                    <Text id="integration.broadlink.remote.deleteButton" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default RemoteBox;

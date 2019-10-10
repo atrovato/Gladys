@@ -9,7 +9,7 @@ function createActions(store) {
   const houseActions = createActionsHouse(store);
   const integrationActions = createActionsIntegration(store);
   const actions = {
-    async getBroadlinkDevices(state, take, skip) {
+    async getBroadlinkRemotes(state, take, skip) {
       store.setState({
         getBroadlinkDevicesStatus: RequestStatus.Getting
       });
@@ -77,13 +77,13 @@ function createActions(store) {
       store.setState({
         broadlinkDeviceSearch: e.target.value
       });
-      await actions.getBroadlinkDevices(store.getState(), 20, 0);
+      await actions.getBroadlinkRemotes(store.getState(), 20, 0);
     },
     async changeOrderDir(state, e) {
       store.setState({
         getBroadlinkDeviceOrderDir: e.target.value
       });
-      await actions.getBroadlinkDevices(store.getState(), 20, 0);
+      await actions.getBroadlinkRemotes(store.getState(), 20, 0);
     },
     addDeviceFeature(state, index, category, type) {
       const uniqueId = uuid.v4();
