@@ -664,6 +664,21 @@
       }
     }
   ],
+  "get /api/v1/service/broadlink": {},
+  "get /api/v1/service/broadlink/peripheral": [
+    {
+      "host": "210.248.100.245",
+      "name": "MP1"
+    },
+    {
+      "host": "227.154.146.114",
+      "name": "SP2"
+    },
+    {
+      "host": "220.156.58.18",
+      "name": "RM3 Pro Plus"
+    }
+  ],
   "get /api/v1/service/mqtt": {},
   "get /api/v1/service/mqtt/status": {
     "configured": true,

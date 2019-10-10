@@ -393,6 +393,19 @@
         "connected": "Connected to the MQTT broker with success !"
       }
     },
+    "broadlink": {
+      "title": "Broadlink",
+      "remoteTab": "Remotes",
+      "peripheralTab": "Available peripherals",
+      "peripheral": {
+        "title": "Compatible available peripherals",
+        "description": "Here are discovered Broadlink peripherals, if one is missing, please check its network link.",
+        "noPeripherals": "No peripheral discovered on network, please check the connectivity.",
+        "noNameLabel": "Type not recognized",
+        "ipAddressLabel": "IP address",
+        "macAddressLabel": "MAC address"
+      }
+    },
     "xiaomi": {
       "device": {
         "title": "Xiaomi devices in Gladys",
