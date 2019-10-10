@@ -404,6 +404,25 @@
         "noNameLabel": "Type not recognized",
         "ipAddressLabel": "IP address",
         "macAddressLabel": "MAC address"
+      },
+      "remote": {
+        "title": "Remotes in Gladys",
+        "searchPlaceholder": "Search for remotes",
+        "noRemoteFound": "No remote found.",
+        "saveError": "There was an error saving the remote.",
+        "nameLabel": "Remote Name",
+        "namePlaceholder": "Enter the name of your remote",
+        "roomLabel": "Room",
+        "saveButton": "Save",
+        "deleteButton": "Delete"
+      },
+      "setup": {
+        "returnButton": "Return back",
+        "noNameLabel": "No name",
+        "saveError": "Error saving or deleting device",
+        "notFound": "Requested device not found.",
+        "backToList": "Back to device list",
+        "saveButton": "Save"
       }
     },
     "xiaomi": {
