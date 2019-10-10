@@ -548,6 +548,20 @@
         "disconnected": "Déconnecté du broker MQTT."
       }
     },
+    "broadlink": {
+      "title": "Broadlink",
+      "description": "Communiquer avec les appareils Broadlink.",
+      "remoteTab": "Télécommandes",
+      "peripheralTab": "Appareils disponibles",
+      "peripheral": {
+        "title": "Appareils compatibles disponibles",
+        "description": "Ici vous trouverez les appareils Broadlink disponible. Si celui que vous cherchez est manquant, merci de vérifier qu'il est bien connecté au réseau.",
+        "noPeripherals": "Aucun appareil découvert sur le réseau, merci de vérifier les branchements.",
+        "noNameLabel": "Type non reconnu",
+        "ipAddressLabel": "Adresse IP",
+        "macAddressLabel": "Adresse MAC"
+      }
+    },
     "xiaomi": {
       "title": "Xiaomi Home",
       "description": "Gérez les appareils Xiaomi.",

@@ -68,6 +68,8 @@ import ZwaveEditPage from '../routes/integration/all/zwave/edit-page';
 import RtspCameraPage from '../routes/integration/all/rtsp-camera';
 import XiaomiPage from '../routes/integration/all/xiaomi';
 import EditXiaomiPage from '../routes/integration/all/xiaomi/edit-page';
+import BroadlinkRemotePage from '../routes/integration/all/broadlink/remote-page';
+import BroadlinkPeripheralPage from '../routes/integration/all/broadlink/peripheral-page';
 
 // MQTT integration
 import MqttDevicePage from '../routes/integration/all/mqtt/device-page';
@@ -177,6 +179,8 @@ const AppRouter = connect(
         <TasmotaPage path="/dashboard/integration/device/tasmota" />
         <TasmotaEditPage path="/dashboard/integration/device/tasmota/edit/:deviceSelector" />
         <TasmotaDiscoverPage path="/dashboard/integration/device/tasmota/discover" />
+        <BroadlinkRemotePage path="/dashboard/integration/device/broadlink" />
+        <BroadlinkPeripheralPage path="/dashboard/integration/device/broadlink/peripheral" />
 
         <ChatPage path="/dashboard/chat" />
         <MapPage path="/dashboard/maps" />
