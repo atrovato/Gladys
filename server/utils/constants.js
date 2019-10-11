@@ -381,6 +381,11 @@ const WEBSOCKET_MESSAGE_TYPES = {
   TASMOTA: {
     NEW_DEVICE: 'tasmota.new-device',
   },
+  BROADLINK: {
+    LEARN_MODE_SUCCESS: 'broadlink.learn-mode.success',
+    LEARN_MODE_ERROR: 'broadlink.learn-mode.error',
+    NO_PERIPHERAL: 'broadlink.no-peripheral',
+  },
 };
 
 const DASHBOARD_TYPE = {

@@ -33,16 +33,16 @@ function addPeripheral(peripheralInfo) {
   const peripheral = {
     name: peripheralInfo.name,
     address: peripheralInfo.address,
-    mac: peripheralInfo.mac,
+    mac: peripheralInfo.mac.toString('hex'),
     canLearn: !!broadlinkDevice.learnCode,
     hasTemperatureSensor: !!broadlinkDevice.getTemperature,
     ready: false,
   };
-  this.peripherals[peripheralInfo.mac] = peripheral;
-  this.broadlinkDevices[peripheralInfo.mac] = broadlinkDevice;
+  this.peripherals[peripheral.mac] = peripheral;
+  this.broadlinkDevices[peripheral.mac] = broadlinkDevice;
 
   broadlinkDevice.on('ready', () => {
-    this.peripherals[peripheralInfo.mac].ready = true;
+    this.peripherals[peripheral.mac].ready = true;
   });
 }
 

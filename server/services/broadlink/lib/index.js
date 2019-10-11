@@ -3,6 +3,7 @@ const { discover } = require('./discover');
 const { stop } = require('./stop');
 const { addPeripheral } = require('./addPeripheral');
 const { getPeripherals } = require('./getPeripherals');
+const { learn } = require('./learn');
 
 /**
  * @description Add ability to connect to a Broadlink broker.
@@ -26,5 +27,6 @@ BroadlinkHandler.prototype.discover = discover;
 BroadlinkHandler.prototype.stop = stop;
 BroadlinkHandler.prototype.addPeripheral = addPeripheral;
 BroadlinkHandler.prototype.getPeripherals = getPeripherals;
+BroadlinkHandler.prototype.learn = learn;
 
 module.exports = BroadlinkHandler;
