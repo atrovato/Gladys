@@ -9,10 +9,24 @@ module.exports = function BroadlinkController(broadlinkManager) {
     res.json(peripherals);
   }
 
+  /**
+   * @api {post} /api/v1/service/broadlink/learn Entering learn mode.
+   * @apiName learn
+   * @apiGroup Broadlink
+   */
+  async function learn(req, res) {
+    await broadlinkManager.learn(req.body.peripheral);
+    res.json({ learn: true });
+  }
+
   return {
     'get /api/v1/service/broadlink/peripheral': {
       authenticated: true,
       controller: getPeripherals,
+    },
+    'post /api/v1/service/broadlink/learn': {
+      authenticated: true,
+      controller: learn,
     },
   };
 };
