@@ -1,26 +1,63 @@
 import { Component } from 'preact';
-import { Text, Localizer } from 'preact-i18n';
+import { Text } from 'preact-i18n';
 import { Link } from 'preact-router/match';
 import cx from 'classnames';
+import RemoteCreation from './RemoteCreation';
+import ButtonCreation from './ButtonCreation';
+import ButtonPlacement from './ButtonPlacement';
 
 class RemoteSetupTab extends Component {
-  updateDeviceName = e => {
-    this.props.updateDeviceProperty('name', e.target.value);
+  stepDone = () => {
+    this.setState({
+      readyToNext: true
+    });
   };
 
-  updateDeviceRoom = e => {
-    this.props.updateDeviceProperty('room_id', e.target.value);
+  nextStep = () => {
+    let currentStep, nextStep;
+
+    switch (this.state.currentStep) {
+      case 'addButton': {
+        currentStep = 'placeButton';
+        nextStep = 'addButton';
+        break;
+      }
+      case 'device': {
+        const hasButtons = this.props.buttons.length > 0;
+        currentStep = hasButtons ? 'placeButton' : 'addButton';
+        nextStep = hasButtons ? 'addButton' : 'placeButton';
+        break;
+      }
+      case 'placeButton':
+      default: {
+        currentStep = 'addButton';
+        nextStep = 'placeButton';
+      }
+    }
+
+    this.setState({
+      currentStep,
+      nextStep,
+      readyToNext: false
+    });
   };
 
-  render(props) {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentStep: 'device',
+      nextStep: 'addButton'
+    };
+
+    this.nextStep = this.nextStep.bind(this);
+    this.stepDone = this.stepDone.bind(this);
+  }
+
+  render(props, state) {
     return (
       <div class="card">
         <div class="card-header">
-          <Link href="/dashboard/integration/device/broadlink">
-            <button class="btn btn-secondary mr-2">
-              ◀️ <Text id="integration.broadlink.setup.returnButton" />
-            </button>
-          </Link>
           <h3 class="card-title">
             {(props.device && props.device.name) || <Text id="integration.broadlink.setup.noNameLabel" />}
           </h3>
@@ -50,54 +87,38 @@ class RemoteSetupTab extends Component {
                   </Link>
                 </div>
               )}
-              {props.device && (
-                <div>
-                  <div class="form-group">
-                    <label class="form-label" for="remoteName">
-                      <Text id="integration.broadlink.remote.nameLabel" />
-                    </label>
-                    <Localizer>
-                      <input
-                        type="text"
-                        id="remoteName"
-                        value={props.device.name}
-                        onInput={this.updateDeviceName}
-                        class="form-control"
-                        placeholder={<Text id="integration.broadlink.remote.namePlaceholder" />}
-                      />
-                    </Localizer>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="remoteRoom">
-                      <Text id="integration.broadlink.remote.roomLabel" />
-                    </label>
-                    <select onChange={this.updateDeviceRoom} class="form-control" id="remoteRoom">
-                      <option value="">
-                        <Text id="global.emptySelectOption" />
-                      </option>
-                      {props.houses &&
-                        props.houses.map(house => (
-                          <optgroup label={house.name}>
-                            {house.rooms.map(room => (
-                              <option selected={room.id === props.device.room_id} value={room.id}>
-                                {room.name}
-                              </option>
-                            ))}
-                          </optgroup>
-                        ))}
-                    </select>
-                  </div>
 
-                  <div class="form-group">
-                    <Link href="/dashboard/integration/device/broadlink">
-                      <button class="btn btn-secondary mr-2">
-                        ◀️ <Text id="integration.broadlink.setup.returnButton" />
-                      </button>
-                    </Link>
-                    <button onClick={props.saveDevice} class="btn btn-success mr-2">
-                      <Text id="integration.broadlink.setup.saveButton" />
+              {props.device && state.currentStep === 'device' && (
+                <RemoteCreation {...props} {...state} stepDone={this.stepDone} />
+              )}
+
+              {props.device && state.currentStep === 'addButton' && (
+                <ButtonCreation {...props} {...state} stepDone={this.stepDone} />
+              )}
+
+              {props.device && state.currentStep === 'placeButton' && (
+                <ButtonPlacement {...props} {...state} stepDone={this.stepDone} />
+              )}
+
+              {props.device && (
+                <div class="form-group">
+                  <Link href="/dashboard/integration/device/broadlink" class="mr-2">
+                    <button class="btn btn-danger">
+                      <Text id="integration.broadlink.setup.cancel" />
                     </button>
-                  </div>
+                  </Link>
+                  <button onClick={props.saveDevice} disabled={props.buttons.length === 0} class="btn btn-success mr-2">
+                    <Text id="integration.broadlink.setup.saveButton" />
+                  </button>
+                  {state.nextStep && (
+                    <button
+                      onClick={this.nextStep}
+                      disabled={!state.readyToNext}
+                      class="btn btn-primary mr-2 float-right"
+                    >
+                      <Text id={`integration.broadlink.setup.step.${state.nextStep}`} />
+                    </button>
+                  )}
                 </div>
               )}
             </div>
