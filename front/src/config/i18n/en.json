@@ -431,6 +431,7 @@
         "peripheralNotLearn": "Peripheral is not able to learn code.",
         "learnFailed": "Failed to enter in learn mode.",
         "addButtonLabel": "Create remote button",
+        "existingButtons": "Already created buttons",
         "buttonCreation": "Add new button",
         "buttonNameLabel": "Button name",
         "buttonNamePlaceholder": "Ex: Power, Channel Up...",

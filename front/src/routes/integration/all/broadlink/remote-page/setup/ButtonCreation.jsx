@@ -5,6 +5,7 @@ import cx from 'classnames';
 import iconList from '../../../../../../../../server/config/icons.json';
 import style from './style.css';
 import NotPlacedButtonBox from './NotPlacedButtonBox';
+import ButtonBox from './ButtonBox';
 
 class ButtonCreation extends Component {
   updateButtonName = e => {
@@ -126,12 +127,14 @@ class ButtonCreation extends Component {
             </div>
           </div>
 
-          {!!props.notPlacedFeatures.length && (
-            <div class="form-group">
-              <hr />
-              <NotPlacedButtonBox {...props} />
-            </div>
-          )}
+          <div class="form-group">
+            <label class="form-label">
+              <Text id="integration.broadlink.setup.existingButtons" />
+            </label>
+            {props.buttons.map(button => (
+              <ButtonBox button={button} />
+            ))}
+          </div>
         </div>
       </fieldset>
     );
