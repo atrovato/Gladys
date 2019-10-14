@@ -45,7 +45,7 @@ class BroadlinkDeviceSetupPage extends Component {
 
   createPendingButton() {
     const buttons = update(this.state.buttons, {
-      $push: this.state.buttonCreation
+      $push: [this.state.buttonCreation]
     });
 
     this.setState({
