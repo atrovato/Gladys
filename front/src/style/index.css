@@ -219,3 +219,18 @@ html, body {
 .direct-chat-success .right > .direct-chat-text:before {
   border-left-color: #00a65a;
 }
+
+.draggableItem {
+  touch-action: none;
+}
+
+.draggableItem.dragging {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  touch-action: none;
+}
+
+.draggableLayer {
+  opacity: 0.5;
+}
