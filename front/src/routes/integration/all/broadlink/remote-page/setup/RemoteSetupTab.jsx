@@ -5,53 +5,89 @@ import cx from 'classnames';
 import RemoteCreation from './RemoteCreation';
 import ButtonCreation from './ButtonCreation';
 import ButtonPlacement from './ButtonPlacement';
+import { route } from 'preact-router';
 
 class RemoteSetupTab extends Component {
-  stepDone = () => {
-    this.setState({
-      readyToNext: true
-    });
-  };
+  nextStep = (currentStep, props) => {
+    let nextStep, readyToNext;
 
-  nextStep = () => {
-    let currentStep, nextStep;
-
-    switch (this.state.currentStep) {
-      case 'addButton': {
-        currentStep = 'placeButton';
+    switch (currentStep) {
+      case 'placeButton': {
         nextStep = 'addButton';
+        readyToNext = props.buttons.length > 0;
         break;
       }
-      case 'device': {
-        const hasButtons = this.props.buttons.length > 0;
-        currentStep = hasButtons ? 'placeButton' : 'addButton';
-        nextStep = hasButtons ? 'addButton' : 'placeButton';
-        break;
-      }
-      case 'placeButton':
-      default: {
-        currentStep = 'addButton';
+      case 'addButton': {
         nextStep = 'placeButton';
+        readyToNext = props.buttons.length > 0;
+        break;
+      }
+      case 'device':
+      default: {
+        const hasButtons = props.buttons.length > 0;
+        currentStep = 'device';
+        nextStep = hasButtons ? 'placeButton' : 'addButton';
+        readyToNext =
+          props.device &&
+          props.device.name &&
+          props.device.name.length > 0 &&
+          props.device.model &&
+          props.device.model.length > 0;
       }
     }
 
     this.setState({
       currentStep,
       nextStep,
-      readyToNext: false
+      readyToNext
     });
   };
+
+  goToNext = () => {
+    this.goTo(this.state.nextStep);
+  };
+
+  goTo = elem => {
+    let { url } = this.props;
+    const hashIndex = url.indexOf('#');
+    if (hashIndex > 0) {
+      url = url.substring(0, hashIndex);
+    }
+    route(url + '#' + elem, true);
+  };
+
+  componentWillReceiveProps(props) {
+    const currentStep = this.getCurrentTab();
+    this.nextStep(currentStep, props);
+  }
+
+  componentWillMount() {
+    const currentTab = this.getCurrentTab();
+
+    if (currentTab != 'device') {
+      this.goTo('device');
+    } else {
+      this.nextStep(currentTab, this.props);
+    }
+  }
+
+  getCurrentTab() {
+    let urlHash = window.location.hash;
+    if (urlHash.length > 0 && urlHash.startsWith('#')) {
+      urlHash = urlHash.split('#')[1];
+    } else {
+      urlHash = 'device';
+    }
+
+    return urlHash;
+  }
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      currentStep: 'device',
-      nextStep: 'addButton'
-    };
-
     this.nextStep = this.nextStep.bind(this);
-    this.stepDone = this.stepDone.bind(this);
+    this.goTo = this.goTo.bind(this);
+    this.goToNext = this.goToNext.bind(this);
   }
 
   render(props, state) {
@@ -88,17 +124,49 @@ class RemoteSetupTab extends Component {
                 </div>
               )}
 
-              {props.device && state.currentStep === 'device' && (
-                <RemoteCreation {...props} {...state} stepDone={this.stepDone} />
+              {props.device && (
+                <ul class="nav nav-tabs nav-justified mb-5" role="tablist">
+                  <li class="nav-item" id="device">
+                    <a
+                      class={cx('nav-link mx-auto', {
+                        active: state.currentStep === 'device',
+                        disabled: !state.readyToNext && state.currentStep !== 'device'
+                      })}
+                      onClick={() => this.goTo('device')}
+                    >
+                      <Text id="integration.broadlink.setup.remoteCreation" />
+                    </a>
+                  </li>
+                  <li class="nav-item" id="addButton">
+                    <a
+                      class={cx('nav-link mx-auto', {
+                        active: state.currentStep === 'addButton',
+                        disabled: !state.readyToNext && state.currentStep !== 'addButton'
+                      })}
+                      onClick={() => this.goTo('addButton')}
+                    >
+                      <Text id="integration.broadlink.setup.buttonCreation" />
+                    </a>
+                  </li>
+                  <li class="nav-item" id="placeButton">
+                    <a
+                      class={cx('nav-link mx-auto', {
+                        active: state.currentStep === 'placeButton',
+                        disabled: !state.readyToNext && state.currentStep !== 'placeButton'
+                      })}
+                      onClick={() => this.goTo('placeButton')}
+                    >
+                      <Text id="integration.broadlink.setup.buttonPlacementTitle" />
+                    </a>
+                  </li>
+                </ul>
               )}
 
-              {props.device && state.currentStep === 'addButton' && (
-                <ButtonCreation {...props} {...state} stepDone={this.stepDone} />
-              )}
+              {props.device && state.currentStep === 'device' && <RemoteCreation {...props} {...state} />}
 
-              {props.device && state.currentStep === 'placeButton' && (
-                <ButtonPlacement {...props} {...state} stepDone={this.stepDone} />
-              )}
+              {props.device && state.currentStep === 'addButton' && <ButtonCreation {...props} {...state} />}
+
+              {props.device && state.currentStep === 'placeButton' && <ButtonPlacement {...props} {...state} />}
 
               {props.device && (
                 <div class="form-group">
@@ -107,12 +175,16 @@ class RemoteSetupTab extends Component {
                       <Text id="integration.broadlink.setup.cancel" />
                     </button>
                   </Link>
-                  <button onClick={props.saveDevice} disabled={props.buttons.length === 0} class="btn btn-success mr-2">
+                  <button
+                    onClick={props.saveDevice}
+                    disabled={props.buttons.filter(button => button.position).length === 0}
+                    class="btn btn-success mr-2"
+                  >
                     <Text id="integration.broadlink.setup.saveButton" />
                   </button>
                   {state.nextStep && (
                     <button
-                      onClick={this.nextStep}
+                      onClick={this.goToNext}
                       disabled={!state.readyToNext}
                       class="btn btn-primary mr-2 float-right"
                     >

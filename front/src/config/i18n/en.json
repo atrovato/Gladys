@@ -441,9 +441,12 @@
         "buttonPlacementTitle": "Place button on remote",
         "buttonNotPlacedTitle": "Not placed buttons",
         "remoteGrid": "Remote grid",
+        "addColumn": "Add column",
+        "addRow": "Add row",
+        "resize": "Resize",
         "step": {
-          "addButton": "Add remote buttons",
-          "placeButton": "Place button"
+          "addButton": "Add buttons",
+          "placeButton": "Place buttons"
         }
       }
     },

@@ -5,7 +5,6 @@ import cx from 'classnames';
 import iconList from '../../../../../../../../server/config/icons.json';
 import style from './style.css';
 import NotPlacedButtonBox from './NotPlacedButtonBox';
-import ButtonBox from './ButtonBox';
 
 class ButtonCreation extends Component {
   updateButtonName = e => {
@@ -28,19 +27,7 @@ class ButtonCreation extends Component {
     this.updateButtonIcon = this.updateButtonIcon.bind(this);
   }
 
-  componentWillMount() {
-    if (this.props.buttons.length > 0) {
-      this.props.stepDone();
-    }
-  }
-
   componentWillReceiveProps(props) {
-    const { buttons, readyToNext } = props;
-
-    if (buttons.length && !readyToNext) {
-      this.props.stepDone();
-    }
-
     const { name, code, icon } = props.buttonCreation;
     const savable = name && name.length > 0 && code && code.length > 0 && icon && icon.length > 0;
     if (savable !== this.state.activeSave) {
@@ -52,11 +39,7 @@ class ButtonCreation extends Component {
 
   render(props, state) {
     return (
-      <fieldset class="form-group">
-        <legend>
-          <Text id="integration.broadlink.setup.buttonCreation" />
-        </legend>
-
+      <div>
         <div class="form-group">
           <label class="form-label" for="buttonName">
             <Text id="integration.broadlink.setup.buttonNameLabel" />
@@ -95,26 +78,24 @@ class ButtonCreation extends Component {
           <label class="form-label">
             <Text id="integration.broadlink.setup.buttonIconLabel" />
           </label>
-          <div class={cx('row', style.iconContainer)}>
+          <div class={cx('flex-fill d-flex border align-content-start flex-wrap', style.iconContainer)}>
             {iconList.map(icon => (
-              <div class="col-1">
-                <div
-                  onClick={() => this.updateButtonIcon(icon)}
-                  class={cx('text-center', style.iconDiv, {
-                    [style.iconDivChecked]: props.buttonCreation.icon === icon
-                  })}
-                >
-                  <label class={style.iconLabel}>
-                    <input
-                      name="icon"
-                      type="radio"
-                      checked={props.buttonCreation.icon === icon}
-                      value={icon}
-                      class={style.iconInput}
-                    />
-                    <i class={`fe fe-${icon}`} />
-                  </label>
-                </div>
+              <div
+                onClick={() => this.updateButtonIcon(icon)}
+                class={cx('text-center', style.iconDiv, {
+                  [style.iconDivChecked]: props.buttonCreation.icon === icon
+                })}
+              >
+                <label class={style.iconLabel}>
+                  <input
+                    name="icon"
+                    type="radio"
+                    checked={props.buttonCreation.icon === icon}
+                    value={icon}
+                    class={style.iconInput}
+                  />
+                  <i class={`fe fe-${icon}`} />
+                </label>
               </div>
             ))}
           </div>
@@ -131,12 +112,10 @@ class ButtonCreation extends Component {
             <label class="form-label">
               <Text id="integration.broadlink.setup.existingButtons" />
             </label>
-            {props.buttons.map(button => (
-              <ButtonBox button={button} />
-            ))}
+            <NotPlacedButtonBox {...props} />
           </div>
         </div>
-      </fieldset>
+      </div>
     );
   }
 }
