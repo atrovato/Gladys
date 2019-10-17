@@ -1,24 +1,33 @@
-.containerWithMargin {
-  margin-top: 3rem;
-}
-
 .iconContainer {
-  margin-top: 1rem;
-  height: 10.5rem;
+  height: 10.6rem;
   overflow: scroll;
   margin-left: 0;
   margin-right: 0;
+  padding: 2px;
+}
+
+.iconContainer .iconDiv {
+  margin: 3px;
+}
+
+.iconContainerSmall {
+  height: 7.3rem;
 }
 
 .iconDiv {
   padding: 4px;
   width: 50px;
-  margin-bottom: 8px;
+  margin: 2px;
   border-width: 1px;
   border-radius: 5px;
   border-style: outset;
   border-color: var(--secondary);
   cursor: pointer;
+  background-color: white;
+}
+
+.dropTargetActive .iconDiv {
+  background-color: var(--light);
 }
 
 .iconDivChecked, .iconDiv:hover {
@@ -39,6 +48,23 @@
   position: absolute;
   z-index: -1;
   opacity: 0;
+}
+
+.iconTrash i {
+  font-size: 1.5rem;
+}
+
+.emptyIconDiv {
+  border-style: groove;
+  border-color: var(--light);
+}
+
+.emptyIcon:before {
+  content: "\00a0";
+}
+
+.remoteGrid {
+  overflow: scroll;
 }
 
 .gridCell {

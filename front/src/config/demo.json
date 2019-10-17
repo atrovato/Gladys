@@ -739,7 +739,9 @@
       }
     }
   ],
-  "get /api/v1/service/broadlink": {},
+  "get /api/v1/service/broadlink": {
+    "id": "a810b8db-6d04-4697-bed3-c4b72c996279"
+  },
   "get /api/v1/service/broadlink/peripheral": [
     {
       "address": "210.248.100.245",
@@ -765,7 +767,7 @@
       "service_id": "a810b8db-6d04-4697-bed3-c4b72c996279",
       "room_id": "cecc52c7-3e67-4b75-9b13-9a8867b0443d",
       "name": "TV Remote",
-      "selector": "test-sensor",
+      "selector": "broadlink-device",
       "external_id": "test-sensor-external",
       "should_poll": false,
       "poll_frequency": null,
@@ -773,15 +775,33 @@
       "updated_at": "2019-02-12T07:49:07.556Z",
       "features": [
         {
-          "name": "On/Off",
-          "selector": "power",
+          "name": "UP",
+          "external_id": "fbedb47f-4d25-4381-8923-2633b23192a0:arrow-up:0:1",
+          "selector": "up",
           "category": "button",
           "type": "click",
-          "last_value_string": "00D92I3"
+          "last_value_string": "99CDZZC"
         },
         {
-          "name": "Mute",
-          "selector": "mute",
+          "name": "LEFT",
+          "external_id": "fbedb47f-4d25-4381-8923-2633b23192a0:arrow-left:1:1",
+          "selector": "up",
+          "category": "button",
+          "type": "click",
+          "last_value_string": "99CDZZC"
+        },
+        {
+          "name": "RIGHT",
+          "external_id": "fbedb47f-4d25-4381-8923-2633b23192a0:arrow-right:2:1",
+          "selector": "up",
+          "category": "button",
+          "type": "click",
+          "last_value_string": "99CDZZC"
+        },
+        {
+          "name": "DOWN",
+          "external_id": "fbedb47f-4d25-4381-8923-2633b23192a0:arrow-down:1:2",
+          "selector": "up",
           "category": "button",
           "type": "click",
           "last_value_string": "99CDZZC"
@@ -794,6 +814,62 @@
       }
     }
   ],
+  "get /api/v1/device/broadlink-device": {
+    "id": "fbedb47f-4d25-4381-8923-2633b23192a0",
+    "service_id": "a810b8db-6d04-4697-bed3-c4b72c996279",
+    "room_id": "cecc52c7-3e67-4b75-9b13-9a8867b0443d",
+    "name": "TV Remote",
+    "model": "RM3 Pro Plus",
+    "selector": "broadlink-device",
+    "external_id": "test-sensor-external",
+    "should_poll": false,
+    "poll_frequency": null,
+    "created_at": "2019-02-12T07:49:07.556Z",
+    "updated_at": "2019-02-12T07:49:07.556Z",
+    "features": [
+      {
+        "id": "22d37c48-6805-4118-ba1c-fa44052c2d3c",
+        "name": "UP",
+        "external_id": "22d37c48-6805-4118-ba1c-fa44052c2d3c:arrow-up:0:1",
+        "selector": "up",
+        "category": "button",
+        "type": "click",
+        "last_value_string": "99CDZZC"
+      },
+      {
+        "id": "832f4a5b-d446-442a-9670-7bb4da07dc58",
+        "name": "LEFT",
+        "external_id": "832f4a5b-d446-442a-9670-7bb4da07dc58:arrow-left:1:0",
+        "selector": "up",
+        "category": "button",
+        "type": "click",
+        "last_value_string": "99CDZZC"
+      },
+      {
+        "id": "472865d1-b906-4d78-8881-a0665b2318c3",
+        "name": "RIGHT",
+        "external_id": "472865d1-b906-4d78-8881-a0665b2318c3:arrow-right:1:2",
+        "selector": "up",
+        "category": "button",
+        "type": "click",
+        "last_value_string": "99CDZZC"
+      },
+      {
+        "id": "db0ac29e-cfe0-465b-a5ac-ed2e1c56d5f7",
+        "name": "DOWN",
+        "external_id": "db0ac29e-cfe0-465b-a5ac-ed2e1c56d5f7:arrow-down:2:1",
+        "selector": "up",
+        "category": "button",
+        "type": "click",
+        "last_value_string": "99CDZZC"
+      }
+    ],
+    "room": {
+      "id": "cecc52c7-3e67-4b75-9b13-9a8867b0443d",
+      "name": "Living Room",
+      "selector": "living-room"
+    }
+  },
   "get /api/v1/service/mqtt": {},
   "get /api/v1/service/mqtt/status": {
     "configured": true,

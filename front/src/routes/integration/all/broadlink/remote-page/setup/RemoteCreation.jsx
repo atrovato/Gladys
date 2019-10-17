@@ -16,74 +16,61 @@ class RemoteCreation extends Component {
     this.props.updateDeviceModelProperty(selectedModel);
   };
 
-  componentWillReceiveProps(props) {
-    const { device, selectedModel, readyToNext } = props;
-    if (device.name && device.name.length > 0 && selectedModel && !readyToNext) {
-      this.props.stepDone();
-    }
-  }
-
   render(props) {
     return (
-      <fieldset class="form-group">
-        <legend>
-          <Text id="integration.broadlink.setup.remoteCreation" />
-        </legend>
-
-        <div>
-          <div class="form-group">
-            <label class="form-label" for="remoteName">
-              <Text id="integration.broadlink.remote.nameLabel" />
-            </label>
-            <Localizer>
-              <input
-                type="text"
-                id="remoteName"
-                value={props.device.name}
-                onInput={this.updateDeviceName}
-                class="form-control"
-                placeholder={<Text id="integration.broadlink.remote.namePlaceholder" />}
-              />
-            </Localizer>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="remoteRoom">
-              <Text id="integration.broadlink.remote.roomLabel" />
-            </label>
-            <select onChange={this.updateDeviceRoom} class="form-control" id="remoteRoom">
-              <option value="">
-                <Text id="global.emptySelectOption" />
-              </option>
-              {props.houses &&
-                props.houses.map(house => (
-                  <optgroup label={house.name}>
-                    {house.rooms.map(room => (
-                      <option selected={room.id === props.device.room_id} value={room.id}>
-                        {room.name}
-                      </option>
-                    ))}
-                  </optgroup>
-                ))}
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="remotePeripheral">
-              <Text id="integration.broadlink.setup.peripheralLabel" />
-            </label>
-            <select onChange={this.updateDeviceModel} class="form-control" id="remotePeripheral">
-              <option value="" disabled={true} selected={!props.device.model}>
-                <Text id="global.emptySelectOption" />
-              </option>
-              {props.broadlinkPeripherals &&
-                props.broadlinkPeripherals.map(peripheral => (
-                  <option selected={peripheral.name === props.device.model} value={peripheral.name}>
-                    {peripheral.name} ({peripheral.address})
-                  </option>
-                ))}
-            </select>
-          </div>
+      <div>
+        <div class="form-group">
+          <label class="form-label" for="remoteName">
+            <Text id="integration.broadlink.remote.nameLabel" />
+          </label>
+          <Localizer>
+            <input
+              type="text"
+              id="remoteName"
+              value={props.device.name}
+              onInput={this.updateDeviceName}
+              class="form-control"
+              placeholder={<Text id="integration.broadlink.remote.namePlaceholder" />}
+            />
+          </Localizer>
         </div>
-      </fieldset>
+        <div class="form-group">
+          <label class="form-label" for="remoteRoom">
+            <Text id="integration.broadlink.remote.roomLabel" />
+          </label>
+          <select onChange={this.updateDeviceRoom} class="form-control" id="remoteRoom">
+            <option value="">
+              <Text id="global.emptySelectOption" />
+            </option>
+            {props.houses &&
+              props.houses.map(house => (
+                <optgroup label={house.name}>
+                  {house.rooms.map(room => (
+                    <option selected={room.id === props.device.room_id} value={room.id}>
+                      {room.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="remotePeripheral">
+            <Text id="integration.broadlink.setup.peripheralLabel" />
+          </label>
+          <select onChange={this.updateDeviceModel} class="form-control" id="remotePeripheral">
+            <option value="" disabled={true} selected={!props.device.model}>
+              <Text id="global.emptySelectOption" />
+            </option>
+            {props.broadlinkPeripherals &&
+              props.broadlinkPeripherals.map(peripheral => (
+                <option selected={peripheral.name === props.device.model} value={peripheral.name}>
+                  {peripheral.name} ({peripheral.address})
+                </option>
+              ))}
+          </select>
+        </div>
+      </div>
     );
   }
 }
