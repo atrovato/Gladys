@@ -115,7 +115,7 @@ class BroadlinkDeviceSetupPage extends Component {
       });
 
     try {
-      await this.httpClient.post('/api/v1/device', device);
+      await this.props.httpClient.post('/api/v1/device', device);
       route('/dashboard/integration/device/broadlink');
     } catch (e) {
       this.setState({
@@ -151,6 +151,7 @@ class BroadlinkDeviceSetupPage extends Component {
     let { deviceSelector } = this.props;
     let device;
     let buttons = [];
+    let selectedModel;
 
     if (!deviceSelector) {
       const uniqueId = uuid.v4();
@@ -162,6 +163,11 @@ class BroadlinkDeviceSetupPage extends Component {
         service_id: this.props.currentIntegration.id
       };
       buttons = [];
+
+      if (this.props.broadlinkPeripherals.length === 1) {
+        device.model = this.props.broadlinkPeripherals[0].mac;
+        selectedModel = this.props.broadlinkPeripherals[0];
+      }
     } else {
       const loadedDevice = await this.props.httpClient.get(`/api/v1/device/${deviceSelector}`);
 
@@ -189,6 +195,8 @@ class BroadlinkDeviceSetupPage extends Component {
             }
           };
         });
+
+        selectedModel = this.props.broadlinkPeripherals.find(p => p.mac === device.model);
       }
     }
 
@@ -196,7 +204,8 @@ class BroadlinkDeviceSetupPage extends Component {
       device,
       loading: false,
       buttonCreation: {},
-      buttons
+      buttons,
+      selectedModel
     });
   }
 
