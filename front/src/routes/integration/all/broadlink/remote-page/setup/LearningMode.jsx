@@ -49,7 +49,7 @@ class LearningMode extends Component {
         active: false
       });
 
-      this.props.updateButtonCode({ target: payload.code });
+      this.props.updateButtonCreationProperty('code', payload.code);
     });
   }
 
