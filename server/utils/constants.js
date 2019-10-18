@@ -356,7 +356,11 @@ const WEBSOCKET_MESSAGE_TYPES = {
   BROADLINK: {
     LEARN_MODE_SUCCESS: 'broadlink.learn-mode.success',
     LEARN_MODE_ERROR: 'broadlink.learn-mode.error',
+    CANCEL_LEARN_MODE_SUCCESS: 'broadlink.cancel-learn-mode.success',
+    CANCEL_LEARN_MODE_ERROR: 'broadlink.cancel-learn-mode.error',
     NO_PERIPHERAL: 'broadlink.no-peripheral',
+    SEND_MODE_ERROR: 'broadlink.send-mode.error',
+    SEND_MODE_SUCCESS: 'broadlink.send-mode.success',
   },
 };
 
