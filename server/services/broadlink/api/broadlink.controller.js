@@ -19,6 +19,27 @@ module.exports = function BroadlinkController(broadlinkManager) {
     res.json({ learn: true });
   }
 
+  /**
+   * @api {post} /api/v1/service/broadlink/learn/cancel Leaving learn mode.
+   * @apiName cancelLearn
+   * @apiGroup Broadlink
+   */
+  async function cancelLearn(req, res) {
+    await broadlinkManager.cancelLearn(req.body.peripheral);
+    res.json({ cancelLearn: true });
+  }
+
+  /**
+   * @api {post} /api/v1/service/broadlink/send Send code through peripheral.
+   * @apiName send
+   * @apiGroup Broadlink
+   */
+  async function send(req, res) {
+    const { code, peripheral } = req.body;
+    await broadlinkManager.send(peripheral.mac, code);
+    res.json({ send: true });
+  }
+
   return {
     'get /api/v1/service/broadlink/peripheral': {
       authenticated: true,
@@ -27,6 +48,14 @@ module.exports = function BroadlinkController(broadlinkManager) {
     'post /api/v1/service/broadlink/learn': {
       authenticated: true,
       controller: learn,
+    },
+    'post /api/v1/service/broadlink/learn/cancel': {
+      authenticated: true,
+      controller: cancelLearn,
+    },
+    'post /api/v1/service/broadlink/send': {
+      authenticated: true,
+      controller: send,
     },
   };
 };

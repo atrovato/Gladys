@@ -20,6 +20,18 @@ class LearningMode extends Component {
     }
   };
 
+  cancelLearnMode = async e => {
+    try {
+      await this.props.httpClient.post('/api/v1/service/broadlink/learn/cancel', {
+        peripheral: this.props.selectedModel.mac
+      });
+    } catch (e) {
+      this.setState({
+        errorKey: 'integration.broadlink.setup.cancelLearnFailed'
+      });
+    }
+  };
+
   constructor(props) {
     super(props);
 
@@ -28,15 +40,20 @@ class LearningMode extends Component {
     };
 
     this.activateLearnMode = this.activateLearnMode.bind(this);
+    this.cancelLearnMode = this.cancelLearnMode.bind(this);
   }
 
   componentWillMount() {
-    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.NO_PERIPHERAL, () =>
-      this.setState({
-        errorKey: 'integration.broadlink.setup.peripheralNotFound',
-        active: false
-      })
-    );
+    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.NO_PERIPHERAL, payload => {
+      if (payload.action === 'learnMode') {
+        this.setState({
+          errorKey: 'integration.broadlink.setup.peripheralNotFound',
+          active: false
+        });
+      }
+    });
+
+    // Entering learn mode
     this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.LEARN_MODE_ERROR, () =>
       this.setState({
         errorKey: 'integration.broadlink.setup.peripheralNotLearn',
@@ -51,6 +68,19 @@ class LearningMode extends Component {
 
       this.props.updateButtonCreationProperty('code', payload.code);
     });
+
+    // Cancel learn mode
+    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.CANCEL_LEARN_MODE_ERROR, () =>
+      this.setState({
+        errorKey: 'integration.broadlink.setup.cancelLearnFailed'
+      })
+    );
+    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.CANCEL_LEARN_MODE_SUCCESS, () => {
+      this.setState({
+        errorKey: null,
+        active: false
+      });
+    });
   }
 
   render({}, state) {
@@ -58,7 +88,7 @@ class LearningMode extends Component {
       <div class="mt-5">
         <div class="text-center">
           {state.active && (
-            <button disabled={true} class="btn btn-outline-secondary btn-sm">
+            <button onClick={this.cancelLearnMode} class="btn btn-outline-secondary btn-sm">
               {<Text id="integration.broadlink.setup.learningModeInProgress" />}
             </button>
           )}

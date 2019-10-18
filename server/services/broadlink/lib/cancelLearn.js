@@ -2,13 +2,13 @@ const { EVENTS, WEBSOCKET_MESSAGE_TYPES } = require('../../../utils/constants');
 const logger = require('../../../utils/logger');
 
 /**
- * @description Entering peripheral in learn mode.
+ * @description Leaving peripheral learn mode.
  * @param {string} peripheralIdentifier - The peripheral address.
  * @example
- * gladys.broadlink.learn('770f78b9401c');
+ * gladys.broadlink.cancelLearn('770f78b9401c');
  */
-function learn(peripheralIdentifier) {
-  logger.debug(`Broalink entering learn mode with ${peripheralIdentifier}`);
+function cancelLearn(peripheralIdentifier) {
+  logger.debug(`Broalink leaving learn mode with ${peripheralIdentifier}`);
   const peripheral = this.broadlinkDevices[peripheralIdentifier];
 
   if (!peripheral) {
@@ -18,22 +18,18 @@ function learn(peripheralIdentifier) {
         action: 'learnMode',
       },
     });
-  } else if (!peripheral.learnCode) {
+  } else if (!peripheral.cancelLearnCode) {
     this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BROADLINK.LEARN_MODE_ERROR,
+      type: WEBSOCKET_MESSAGE_TYPES.BROADLINK.CANCEL_LEARN_MODE_ERROR,
     });
   } else {
-    peripheral.learnCode((noVal, payload) => {
-      this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
-        type: WEBSOCKET_MESSAGE_TYPES.BROADLINK.LEARN_MODE_SUCCESS,
-        payload: {
-          code: payload.toString('hex'),
-        },
-      });
+    peripheral.cancelLearnCode();
+    this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
+      type: WEBSOCKET_MESSAGE_TYPES.BROADLINK.CANCEL_LEARN_MODE_SUCCESS,
     });
   }
 }
 
 module.exports = {
-  learn,
+  cancelLearn,
 };
