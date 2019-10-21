@@ -36,7 +36,7 @@ module.exports = function BroadlinkController(broadlinkManager) {
    */
   async function send(req, res) {
     const { code, peripheral } = req.body;
-    await broadlinkManager.send(peripheral.mac, code);
+    await broadlinkManager.send(peripheral, code);
     res.json({ send: true });
   }
 

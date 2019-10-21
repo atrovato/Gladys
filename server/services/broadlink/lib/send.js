@@ -10,6 +10,7 @@ const logger = require('../../../utils/logger');
  */
 function send(peripheralIdentifier, code) {
   logger.debug(`Broalink sending on ${peripheralIdentifier}`);
+  logger.debug(this.broadlinkDevices);
   const peripheral = this.broadlinkDevices[peripheralIdentifier];
 
   if (!peripheral) {
@@ -24,7 +25,8 @@ function send(peripheralIdentifier, code) {
       type: WEBSOCKET_MESSAGE_TYPES.BROADLINK.SEND_MODE_ERROR,
     });
   } else {
-    peripheral.sendData(code);
+    const bufferCode = Buffer.from(code, 'hex');
+    peripheral.sendData(bufferCode);
     this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
       type: WEBSOCKET_MESSAGE_TYPES.BROADLINK.SEND_MODE_SUCCESS,
     });

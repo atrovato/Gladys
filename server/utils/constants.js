@@ -224,6 +224,7 @@ const DEVICE_FEATURE_CATEGORIES = {
   ACCESS_CONTROl: 'access-control',
   CUBE: 'cube',
   BUTTON: 'button',
+  REMOTE: 'remote',
   UNKNOWN: 'unknown',
 };
 
@@ -276,6 +277,9 @@ const DEVICE_FEATURE_TYPES = {
   },
   BUTTON: {
     CLICK: 'click',
+  },
+  REMOTE: {
+    BUTTON: 'button',
   },
   UNKNOWN: {
     UNKNOWN: 'unknown',

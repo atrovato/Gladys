@@ -1,6 +1,7 @@
 import { Text, Localizer } from 'preact-i18n';
 import { Component } from 'preact';
 import cx from 'classnames';
+import { Link } from 'preact-router/match';
 import { RequestStatus } from '../../../../../utils/consts';
 
 class RemoteBox extends Component {
@@ -9,7 +10,7 @@ class RemoteBox extends Component {
       loading: true
     });
     try {
-      await this.props.saveDevice(this.props.cameraIndex);
+      await this.props.saveDevice(this.props.remote, this.props.remoteIndex);
       this.setState({
         saveError: null
       });
@@ -22,12 +23,12 @@ class RemoteBox extends Component {
       loading: false
     });
   };
-  deleteDevice = async () => {
+  deleteRemote = async () => {
     this.setState({
       loading: true
     });
     try {
-      await this.props.deleteDevice(this.props.cameraIndex);
+      await this.props.deleteDevice(this.props.remote, this.props.remoteIndex);
     } catch (e) {
       this.setState({
         error: RequestStatus.Error
@@ -105,6 +106,12 @@ class RemoteBox extends Component {
                   <button onClick={this.deleteRemote} class="btn btn-danger">
                     <Text id="integration.broadlink.remote.deleteButton" />
                   </button>
+
+                  <Link href={`/dashboard/integration/device/broadlink/edit/${props.remote.selector}`}>
+                    <button class="btn btn-secondary float-right">
+                      <Text id="integration.mqtt.device.editButton" />
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
