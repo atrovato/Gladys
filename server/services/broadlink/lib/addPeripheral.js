@@ -35,15 +35,9 @@ function addPeripheral(peripheralInfo) {
     address: peripheralInfo.address,
     mac: peripheralInfo.mac.toString('hex'),
     canLearn: !!broadlinkDevice.learnCode,
-    hasTemperatureSensor: !!broadlinkDevice.getTemperature,
-    ready: false,
   };
   this.peripherals[peripheral.mac] = peripheral;
   this.broadlinkDevices[peripheral.mac] = broadlinkDevice;
-
-  broadlinkDevice.on('ready', () => {
-    this.peripherals[peripheral.mac].ready = true;
-  });
 }
 
 module.exports = {
