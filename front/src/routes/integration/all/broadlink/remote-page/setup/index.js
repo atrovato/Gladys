@@ -103,8 +103,8 @@ class BroadlinkDeviceSetupPage extends Component {
           name,
           external_id: externalId,
           selector: externalId,
-          category: DEVICE_FEATURE_CATEGORIES.BUTTON,
-          type: DEVICE_FEATURE_TYPES.BUTTON.CLICK,
+          category: DEVICE_FEATURE_CATEGORIES.REMOTE,
+          type: DEVICE_FEATURE_TYPES.REMOTE.BUTTON,
           read_only: true,
           keep_history: false,
           has_feedback: false,
@@ -125,6 +125,18 @@ class BroadlinkDeviceSetupPage extends Component {
     }
   }
 
+  testButton(button) {
+    try {
+      this.props.httpClient.post('/api/v1/service/broadlink/send', {
+        peripheral: this.state.selectedModel.mac,
+        code: button.code
+      });
+    } catch (e) {
+      // Nothing to do
+      console.log(e);
+    }
+  }
+
   constructor(props) {
     super(props);
 
@@ -141,6 +153,7 @@ class BroadlinkDeviceSetupPage extends Component {
     this.updateButton = this.updateButton.bind(this);
     this.deleteButton = this.deleteButton.bind(this);
     this.saveDevice = this.saveDevice.bind(this);
+    this.testButton = this.testButton.bind(this);
   }
 
   async componentWillMount() {
@@ -222,6 +235,7 @@ class BroadlinkDeviceSetupPage extends Component {
           updateButton={this.updateButton}
           deleteButton={this.deleteButton}
           saveDevice={this.saveDevice}
+          testButton={this.testButton}
         />
       </BroadlinkPage>
     );

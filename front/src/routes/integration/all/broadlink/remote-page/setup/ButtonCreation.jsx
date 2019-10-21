@@ -62,16 +62,25 @@ class ButtonCreation extends Component {
           <label class="form-label" for="buttonCode">
             <Text id="integration.broadlink.setup.buttonCodeLabel" />
           </label>
-          <Localizer>
-            <textarea
-              type="text"
-              id="buttonCode"
-              value={props.buttonCreation.code}
-              onInput={this.updateButtonCode}
-              class="form-control"
-              placeholder={<Text id="integration.broadlink.setup.buttonCodePlaceholder" />}
-            />
-          </Localizer>
+          <div class="d-flex justify-content-between btn-group">
+            <Localizer>
+              <textarea
+                type="text"
+                id="buttonCode"
+                value={props.buttonCreation.code}
+                onInput={this.updateButtonCode}
+                class="form-control"
+                placeholder={<Text id="integration.broadlink.setup.buttonCodePlaceholder" />}
+              />
+            </Localizer>
+            <button
+              onClick={e => props.testButton(this.props.buttonCreation)}
+              disabled={!this.props.buttonCreation.code || this.props.buttonCreation.code.length === 0}
+              class={`btn btn-primary d-flex align-items-center px-5 ${style.iconTrash}`}
+            >
+              <i class="fe fe-play" />
+            </button>
+          </div>
         </div>
 
         <div class="form-group">

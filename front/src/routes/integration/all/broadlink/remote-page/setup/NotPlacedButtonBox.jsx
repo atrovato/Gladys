@@ -52,6 +52,15 @@ class NotPlacedButtonBox extends Component {
     return (
       <div class="d-flex justify-content-between btn-group">
         <DropTarget
+          onDropData={props.testButton}
+          dropTargetClass={`btn btn-primary d-flex align-items-center px-5 ${style.iconTrash}`}
+          dropTargetDisabledClass="disabled"
+          currentDragItem={dragData}
+          accepts={['REMOTE_BUTTON']}
+        >
+          <i class="fe fe-play" />
+        </DropTarget>
+        <DropTarget
           onDropData={this.unplaceButton}
           dropTargetClass={`flex-fill d-flex border align-content-start flex-wrap ${style.iconContainer} ${
             style.iconContainerSmall
