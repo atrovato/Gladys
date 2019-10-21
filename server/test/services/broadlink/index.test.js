@@ -4,7 +4,7 @@ const { assert } = sinon;
 const proxyquire = require('proxyquire').noCallThru();
 const { MockedBroadlinkClient } = require('./mocks.test');
 
-const BroadlinkService = proxyquire('../../../services/broadlink/index', {
+const BroadlinkService = proxyquire('../../../services/broadlink', {
   'broadlink-js': MockedBroadlinkClient,
 });
 
