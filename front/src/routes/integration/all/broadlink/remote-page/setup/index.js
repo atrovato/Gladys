@@ -6,7 +6,6 @@ import integrationConfig from '../../../../../../config/integrations';
 import uuid from 'uuid';
 import update from 'immutability-helper';
 import RemoteSetupTab from './RemoteSetupTab';
-import { DEVICE_FEATURE_CATEGORIES, DEVICE_FEATURE_TYPES } from '../../../../../../../../server/utils/constants';
 import { route } from 'preact-router';
 
 @connect(
@@ -14,6 +13,10 @@ import { route } from 'preact-router';
   actions
 )
 class BroadlinkDeviceSetupPage extends Component {
+  updateState(newState) {
+    this.setState(newState);
+  }
+
   updateDeviceProperty(property, value) {
     const device = update(this.state.device, {
       [property]: {
@@ -23,25 +26,6 @@ class BroadlinkDeviceSetupPage extends Component {
 
     this.setState({
       device
-    });
-  }
-
-  updateDeviceModelProperty(model) {
-    this.updateDeviceProperty('model', model.name);
-    this.setState({
-      selectedModel: model
-    });
-  }
-
-  updateButtonCreationProperty(property, value) {
-    const buttonCreation = update(this.state.buttonCreation, {
-      [property]: {
-        $set: value
-      }
-    });
-
-    this.setState({
-      buttonCreation
     });
   }
 
@@ -71,46 +55,30 @@ class BroadlinkDeviceSetupPage extends Component {
     });
   }
 
-  createPendingButton() {
-    const { buttonCreation } = this.state;
-    buttonCreation.id = uuid.v4();
-    buttonCreation.type = 'REMOTE_BUTTON';
-
-    const buttons = update(this.state.buttons, {
-      $push: [buttonCreation]
-    });
-
-    this.setState({
-      buttonCreation: {},
-      buttons
-    });
-  }
-
   async saveDevice() {
     this.setState({
       loading: true
     });
 
-    const device = { ...this.state.device };
+    const { device, remoteType } = this.state;
     device.features = this.state.buttons
-      .filter(button => button.position)
+      .filter(button => button.code)
       .map(button => {
-        const { id, name, code, icon, position } = button;
-        const externalId = `${device.external_id}:${icon}:${position.x}:${position.y}`;
+        const { id, key } = button;
+        const externalId = `${device.external_id}:${key}`;
 
         return {
           id,
-          name,
+          name: key,
           external_id: externalId,
           selector: externalId,
-          category: DEVICE_FEATURE_CATEGORIES.REMOTE,
-          type: DEVICE_FEATURE_TYPES.REMOTE.BUTTON,
+          category: remoteType,
+          type: key,
           read_only: true,
           keep_history: false,
           has_feedback: false,
           min: 0,
-          max: 0,
-          last_value_string: code
+          max: 0
         };
       });
 
@@ -133,8 +101,13 @@ class BroadlinkDeviceSetupPage extends Component {
       });
     } catch (e) {
       // Nothing to do
-      console.log(e);
     }
+  }
+
+  selectButton(value) {
+    this.setState({
+      selectedButton: value
+    });
   }
 
   constructor(props) {
@@ -142,18 +115,16 @@ class BroadlinkDeviceSetupPage extends Component {
 
     this.state = {
       loading: true,
-      buttons: [],
-      buttonCreation: {}
+      buttons: []
     };
 
+    this.updateState = this.updateState.bind(this);
     this.updateDeviceProperty = this.updateDeviceProperty.bind(this);
-    this.updateDeviceModelProperty = this.updateDeviceModelProperty.bind(this);
-    this.updateButtonCreationProperty = this.updateButtonCreationProperty.bind(this);
-    this.createPendingButton = this.createPendingButton.bind(this);
     this.updateButton = this.updateButton.bind(this);
     this.deleteButton = this.deleteButton.bind(this);
     this.saveDevice = this.saveDevice.bind(this);
     this.testButton = this.testButton.bind(this);
+    this.selectButton = this.selectButton.bind(this);
   }
 
   async componentWillMount() {
@@ -214,9 +185,8 @@ class BroadlinkDeviceSetupPage extends Component {
     }
 
     this.setState({
-      device,
       loading: false,
-      buttonCreation: {},
+      device,
       buttons,
       selectedModel
     });
@@ -226,16 +196,15 @@ class BroadlinkDeviceSetupPage extends Component {
     return (
       <BroadlinkPage integration={integrationConfig[props.user.language].broadlink}>
         <RemoteSetupTab
-          {...props}
           {...state}
+          updateState={this.updateState}
           updateDeviceProperty={this.updateDeviceProperty}
           updateDeviceModelProperty={this.updateDeviceModelProperty}
-          updateButtonCreationProperty={this.updateButtonCreationProperty}
-          createPendingButton={this.createPendingButton}
           updateButton={this.updateButton}
           deleteButton={this.deleteButton}
           saveDevice={this.saveDevice}
           testButton={this.testButton}
+          selectButton={this.selectButton}
         />
       </BroadlinkPage>
     );

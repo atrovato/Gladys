@@ -1,5 +1,7 @@
 import { Component } from 'preact';
 import { Text, Localizer } from 'preact-i18n';
+import RemoteControlSelector from '../../../../../../components/remote-control/RemoteControlSelector';
+import RemoteControlLayout from '../../../../../../components/remote-control/RemoteControlLayout';
 
 class RemoteCreation extends Component {
   updateDeviceName = e => {
@@ -13,7 +15,22 @@ class RemoteCreation extends Component {
   updateDeviceModel = e => {
     const peripheralName = e.target.value;
     const selectedModel = this.props.broadlinkPeripherals.find(p => p.name === peripheralName);
-    this.props.updateDeviceModelProperty(selectedModel);
+    const newState = {
+      selectedModel
+    };
+    this.props.updateState(newState);
+  };
+
+  updateRemoteTypeAndButtons = (remoteType, buttonByFeature) => {
+    const buttons = Object.keys(buttonByFeature).map(key => {
+      const button = { ...buttonByFeature[key] };
+      button.feature = key;
+      return button;
+    });
+    this.props.updateState({
+      remoteType,
+      buttons
+    });
   };
 
   render(props) {
@@ -34,6 +51,7 @@ class RemoteCreation extends Component {
             />
           </Localizer>
         </div>
+
         <div class="form-group">
           <label class="form-label" for="remoteRoom">
             <Text id="integration.broadlink.remote.roomLabel" />
@@ -54,6 +72,7 @@ class RemoteCreation extends Component {
               ))}
           </select>
         </div>
+
         <div class="form-group">
           <label class="form-label" for="remotePeripheral">
             <Text id="integration.broadlink.setup.peripheralLabel" />
@@ -69,6 +88,23 @@ class RemoteCreation extends Component {
                 </option>
               ))}
           </select>
+        </div>
+
+        <RemoteControlSelector
+          remoteType={props.remoteType}
+          updateRemoteTypeAndButtons={this.updateRemoteTypeAndButtons}
+        />
+
+        <div class="row">
+          <div class="col-sm-4">
+            <RemoteControlLayout
+              remoteType={props.remoteType}
+              remoteName={props.device.name}
+              onClick={props.selectButton}
+            />
+          </div>
+
+          <div class="col-sm-8">{props.selectedButton}</div>
         </div>
       </div>
     );
