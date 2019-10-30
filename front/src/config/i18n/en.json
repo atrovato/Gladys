@@ -430,25 +430,7 @@
         "peripheralNotFound": "Peripheral not available.",
         "peripheralNotLearn": "Peripheral is not able to learn code.",
         "cancelLearnFailed": "Failed to cancel learning mode.",
-        "learnFailed": "Failed to enter in learn mode.",
-        "addButtonLabel": "Create remote button",
-        "existingButtons": "Already created buttons",
-        "buttonCreation": "Add new button",
-        "buttonNameLabel": "Button name",
-        "buttonNamePlaceholder": "Ex: Power, Channel Up...",
-        "buttonCodeLabel": "IR code",
-        "buttonCodePlaceholder": "Enter infrared code",
-        "buttonIconLabel": "Select an icon",
-        "buttonPlacementTitle": "Place button on remote",
-        "buttonNotPlacedTitle": "Not placed buttons",
-        "remoteGrid": "Remote grid",
-        "addColumn": "Add column",
-        "addRow": "Add row",
-        "resize": "Resize",
-        "step": {
-          "addButton": "Add buttons",
-          "placeButton": "Place buttons"
-        }
+        "learnFailed": "Failed to enter in learn mode."
       }
     },
     "xiaomi": {
@@ -726,6 +708,9 @@
     "celsius": "Celsius (°C)",
     "fahrenheit": "Fahrenheit (°F)"
   },
+  "deviceCategory": {
+    "television": "Television"
+  },
   "deviceFeatureCategory": {
     "light": {
       "binary": "Light On/Off",
@@ -802,8 +787,54 @@
       "acceleration-z": "Acceleration Z",
       "bed-activity": "Bed Activity"
     },
+    "television": {
+      "power-button": "Power",
+      "source-button": "Source",
+      "channel-0-button": "Channel 0",
+      "channel-1-button": "Channel 1",
+      "channel-2-button": "Channel 2",
+      "channel-3-button": "Channel 3",
+      "channel-4-button": "Channel 4",
+      "channel-5-button": "Channel 5",
+      "channel-6-button": "Channel 6",
+      "channel-7-button": "Channel 7",
+      "channel-8-button": "Channel 8",
+      "channel-9-button": "Channel 9",
+      "guide-button": "Guide",
+      "menu-button": "Menu",
+      "volume-up-button": "Volume up",
+      "volume-mute-button": "Mute",
+      "volume-down-button": "Volume down",
+      "channel-up-button": "Channel up",
+      "channel-previous-button": "Previous channel",
+      "channel-down-button": "Channel down",
+      "tools-button": "Tools",
+      "info-button": "Info",
+      "return-button": "Return",
+      "exit-button": "Exit",
+      "up-button": "Up",
+      "down-button": "Down",
+      "left-button": "Left",
+      "right-button": "Right",
+      "enter-button": "Enter",
+      "red-button": "Red",
+      "green-button": "Green",
+      "yellow-button": "Yellow",
+      "blue-button": "Blue",
+      "rewind-button": "Rewind",
+      "forward-button": "Forward",
+      "play-button": "Play",
+      "pause-button": "Pause",
+      "stop-button": "Stop",
+      "record-button": "Record"
+    },
     "unknown": {
       "unknown": "Unknown"
+    }
+  },
+  "remoteControl": {
+    "creation": {
+      "selectTypeLabel": "Type of device to control"
     }
   },
   "errorPage": {
