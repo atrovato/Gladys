@@ -1,5 +1,5 @@
 const { isRemote, isMesh, isColor } = require('../lib/awox.utils');
-const { DEVICE_FEATURE_CATEGORIES, DEVICE_FEATURE_TYPES } = require('../../../../../utils/constants');
+const { DEVICE_FEATURE_CATEGORIES, DEVICE_FEATURE_TYPES } = require('../../../utils/constants');
 
 module.exports = {
   name: 'smlc',

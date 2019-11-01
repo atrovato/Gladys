@@ -1,10 +1,9 @@
 const { isRemote, isMesh, isWhite } = require('../lib/awox.utils');
-const { connectAndSend } = require('../../../lib/utils/connectAndSend');
-const { DEVICE_FEATURE_CATEGORIES, DEVICE_FEATURE_TYPES } = require('../../../../../utils/constants');
+const { DEVICE_FEATURE_CATEGORIES, DEVICE_FEATURE_TYPES } = require('../../../utils/constants');
 
 module.exports = {
-  name: 'smlw',
-  matches: (deviceModel, deviceType) => !isRemote(deviceModel) && isWhite(deviceType) && !isMesh(deviceModel),
+  name: 'smlwm',
+  matches: (deviceModel, deviceType) => !isRemote(deviceModel) && isWhite(deviceType) && isMesh(deviceModel),
   device: {
     features: [
       {
@@ -34,26 +33,15 @@ module.exports = {
         read_only: false,
         has_feedback: true,
       },
+      {
+        category: DEVICE_FEATURE_CATEGORIES.UNKNOWN,
+        type: DEVICE_FEATURE_TYPES.UNKNOWN.UNKNOWN,
+        unit: '',
+        min: 0,
+        max: 3,
+        read_only: true,
+        has_feedback: true,
+      },
     ],
-  },
-  action: {
-    turnOn: (peripheral, callback) => {
-      connectAndSend(
-        peripheral,
-        'fff0',
-        'fff1',
-        [0xaa, 0x0a, 0xfc, 0x3a, 0x86, 0x01, 0x0a, 0x01, 0x01, 0x00, 0x28, 0x0d],
-        callback,
-      );
-    },
-    turnOff: (peripheral, callback) => {
-      connectAndSend(
-        peripheral,
-        'fff0',
-        'fff1',
-        [0xaa, 0x0a, 0xfc, 0x3a, 0x86, 0x01, 0x0a, 0x01, 0x00, 0x01, 0x28, 0x0d],
-        callback,
-      );
-    },
   },
 };

@@ -1,6 +1,4 @@
 // DEVICE IMPL
-const nutDevice = require('../devices/nut');
-const awoxDevice = require('../devices/awox');
 const GenericDevice = require('../devices');
 
 // EVENTS
@@ -40,8 +38,6 @@ const BluetoothManager = function BluetoothManager(noble, gladys, serviceId) {
 
   // All types of device managed by implementations
   this.availableBrands = new Map();
-  this.availableBrands.set('nut', new GenericDevice(nutDevice));
-  this.availableBrands.set('awox', new GenericDevice(awoxDevice));
 };
 
 // EVENTS

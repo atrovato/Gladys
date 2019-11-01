@@ -1,5 +1,5 @@
-const { battery } = require('../../generic/generic.pollFeatures');
-const { DEVICE_FEATURE_CATEGORIES, DEVICE_FEATURE_TYPES } = require('../../../../../utils/constants');
+const { battery } = require('../../bluetooth/devices/generic/generic.pollFeatures');
+const { DEVICE_FEATURE_CATEGORIES, DEVICE_FEATURE_TYPES } = require('../../../utils/constants');
 
 module.exports = {
   name: 'tracker',

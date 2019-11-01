@@ -1,13 +1,13 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const awox = require('../../../../../services/bluetooth/devices/awox');
+const awox = require('../../../services/awox');
 
-const remote = require('../../../../../services/bluetooth/devices/awox/models/awox.remote.mesh');
-const smlc = require('../../../../../services/bluetooth/devices/awox/models/awox.smlc');
-const smlcm = require('../../../../../services/bluetooth/devices/awox/models/awox.smlc.mesh');
-const smlw = require('../../../../../services/bluetooth/devices/awox/models/awox.smlw');
-const smlwm = require('../../../../../services/bluetooth/devices/awox/models/awox.smlw.mesh');
+const remote = require('../../../services/awox/models/awox.remote.mesh');
+const smlc = require('../../../services/awox/models/awox.smlc');
+const smlcm = require('../../../services/awox/models/awox.smlc.mesh');
+const smlw = require('../../../services/awox/models/awox.smlw');
+const smlwm = require('../../../services/awox/models/awox.smlw.mesh');
 
 describe('Bluetooth AwoX -> getMatchingModels', () => {
   beforeEach(() => {

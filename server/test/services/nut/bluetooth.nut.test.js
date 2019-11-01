@@ -1,8 +1,8 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const nut = require('../../../../../services/bluetooth/devices/nut');
-const nutDevice = require('../../../../../services/bluetooth/devices/nut/models/nut.tracker');
+const nut = require('../../../services/nut');
+const nutDevice = require('../../../services/nut/models/nut.tracker');
 
 describe('Bluetooth Nut -> getMatchingModels', () => {
   beforeEach(() => {

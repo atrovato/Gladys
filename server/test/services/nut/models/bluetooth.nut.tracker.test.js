@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const model = require('../../../../../../services/bluetooth/devices/nut/models/nut.tracker');
+const model = require('../../../../services/nut/models/nut.tracker');
 
 describe('Bluetooth model Tracker', () => {
   beforeEach(() => {

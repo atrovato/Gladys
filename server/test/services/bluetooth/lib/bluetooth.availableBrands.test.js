@@ -218,9 +218,7 @@ describe('Bluetooth : verify all available brands', () => {
 
           if (feature.min >= feature.max) {
             assert.fail(
-              `Feature min (${feature.min}) should be lower than max (${
-                feature.max
-              }) for ${key} ${featureName} feature at position ${fIndex} (${modelName} model at position ${index})`,
+              `Feature min (${feature.min}) should be lower than max (${feature.max}) for ${key} ${featureName} feature at position ${fIndex} (${modelName} model at position ${index})`,
             );
           }
         });
