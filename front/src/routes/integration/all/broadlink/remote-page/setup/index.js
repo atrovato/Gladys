@@ -7,6 +7,7 @@ import uuid from 'uuid';
 import update from 'immutability-helper';
 import RemoteSetupTab from './RemoteSetupTab';
 import { route } from 'preact-router';
+import ButtonOptions from '../../../../../../components/remote-control/templates';
 
 @connect(
   'session,user,httpClient,currentIntegration,houses,broadlinkPeripherals',
@@ -44,15 +45,21 @@ class BroadlinkDeviceSetupPage extends Component {
       loading: true
     });
 
-    const { device, remoteType, buttons } = this.state;
+    const { device, buttons } = this.state;
+    device.params = [];
     device.features = Object.keys(buttons).map(key => {
       const externalId = `${device.external_id}:${key}`;
+
+      device.params.push({
+        name: `code_${key}`,
+        value: buttons[key]
+      });
 
       return {
         name: key,
         external_id: externalId,
         selector: externalId,
-        category: remoteType,
+        category: device.model,
         type: key,
         read_only: false,
         keep_history: false,
@@ -92,11 +99,53 @@ class BroadlinkDeviceSetupPage extends Component {
   }
 
   storeButtonCode(code) {
-    const { buttons, selectedButton } = this.state;
-    buttons[selectedButton] = code;
+    let { selectedButton, learnAllMode } = this.state;
+
+    const buttons = update(this.state.buttons, {
+      [selectedButton]: {
+        $set: code
+      }
+    });
 
     this.setState({
       buttons
+    });
+
+    if (learnAllMode) {
+      const toLearn = update(this.state.toLearn, {
+        $splice: [[0, 1]]
+      });
+
+      learnAllMode = toLearn.length > 0;
+
+      if (learnAllMode) {
+        selectedButton = toLearn[0];
+      } else {
+        selectedButton = undefined;
+      }
+
+      this.setState({
+        toLearn,
+        learnAllMode,
+        selectedButton
+      });
+    }
+  }
+
+  learnAll() {
+    const buttons = Object.keys(ButtonOptions[this.state.device.model]);
+    this.setState({
+      learnAllMode: true,
+      toLearn: buttons,
+      selectedButton: buttons[0]
+    });
+  }
+
+  quitLearnMode() {
+    this.setState({
+      learnAllMode: false,
+      toLearn: [],
+      selectedButton: undefined
     });
   }
 
@@ -115,6 +164,8 @@ class BroadlinkDeviceSetupPage extends Component {
     this.testSelectedButton = this.testSelectedButton.bind(this);
     this.selectButton = this.selectButton.bind(this);
     this.storeButtonCode = this.storeButtonCode.bind(this);
+    this.learnAll = this.learnAll.bind(this);
+    this.quitLearnMode = this.quitLearnMode.bind(this);
   }
 
   async componentWillMount() {
@@ -196,6 +247,8 @@ class BroadlinkDeviceSetupPage extends Component {
           testSelectedButton={this.testSelectedButton}
           selectButton={this.selectButton}
           storeButtonCode={this.storeButtonCode}
+          learnAll={this.learnAll}
+          quitLearnMode={this.quitLearnMode}
         />
       </BroadlinkPage>
     );

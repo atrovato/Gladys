@@ -32,6 +32,38 @@ class LearningMode extends Component {
     }
   };
 
+  decrementTimeRemaining() {
+    const newTimeLeft = this.state.timeLeft - 1;
+    if (newTimeLeft > 0) {
+      this.setState({
+        timeLeft: newTimeLeft
+      });
+    } else {
+      this.activateLearnMode();
+      clearInterval(this.timer);
+      this.setState({
+        timeLeft: undefined
+      });
+    }
+  }
+
+  enterLearnAllMode(start) {
+    if (start) {
+      if (!this.state.active && !this.state.timeLeft) {
+        this.setState({ timeLeft: 3 });
+        this.timer = setInterval(() => {
+          this.decrementTimeRemaining();
+        }, 1000);
+      }
+    } else if (this.timer) {
+      clearInterval(this.timer);
+    }
+  }
+
+  componentDidMount() {
+    this.enterLearnAllMode(this.props.learnAllMode);
+  }
+
   constructor(props) {
     super(props);
 
@@ -41,10 +73,12 @@ class LearningMode extends Component {
 
     this.activateLearnMode = this.activateLearnMode.bind(this);
     this.cancelLearnMode = this.cancelLearnMode.bind(this);
+    this.enterLearnAllMode = this.enterLearnAllMode.bind(this);
+    this.decrementTimeRemaining = this.decrementTimeRemaining.bind(this);
   }
 
   componentWillMount() {
-    const { session, storeButtonCode } = this.props;
+    const { session, storeButtonCode, learnAllMode } = this.props;
     session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.NO_PERIPHERAL, payload => {
       if (payload.action === 'learnMode') {
         this.setState({
@@ -68,6 +102,7 @@ class LearningMode extends Component {
       });
 
       storeButtonCode(payload.code);
+      this.enterLearnAllMode(learnAllMode);
     });
 
     // Cancel learn mode
@@ -84,7 +119,7 @@ class LearningMode extends Component {
     });
   }
 
-  render({}, state) {
+  render({ learnAllMode }, state) {
     return (
       <div class="mt-5">
         <div class="text-center">
@@ -93,9 +128,14 @@ class LearningMode extends Component {
               {<Text id="integration.broadlink.setup.learningModeInProgress" />}
             </button>
           )}
-          {!state.active && (
+          {!state.timeLeft && !state.active && (
             <button onClick={this.activateLearnMode} class="btn btn-outline-primary btn-sm">
               {<Text id="integration.broadlink.setup.learnModeTitle" />}
+            </button>
+          )}
+          {state.timeLeft && !state.active && (
+            <button disabled={true} class="btn btn-outline-primary btn-sm">
+              {<Text id="integration.broadlink.setup.learnAllModeLabel" fields={{ timeLeft: state.timeLeft }} />}
             </button>
           )}
 
