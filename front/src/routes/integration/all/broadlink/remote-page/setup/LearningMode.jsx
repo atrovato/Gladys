@@ -44,7 +44,8 @@ class LearningMode extends Component {
   }
 
   componentWillMount() {
-    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.NO_PERIPHERAL, payload => {
+    const { session, storeButtonCode } = this.props;
+    session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.NO_PERIPHERAL, payload => {
       if (payload.action === 'learnMode') {
         this.setState({
           errorKey: 'integration.broadlink.setup.peripheralNotFound',
@@ -54,28 +55,28 @@ class LearningMode extends Component {
     });
 
     // Entering learn mode
-    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.LEARN_MODE_ERROR, () =>
+    session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.LEARN_MODE_ERROR, () =>
       this.setState({
         errorKey: 'integration.broadlink.setup.peripheralNotLearn',
         active: false
       })
     );
-    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.LEARN_MODE_SUCCESS, payload => {
+    session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.LEARN_MODE_SUCCESS, payload => {
       this.setState({
         errorKey: null,
         active: false
       });
 
-      this.props.updateButtonCreationProperty('code', payload.code);
+      storeButtonCode(payload.code);
     });
 
     // Cancel learn mode
-    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.CANCEL_LEARN_MODE_ERROR, () =>
+    session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.CANCEL_LEARN_MODE_ERROR, () =>
       this.setState({
         errorKey: 'integration.broadlink.setup.cancelLearnFailed'
       })
     );
-    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.CANCEL_LEARN_MODE_SUCCESS, () => {
+    session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.CANCEL_LEARN_MODE_SUCCESS, () => {
       this.setState({
         errorKey: null,
         active: false

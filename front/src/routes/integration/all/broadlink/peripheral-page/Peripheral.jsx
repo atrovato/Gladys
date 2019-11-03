@@ -39,6 +39,12 @@ class BroadlinkPeripheralBox extends Component {
               </label>
               <input id="ipAddress" type="text" class="form-control" disabled={true} value={props.peripheral.address} />
             </div>
+            <div class="form-group">
+              <label class="form-label" for="macAddress">
+                <Text id="integration.broadlink.peripheral.macAddressLabel" />
+              </label>
+              <input id="macAddress" type="text" class="form-control" disabled={true} value={props.peripheral.mac} />
+            </div>
           </div>
         </div>
       </div>

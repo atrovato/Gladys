@@ -55,19 +55,19 @@ export default {
   },
   [DEVICE_FEATURE_TYPES.TELEVISION.LEFT_BUTTON]: {
     icon: 'chevron-left',
-    buttonClass: 'btn-outline-secondary text-white rounded-circle'
+    buttonClass: 'btn-outline-secondary active rounded-circle border-0'
   },
   [DEVICE_FEATURE_TYPES.TELEVISION.RIGHT_BUTTON]: {
     icon: 'chevron-right',
-    buttonClass: 'btn-outline-secondary text-white rounded-circle'
+    buttonClass: 'btn-outline-secondary active rounded-circle border-0'
   },
   [DEVICE_FEATURE_TYPES.TELEVISION.UP_BUTTON]: {
     icon: 'chevron-up',
-    buttonClass: 'btn-outline-secondary text-white rounded-circle'
+    buttonClass: 'btn-outline-secondary active rounded-circle border-0'
   },
   [DEVICE_FEATURE_TYPES.TELEVISION.DOWN_BUTTON]: {
     icon: 'chevron-down',
-    buttonClass: 'btn-outline-secondary text-white rounded-circle'
+    buttonClass: 'btn-outline-secondary active rounded-circle border-0'
   },
   [DEVICE_FEATURE_TYPES.TELEVISION.CHANNEL_UP_BUTTON]: {
     icon: 'chevron-up',

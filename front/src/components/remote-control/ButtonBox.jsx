@@ -8,7 +8,7 @@ const buttonClick = (onClickFunc, featureName) => {
   }
 };
 
-const ButtonBox = ({ category, featureName, buttonProps, onClick, disabled }) => {
+const ButtonBox = ({ category, featureName, buttonProps, onClick, editionMode, edited }) => {
   const { icon, text, customIconStyle, buttonClass } = buttonProps || { text: ' ' };
 
   if (!buttonProps || (!icon && (!text || text.length > 1))) {
@@ -18,9 +18,10 @@ const ButtonBox = ({ category, featureName, buttonProps, onClick, disabled }) =>
   return (
     <Localizer>
       <button
-        class={cx('btn', buttonClass, style.iconDiv)}
+        class={cx('btn', buttonClass, style.iconDiv, {
+          [style.editionMode]: editionMode && !edited
+        })}
         onClick={() => buttonClick(onClick, featureName)}
-        disabled={disabled}
         title={<Text id={`deviceFeatureCategory.${category}.${featureName}`}>{featureName}</Text>}
       >
         <i
