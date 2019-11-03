@@ -29,29 +29,13 @@ class BroadlinkDeviceSetupPage extends Component {
     });
   }
 
-  updateButton(button) {
-    const buttonIndex = this.state.buttons.findIndex(b => b.id === button.id);
-
-    const buttons = update(this.state.buttons, {
-      [buttonIndex]: {
-        $set: button
-      }
-    });
+  deleteButton() {
+    const { buttons, selectedButton } = this.state;
+    delete buttons[selectedButton];
 
     this.setState({
-      buttons
-    });
-  }
-
-  deleteButton(button) {
-    const buttonIndex = this.state.buttons.findIndex(b => b.id === button.id);
-
-    const buttons = update(this.state.buttons, {
-      $splice: [[buttonIndex, 1]]
-    });
-
-    this.setState({
-      buttons
+      buttons,
+      selectedButton: undefined
     });
   }
 
@@ -60,27 +44,23 @@ class BroadlinkDeviceSetupPage extends Component {
       loading: true
     });
 
-    const { device, remoteType } = this.state;
-    device.features = this.state.buttons
-      .filter(button => button.code)
-      .map(button => {
-        const { id, key } = button;
-        const externalId = `${device.external_id}:${key}`;
+    const { device, remoteType, buttons } = this.state;
+    device.features = Object.keys(buttons).map(key => {
+      const externalId = `${device.external_id}:${key}`;
 
-        return {
-          id,
-          name: key,
-          external_id: externalId,
-          selector: externalId,
-          category: remoteType,
-          type: key,
-          read_only: true,
-          keep_history: false,
-          has_feedback: false,
-          min: 0,
-          max: 0
-        };
-      });
+      return {
+        name: key,
+        external_id: externalId,
+        selector: externalId,
+        category: remoteType,
+        type: key,
+        read_only: false,
+        keep_history: false,
+        has_feedback: false,
+        min: 0,
+        max: 0
+      };
+    });
 
     try {
       await this.props.httpClient.post('/api/v1/device', device);
@@ -93,11 +73,12 @@ class BroadlinkDeviceSetupPage extends Component {
     }
   }
 
-  testButton(button) {
+  testSelectedButton() {
     try {
+      const { buttons, selectedButton, selectedModel } = this.state;
       this.props.httpClient.post('/api/v1/service/broadlink/send', {
-        peripheral: this.state.selectedModel.mac,
-        code: button.code
+        peripheral: selectedModel.mac,
+        code: buttons[selectedButton]
       });
     } catch (e) {
       // Nothing to do
@@ -110,21 +91,30 @@ class BroadlinkDeviceSetupPage extends Component {
     });
   }
 
+  storeButtonCode(code) {
+    const { buttons, selectedButton } = this.state;
+    buttons[selectedButton] = code;
+
+    this.setState({
+      buttons
+    });
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
       loading: true,
-      buttons: []
+      buttons: {}
     };
 
     this.updateState = this.updateState.bind(this);
     this.updateDeviceProperty = this.updateDeviceProperty.bind(this);
-    this.updateButton = this.updateButton.bind(this);
     this.deleteButton = this.deleteButton.bind(this);
     this.saveDevice = this.saveDevice.bind(this);
-    this.testButton = this.testButton.bind(this);
+    this.testSelectedButton = this.testSelectedButton.bind(this);
     this.selectButton = this.selectButton.bind(this);
+    this.storeButtonCode = this.storeButtonCode.bind(this);
   }
 
   async componentWillMount() {
@@ -149,7 +139,6 @@ class BroadlinkDeviceSetupPage extends Component {
       buttons = [];
 
       if (this.props.broadlinkPeripherals.length === 1) {
-        device.model = this.props.broadlinkPeripherals[0].mac;
         selectedModel = this.props.broadlinkPeripherals[0];
       }
     } else {
@@ -180,6 +169,7 @@ class BroadlinkDeviceSetupPage extends Component {
           };
         });
 
+        // Load select peripheral
         selectedModel = this.props.broadlinkPeripherals.find(p => p.mac === device.model);
       }
     }
@@ -196,15 +186,16 @@ class BroadlinkDeviceSetupPage extends Component {
     return (
       <BroadlinkPage integration={integrationConfig[props.user.language].broadlink}>
         <RemoteSetupTab
+          {...props}
           {...state}
           updateState={this.updateState}
           updateDeviceProperty={this.updateDeviceProperty}
           updateDeviceModelProperty={this.updateDeviceModelProperty}
-          updateButton={this.updateButton}
           deleteButton={this.deleteButton}
           saveDevice={this.saveDevice}
-          testButton={this.testButton}
+          testSelectedButton={this.testSelectedButton}
           selectButton={this.selectButton}
+          storeButtonCode={this.storeButtonCode}
         />
       </BroadlinkPage>
     );

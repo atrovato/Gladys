@@ -1,11 +1,13 @@
 import { DEVICE_FEATURE_CATEGORIES } from '../../../../server/utils/constants';
 import TelevisionRemoteBox from './templates/television/TelevisionRemoteBox';
 
-const RemoteControlLayout = ({ remoteType, remoteName, onClick }) => {
+const RemoteControlLayout = ({ remoteType, remoteName, onClick, editionMode, featureByType }) => {
   let remoteComponent;
   switch (remoteType) {
     case DEVICE_FEATURE_CATEGORIES.TELEVISION: {
-      remoteComponent = <TelevisionRemoteBox onClick={onClick} />;
+      remoteComponent = (
+        <TelevisionRemoteBox onClick={onClick} editionMode={editionMode} featureByType={featureByType} />
+      );
       break;
     }
     default: {

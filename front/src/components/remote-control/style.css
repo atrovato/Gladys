@@ -3,6 +3,14 @@
   border-radius: 5px;
 }
 
+.editionMode {
+  opacity: 0.5;
+}
+
+.editionMode:hover {
+  opacity: 1;
+}
+
 .iconLabel {
   cursor: pointer;
   margin-bottom: 0;
