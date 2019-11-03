@@ -1,9 +1,9 @@
 import { Text } from 'preact-i18n';
-import { RemoteCategories } from '../../utils/remote-control';
+import RemoteCategories from './templates';
 
 const updateType = updateRemoteTypeFunc => e => {
   const { value } = e.target;
-  updateRemoteTypeFunc(value, { ...RemoteCategories[value] });
+  updateRemoteTypeFunc(value);
 };
 
 const RemoteControlSelector = ({ updateRemoteTypeAndButtons, remoteType }) => (

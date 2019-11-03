@@ -524,10 +524,13 @@
         "peripheralNotLearn": "Peripheral is not able to learn code.",
         "cancelLearnFailed": "Failed to cancel learning mode.",
         "learnFailed": "Failed to enter in learn mode.",
-        "selectButtonLabel": "Select a button on the remote control to edit it.",
+        "selectButtonLabel": "Select a button on the remote control or click button bellow.",
         "selectedButtonLabel": "Selected remote button",
         "testLabel": "Test button",
-        "deleteLabel": "Delete button"
+        "deleteLabel": "Delete button",
+        "learnAllLabel": "Learn all buttons",
+        "learnAllModeLabel": "Next learn in {{timeLeft}} secondes...",
+        "quitLearnModeLabel": "Stop learning all buttons"
       }
     },
     "xiaomi": {

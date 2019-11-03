@@ -103,8 +103,15 @@ class RemoteCreation extends Component {
 
             <div class="col-sm-8">
               {!props.selectedButton && (
-                <div class="alert alert-secondary">
-                  <Text id="integration.broadlink.setup.selectButtonLabel" />
+                <div>
+                  <div class="alert alert-secondary">
+                    <Text id="integration.broadlink.setup.selectButtonLabel" />
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <button class="btn btn-primary" onClick={props.learnAll}>
+                      <Text id="integration.broadlink.setup.learnAllLabel" />
+                    </button>
+                  </div>
                 </div>
               )}
               {props.selectedButton && (
@@ -129,25 +136,40 @@ class RemoteCreation extends Component {
 
                   <LearningMode {...props} />
 
-                  <div class="d-flex justify-content-around mt-3">
-                    <button
-                      class="btn btn-success"
-                      onClick={props.testSelectedButton}
-                      disabled={!props.buttons[props.selectedButton]}
-                    >
-                      <Text id="integration.broadlink.setup.testLabel" />
-                      <i class="fe fe-play ml-2" />
-                    </button>
+                  {props.learnAllMode && (
+                    <div class="d-flex justify-content-around mt-3">
+                      <button class="btn btn-danger" onClick={props.quitLearnMode}>
+                        <Text id="integration.broadlink.setup.quitLearnModeLabel" />
+                      </button>
+                    </div>
+                  )}
 
-                    <button
-                      class="btn btn-danger"
-                      onClick={props.deleteButton}
-                      disabled={!props.buttons[props.selectedButton]}
-                    >
-                      <Text id="integration.broadlink.setup.deleteLabel" />
-                      <i class="fe fe-trash-2 ml-2" />
-                    </button>
-                  </div>
+                  {!props.learnAllMode && (
+                    <div class="d-flex justify-content-around mt-3">
+                      <button class="btn btn-warning" onClick={() => props.selectButton()}>
+                        <Text id="integration.broadlink.setup.cancel" />
+                        <i class="fe fe-x ml-2" />
+                      </button>
+
+                      <button
+                        class="btn btn-success"
+                        onClick={props.testSelectedButton}
+                        disabled={!props.buttons[props.selectedButton]}
+                      >
+                        <Text id="integration.broadlink.setup.testLabel" />
+                        <i class="fe fe-play ml-2" />
+                      </button>
+
+                      <button
+                        class="btn btn-danger"
+                        onClick={props.deleteButton}
+                        disabled={!props.buttons[props.selectedButton]}
+                      >
+                        <Text id="integration.broadlink.setup.deleteLabel" />
+                        <i class="fe fe-trash-2 ml-2" />
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
