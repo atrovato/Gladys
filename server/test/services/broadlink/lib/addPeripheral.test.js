@@ -61,18 +61,16 @@ describe('BroadlinkHandler addPeripheral', () => {
 
     broadlinkHandler.addPeripheral(peripheralInfo);
 
-    const expectedPeripherals = {
-      '12ac': {
-        name: peripheralInfo.name,
-        address: peripheralInfo.address,
-        mac: '12ac',
-        canLearn: true,
-      },
-    };
     const expectedDevices = {
       '12ac': new BroadlinkDeviceRM2(),
     };
-    expect(broadlinkHandler.peripherals).to.deep.eq(expectedPeripherals);
+
+    expect(broadlinkHandler.peripherals).to.have.key('12ac');
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('name', peripheralInfo.name);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('address', peripheralInfo.address);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('mac', '12ac');
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('canLearn', true);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('device', undefined);
     expect(broadlinkHandler.broadlinkDevices).to.deep.eq(expectedDevices);
   });
 
@@ -86,18 +84,15 @@ describe('BroadlinkHandler addPeripheral', () => {
 
     broadlinkHandler.addPeripheral(peripheralInfo);
 
-    const expectedPeripherals = {
-      '12ac': {
-        name: peripheralInfo.name,
-        address: peripheralInfo.address,
-        mac: '12ac',
-        canLearn: true,
-      },
-    };
     const expectedDevices = {
       '12ac': new BroadlinkDeviceRM2(),
     };
-    expect(broadlinkHandler.peripherals).to.deep.eq(expectedPeripherals);
+    expect(broadlinkHandler.peripherals).to.have.key('12ac');
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('name', peripheralInfo.name);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('address', peripheralInfo.address);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('mac', '12ac');
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('canLearn', true);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('device', undefined);
     expect(broadlinkHandler.broadlinkDevices).to.deep.eq(expectedDevices);
   });
 
@@ -111,18 +106,17 @@ describe('BroadlinkHandler addPeripheral', () => {
 
     broadlinkHandler.addPeripheral(peripheralInfo);
 
-    const expectedPeripherals = {
-      '12ac': {
-        name: peripheralInfo.name,
-        address: peripheralInfo.address,
-        mac: '12ac',
-        canLearn: false,
-      },
-    };
     const expectedDevices = {
       '12ac': new BroadlinkDeviceSP2(),
     };
-    expect(broadlinkHandler.peripherals).to.deep.eq(expectedPeripherals);
+
+    expect(broadlinkHandler.peripherals).to.have.key('12ac');
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('name', peripheralInfo.name);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('address', peripheralInfo.address);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('mac', '12ac');
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('canLearn', false);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('device');
+    expect(broadlinkHandler.peripherals['12ac'].device).to.not.eq(undefined);
     expect(broadlinkHandler.broadlinkDevices).to.deep.eq(expectedDevices);
   });
 
@@ -136,18 +130,16 @@ describe('BroadlinkHandler addPeripheral', () => {
 
     broadlinkHandler.addPeripheral(peripheralInfo);
 
-    const expectedPeripherals = {
-      '12ac': {
-        name: peripheralInfo.name,
-        address: peripheralInfo.address,
-        mac: '12ac',
-        canLearn: false,
-      },
-    };
     const expectedDevices = {
       '12ac': new BroadlinkDeviceMP1(),
     };
-    expect(broadlinkHandler.peripherals).to.deep.eq(expectedPeripherals);
+    expect(broadlinkHandler.peripherals).to.have.key('12ac');
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('name', peripheralInfo.name);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('address', peripheralInfo.address);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('mac', '12ac');
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('canLearn', false);
+    expect(broadlinkHandler.peripherals['12ac']).to.have.property('device');
+    expect(broadlinkHandler.peripherals['12ac'].device).to.not.eq(undefined);
     expect(broadlinkHandler.broadlinkDevices).to.deep.eq(expectedDevices);
   });
 });

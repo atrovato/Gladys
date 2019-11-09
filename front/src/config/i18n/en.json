@@ -497,7 +497,13 @@
         "noPeripherals": "No peripheral discovered on network, please check the connectivity.",
         "noNameLabel": "Type not recognized",
         "ipAddressLabel": "IP address",
-        "macAddressLabel": "MAC address"
+        "macAddressLabel": "MAC address",
+        "features": "Features",
+        "noFeatures": "No features",
+        "nameLabel": "Name",
+        "saveButton": "Save",
+        "alreadyCreatedButton": "Already created",
+        "createRemoteButton": "Create remote control"
       },
       "remote": {
         "title": "Remotes in Gladys",

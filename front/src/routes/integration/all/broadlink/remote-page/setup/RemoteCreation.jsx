@@ -73,12 +73,12 @@ class RemoteCreation extends Component {
             <Text id="integration.broadlink.setup.peripheralLabel" />
           </label>
           <select onChange={this.updatePeripheralModel} class="form-control" id="remotePeripheral">
-            <option value="" disabled={true} selected={!props.device.model}>
+            <option value="" disabled={true} selected={!props.selectedModel}>
               <Text id="global.emptySelectOption" />
             </option>
             {props.broadlinkPeripherals &&
               props.broadlinkPeripherals.map(peripheral => (
-                <option selected={peripheral.name === props.device.model} value={peripheral.name}>
+                <option selected={peripheral.mac === props.selectedModel.mac} value={peripheral.name}>
                   {peripheral.name} ({peripheral.address})
                 </option>
               ))}
