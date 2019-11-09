@@ -47,6 +47,7 @@ class BroadlinkDeviceSetupPage extends Component {
 
     const { device, buttons } = this.state;
     device.params = [];
+    device.external_id = `broadlink:${device.model}:${uuid.v4}`;
     device.features = Object.keys(buttons).map(key => {
       const externalId = `${device.external_id}:${key}`;
 
@@ -175,19 +176,15 @@ class BroadlinkDeviceSetupPage extends Component {
 
     let { deviceSelector } = this.props;
     let device;
-    let buttons = [];
+    let buttons = {};
     let selectedModel;
 
     if (!deviceSelector) {
-      const uniqueId = uuid.v4();
       device = {
-        id: uniqueId,
         name: null,
         should_poll: false,
-        external_id: uniqueId,
         service_id: this.props.currentIntegration.id
       };
-      buttons = [];
 
       if (this.props.broadlinkPeripherals.length === 1) {
         selectedModel = this.props.broadlinkPeripherals[0];
@@ -202,22 +199,13 @@ class BroadlinkDeviceSetupPage extends Component {
       ) {
         device = loadedDevice;
 
-        buttons = device.features.map(feature => {
-          const { id, name } = feature;
-          const code = feature.last_value_string;
-          const externalId = feature.external_id;
-          const splittedExternalId = externalId.split(':');
+        device.features.forEach(feature => {
+          const { type } = feature;
+          const param = device.params.find(p => p.name === `code_${type}`);
 
-          return {
-            id,
-            name,
-            code,
-            icon: splittedExternalId[1],
-            position: {
-              x: parseInt(splittedExternalId[2], 10),
-              y: parseInt(splittedExternalId[3], 10)
-            }
-          };
+          if (param) {
+            buttons[type] = param.value;
+          }
         });
 
         // Load select peripheral

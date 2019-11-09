@@ -1,4 +1,5 @@
 const { BroadlinkDeviceSP2, BroadlinkDeviceMP1, BroadlinkDeviceRM2 } = require('broadlink-js');
+const { createDevice } = require('../utils/createDevice');
 
 /**
  * @description Store discovered peripheral.
@@ -12,9 +13,13 @@ const { BroadlinkDeviceSP2, BroadlinkDeviceMP1, BroadlinkDeviceRM2 } = require('
  */
 function addPeripheral(peripheralInfo) {
   let broadlinkDevice;
+  let device;
+  let nbSwitches = 0;
+
   switch (peripheralInfo.module) {
     case 'sp2': {
       broadlinkDevice = new BroadlinkDeviceSP2(peripheralInfo);
+      nbSwitches = 1;
       break;
     }
     case 'unknow':
@@ -24,17 +29,24 @@ function addPeripheral(peripheralInfo) {
     }
     case 'mp1': {
       broadlinkDevice = new BroadlinkDeviceMP1(peripheralInfo);
+      nbSwitches = 4;
       break;
     }
     default:
       throw new Error(`Broadlink ${peripheralInfo.module} is not recognized.`);
   }
 
+  const mac = peripheralInfo.mac.toString('hex');
+  if (nbSwitches > 0) {
+    device = createDevice(peripheralInfo.name, peripheralInfo.module, mac, 4, this.serviceId);
+  }
+
   const peripheral = {
     name: peripheralInfo.name,
     address: peripheralInfo.address,
-    mac: peripheralInfo.mac.toString('hex'),
+    mac,
     canLearn: !!broadlinkDevice.learnCode,
+    device,
   };
   this.peripherals[peripheral.mac] = peripheral;
   this.broadlinkDevices[peripheral.mac] = broadlinkDevice;

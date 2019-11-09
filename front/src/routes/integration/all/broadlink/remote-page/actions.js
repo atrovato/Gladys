@@ -76,7 +76,7 @@ function createActions(store) {
       try {
         const broadlinkPeripherals = await state.httpClient.get('/api/v1/service/broadlink/peripheral');
         store.setState({
-          broadlinkPeripherals
+          broadlinkPeripherals: broadlinkPeripherals.filter(p => p.canLearn)
         });
       } catch (e) {
         store.setState({
