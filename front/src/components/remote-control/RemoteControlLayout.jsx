@@ -1,7 +1,8 @@
+import cx from 'classnames';
 import { DEVICE_FEATURE_CATEGORIES } from '../../../../server/utils/constants';
 import TelevisionRemoteBox from './templates/television/TelevisionRemoteBox';
 
-const RemoteControlLayout = ({ remoteType, remoteName, onClick, editionMode, featureByType }) => {
+const RemoteControlLayout = ({ remoteType, remoteName, onClick, editionMode, featureByType, loading, dashboard }) => {
   let remoteComponent;
   switch (remoteType) {
     case DEVICE_FEATURE_CATEGORIES.TELEVISION: {
@@ -21,9 +22,24 @@ const RemoteControlLayout = ({ remoteType, remoteName, onClick, editionMode, fea
 
   return (
     <div class="card">
-      <div class="card-header">{remoteName}</div>
+      <div
+        class={cx('dimmer', {
+          active: loading
+        })}
+      >
+        <div class="loader"></div>
+        <div class="dimmer-content">
+          <div class="card-header">{remoteName}</div>
 
-      <div class="p-5">{remoteComponent}</div>
+          <div
+            class={cx('p-5', {
+              'pl-md-8 pr-md-8 pl-sm-9 pr-sm-9': dashboard
+            })}
+          >
+            {remoteComponent}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

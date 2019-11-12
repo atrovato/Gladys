@@ -1,4 +1,5 @@
 import { Text } from 'preact-i18n';
+import cx from 'classnames';
 import RemoteCategories from './templates';
 
 const updateType = updateRemoteTypeFunc => e => {
@@ -6,9 +7,14 @@ const updateType = updateRemoteTypeFunc => e => {
   updateRemoteTypeFunc(value);
 };
 
-const RemoteControlSelector = ({ updateRemoteTypeAndButtons, remoteType }) => (
+const RemoteControlSelector = ({ updateRemoteTypeAndButtons, remoteType, dashboard }) => (
   <div class="form-group">
-    <label class="form-label" for="remoteType">
+    <label
+      class={cx({
+        'form-label': !dashboard
+      })}
+      for="remoteType"
+    >
       <Text id="remoteControl.creation.selectTypeLabel" />
     </label>
     <select id="remoteType" onChange={updateType(updateRemoteTypeAndButtons)} class="form-control">

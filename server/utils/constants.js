@@ -444,6 +444,7 @@ const DASHBOARD_BOX_TYPE = {
   USER_PRESENCE: 'user-presence',
   CAMERA: 'camera',
   DEVICES_IN_ROOM: 'devices-in-room',
+  REMOTE_CONTROL: 'remote-control',
 };
 
 const ERROR_MESSAGES = {

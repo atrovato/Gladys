@@ -78,7 +78,10 @@ class RemoteCreation extends Component {
             </option>
             {props.broadlinkPeripherals &&
               props.broadlinkPeripherals.map(peripheral => (
-                <option selected={peripheral.mac === props.selectedModel.mac} value={peripheral.name}>
+                <option
+                  selected={props.selectedModel && peripheral.mac === props.selectedModel.mac}
+                  value={peripheral.name}
+                >
                   {peripheral.name} ({peripheral.address})
                 </option>
               ))}
@@ -101,7 +104,7 @@ class RemoteCreation extends Component {
               </Localizer>
             </div>
 
-            <div class="col-sm-8">
+            <div class="col-sm-8 mb-5">
               {!props.selectedButton && (
                 <div>
                   <div class="alert alert-secondary">
@@ -148,7 +151,6 @@ class RemoteCreation extends Component {
                     <div class="d-flex justify-content-around mt-3">
                       <button class="btn btn-warning" onClick={() => props.selectButton()}>
                         <Text id="integration.broadlink.setup.cancel" />
-                        <i class="fe fe-x ml-2" />
                       </button>
 
                       <button
@@ -157,7 +159,6 @@ class RemoteCreation extends Component {
                         disabled={!props.buttons[props.selectedButton]}
                       >
                         <Text id="integration.broadlink.setup.testLabel" />
-                        <i class="fe fe-play ml-2" />
                       </button>
 
                       <button
@@ -166,7 +167,6 @@ class RemoteCreation extends Component {
                         disabled={!props.buttons[props.selectedButton]}
                       >
                         <Text id="integration.broadlink.setup.deleteLabel" />
-                        <i class="fe fe-trash-2 ml-2" />
                       </button>
                     </div>
                   )}

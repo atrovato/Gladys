@@ -175,7 +175,8 @@
       "temperature-in-room": "Temperature in room",
       "user-presence": "User presence",
       "camera": "Camera",
-      "devices-in-room": "Devices in room"
+      "devices-in-room": "Devices in room",
+      "remote-control": "Remote control"
     },
     "boxes": {
       "column": "Column {{index}}",
@@ -213,6 +214,9 @@
         "noImageToShow": "No image to show",
         "editBoxNameLabel": "Enter the name you want to give to the box:",
         "editBoxNamePlaceholder": "Name of the box"
+      },
+      "remote-control": {
+        "editRemoteControlDevice": "Select the device to display here."
       }
     }
   },
@@ -1022,6 +1026,7 @@
     "ppm": "ppm"
   },
   "deviceCategory": {
+    "light": "Light",
     "television": "Television"
   },
   "deviceFeatureCategory": {
