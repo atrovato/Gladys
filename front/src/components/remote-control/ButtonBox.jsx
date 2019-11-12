@@ -21,6 +21,7 @@ const ButtonBox = ({ category, featureName, buttonProps, onClick, editionMode, e
         class={cx('btn', buttonClass, style.iconDiv, {
           [style.editionMode]: editionMode && !edited
         })}
+        disabled={!editionMode && !edited}
         onClick={() => buttonClick(onClick, featureName)}
         title={<Text id={`deviceFeatureCategory.${category}.${featureName}`}>{featureName}</Text>}
       >

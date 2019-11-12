@@ -8,6 +8,7 @@ import update from 'immutability-helper';
 import RemoteSetupTab from './RemoteSetupTab';
 import { route } from 'preact-router';
 import ButtonOptions from '../../../../../../components/remote-control/templates';
+import { addSelector } from '../../../../../../../../server/utils/addSelector';
 
 @connect(
   'session,user,httpClient,currentIntegration,houses,broadlinkPeripherals',
@@ -48,6 +49,8 @@ class BroadlinkDeviceSetupPage extends Component {
     const { device, buttons } = this.state;
     device.params = [];
     device.external_id = `broadlink:${device.model}:${uuid.v4}`;
+    device.selector = device.external_id;
+    addSelector(device);
     device.features = Object.keys(buttons).map(key => {
       const externalId = `${device.external_id}:${key}`;
 
@@ -56,7 +59,7 @@ class BroadlinkDeviceSetupPage extends Component {
         value: buttons[key]
       });
 
-      return {
+      const feature = {
         name: key,
         external_id: externalId,
         selector: externalId,
@@ -68,6 +71,8 @@ class BroadlinkDeviceSetupPage extends Component {
         min: 0,
         max: 0
       };
+      addSelector(feature);
+      return feature;
     });
 
     try {
@@ -209,7 +214,8 @@ class BroadlinkDeviceSetupPage extends Component {
         });
 
         // Load select peripheral
-        selectedModel = this.props.broadlinkPeripherals.find(p => p.mac === device.model);
+        const peripheral = device.external_id.split(':')[1];
+        selectedModel = this.props.broadlinkPeripherals.find(p => p.mac === peripheral);
       }
     }
 

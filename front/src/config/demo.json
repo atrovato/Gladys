@@ -118,6 +118,11 @@
         {
           "type": "devices-in-room",
           "room": "kitchen"
+        },
+        {
+          "type": "remote-control",
+          "remoteType": "television",
+          "remote": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0"
         }
       ]
     ],
@@ -158,6 +163,11 @@
         {
           "type": "devices-in-room",
           "room": "kitchen"
+        },
+        {
+          "type": "remote-control",
+          "remoteType": "television",
+          "remote": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0"
         }
       ]
     ],
@@ -670,7 +680,7 @@
   "get /api/v1/service/broadlink/peripheral": [
     {
       "address": "210.248.100.245",
-      "mac": "1cee8bf16731",
+      "mac": "4bf75cf0fdbb",
       "name": "MP1",
       "device": {
         "name": "MP1",
@@ -760,7 +770,7 @@
     {
       "address": "220.156.58.18",
       "name": "RM3 Pro Plus",
-      "mac": "4bf75cf0fdbb",
+      "mac": "1cee8bf16731",
       "canLearn": true
     }
   ],
@@ -770,46 +780,12 @@
       "service_id": "a810b8db-6d04-4697-bed3-c4b72c996279",
       "room_id": "cecc52c7-3e67-4b75-9b13-9a8867b0443d",
       "name": "TV Remote",
-      "selector": "broadlink-device",
-      "external_id": "test-sensor-external",
+      "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0",
+      "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0",
       "should_poll": false,
       "poll_frequency": null,
       "created_at": "2019-02-12T07:49:07.556Z",
       "updated_at": "2019-02-12T07:49:07.556Z",
-      "features": [
-        {
-          "name": "UP",
-          "external_id": "fbedb47f-4d25-4381-8923-2633b23192a0:arrow-up:0:1",
-          "selector": "up",
-          "category": "button",
-          "type": "click",
-          "last_value_string": "99CDZZC"
-        },
-        {
-          "name": "LEFT",
-          "external_id": "fbedb47f-4d25-4381-8923-2633b23192a0:arrow-left:1:1",
-          "selector": "up",
-          "category": "button",
-          "type": "click",
-          "last_value_string": "99CDZZC"
-        },
-        {
-          "name": "RIGHT",
-          "external_id": "fbedb47f-4d25-4381-8923-2633b23192a0:arrow-right:2:1",
-          "selector": "up",
-          "category": "button",
-          "type": "click",
-          "last_value_string": "99CDZZC"
-        },
-        {
-          "name": "DOWN",
-          "external_id": "fbedb47f-4d25-4381-8923-2633b23192a0:arrow-down:1:2",
-          "selector": "up",
-          "category": "button",
-          "type": "click",
-          "last_value_string": "99CDZZC"
-        }
-      ],
       "room": {
         "id": "cecc52c7-3e67-4b75-9b13-9a8867b0443d",
         "name": "Living Room",
@@ -817,14 +793,14 @@
       }
     }
   ],
-  "get /api/v1/device/broadlink-device": {
+  "get /api/v1/device/broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0": {
     "id": "fbedb47f-4d25-4381-8923-2633b23192a0",
     "service_id": "a810b8db-6d04-4697-bed3-c4b72c996279",
     "room_id": "cecc52c7-3e67-4b75-9b13-9a8867b0443d",
     "name": "TV Remote",
-    "model": "RM3 Pro Plus",
-    "selector": "broadlink-device",
-    "external_id": "test-sensor-external",
+    "model": "television",
+    "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0",
+    "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0",
     "should_poll": false,
     "poll_frequency": null,
     "created_at": "2019-02-12T07:49:07.556Z",
@@ -832,39 +808,149 @@
     "features": [
       {
         "id": "22d37c48-6805-4118-ba1c-fa44052c2d3c",
-        "name": "UP",
-        "external_id": "22d37c48-6805-4118-ba1c-fa44052c2d3c:arrow-up:0:1",
-        "selector": "up",
-        "category": "button",
-        "type": "click",
-        "last_value_string": "99CDZZC"
+        "name": "Power",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:power-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-power-button",
+        "category": "television",
+        "type": "power-button"
       },
       {
-        "id": "832f4a5b-d446-442a-9670-7bb4da07dc58",
-        "name": "LEFT",
-        "external_id": "832f4a5b-d446-442a-9670-7bb4da07dc58:arrow-left:1:0",
-        "selector": "up",
-        "category": "button",
-        "type": "click",
-        "last_value_string": "99CDZZC"
+        "id": "1667855b-a58d-4a8c-9ac6-c40c2a544db8",
+        "name": "Source",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:source-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-source-button",
+        "category": "television",
+        "type": "source-button"
       },
       {
-        "id": "472865d1-b906-4d78-8881-a0665b2318c3",
-        "name": "RIGHT",
-        "external_id": "472865d1-b906-4d78-8881-a0665b2318c3:arrow-right:1:2",
-        "selector": "up",
-        "category": "button",
-        "type": "click",
-        "last_value_string": "99CDZZC"
+        "id": "8d8a9fb1-dbd0-4f31-bbc7-8ffebf1e9f93",
+        "name": "Channel 0",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:channel-0-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-channel-0-button",
+        "category": "television",
+        "type": "channel-0-button"
       },
       {
-        "id": "db0ac29e-cfe0-465b-a5ac-ed2e1c56d5f7",
-        "name": "DOWN",
-        "external_id": "db0ac29e-cfe0-465b-a5ac-ed2e1c56d5f7:arrow-down:2:1",
-        "selector": "up",
-        "category": "button",
-        "type": "click",
-        "last_value_string": "99CDZZC"
+        "id": "f4c4752d-a8a6-4d66-92ba-356d66107324",
+        "name": "Channel 1",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:channel-1-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-channel-1-button",
+        "category": "television",
+        "type": "channel-1-button"
+      },
+      {
+        "id": "bf830dac-44dd-437e-ab20-5f8759f00fcc",
+        "name": "Channel 2",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:channel-2-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-channel-2-button",
+        "category": "television",
+        "type": "channel-2-button"
+      },
+      {
+        "id": "bf25bc00-2b7f-40e5-9be7-ad0e3f8c203d",
+        "name": "Channel 3",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:channel-3-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-channel-3-button",
+        "category": "television",
+        "type": "channel-3-button"
+      },
+      {
+        "id": "8997069f-0467-4506-b78c-363934ff3665",
+        "name": "Channel 4",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:channel-4-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-channel-4-button",
+        "category": "television",
+        "type": "channel-4-button"
+      },
+      {
+        "id": "58056998-b20f-49c5-a7be-720a0287700e",
+        "name": "Channel 5",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:channel-5-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-channel-5-button",
+        "category": "television",
+        "type": "channel-5-button"
+      },
+      {
+        "id": "8721a8b9-4b7c-474b-990b-849eaabafa31",
+        "name": "Channel 6",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:channel-6-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-channel-6-button",
+        "category": "television",
+        "type": "channel-6-button"
+      },
+      {
+        "id": "5acfafc7-33d6-4d3e-a769-25051fb5b5e2",
+        "name": "Channel 7",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:channel-7-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-channel-7-button",
+        "category": "television",
+        "type": "channel-7-button"
+      },
+      {
+        "id": "74d91c15-8282-4f4e-9e46-b7ef0e0ac8eb",
+        "name": "Channel 8",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:channel-8-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-channel-8-button",
+        "category": "television",
+        "type": "channel-8-button"
+      },
+      {
+        "id": "601773d5-1017-4387-a41b-13a6a045a76e",
+        "name": "Channel 9",
+        "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0:channel-9-button",
+        "selector": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0-channel-9-button",
+        "category": "television",
+        "type": "channel-9-button"
+      }
+    ],
+    "params": [
+      {
+        "name": "code_power-button",
+        "value": "POWER"
+      },
+      {
+        "name": "code_source-button",
+        "value": "SOURCE"
+      },
+      {
+        "name": "code_channel-0-button",
+        "value": "CHANNEL_0"
+      },
+      {
+        "name": "code_channel-1-button",
+        "value": "CHANNEL_1"
+      },
+      {
+        "name": "code_channel-2-button",
+        "value": "CHANNEL_2"
+      },
+      {
+        "name": "code_channel-3-button",
+        "value": "CHANNEL_3"
+      },
+      {
+        "name": "code_channel-4-button",
+        "value": "CHANNEL_4"
+      },
+      {
+        "name": "code_channel-5-button",
+        "value": "CHANNEL_5"
+      },
+      {
+        "name": "code_channel-6-button",
+        "value": "CHANNEL_6"
+      },
+      {
+        "name": "code_channel-7-button",
+        "value": "CHANNEL_7"
+      },
+      {
+        "name": "code_channel-8-button",
+        "value": "CHANNEL_8"
+      },
+      {
+        "name": "code_channel-9-button",
+        "value": "CHANNEL_9"
       }
     ],
     "room": {

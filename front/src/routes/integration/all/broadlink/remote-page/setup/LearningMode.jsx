@@ -119,7 +119,7 @@ class LearningMode extends Component {
     });
   }
 
-  render({ learnAllMode }, state) {
+  render({}, state) {
     return (
       <div class="mt-5">
         <div class="text-center">
