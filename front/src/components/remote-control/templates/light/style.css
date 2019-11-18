@@ -1,0 +1,63 @@
+.btn-red-light {
+  color: #fff;
+  background-color: #ff4500;
+  border-color: #ff4500;
+}
+
+.btn-red-light:hover {
+  background-color: #d93b00;
+  border-color: #cc3700;
+}
+
+.btn-orange-dark {
+  color: #fff;
+  background-color: #fe7a15;
+  border-color: #fe7a15;
+}
+
+.btn-orange-dark:hover {
+  background-color: #ec6701;
+  border-color: #df6101;
+}
+
+.btn-night {
+  color: #fff;
+  background-color: #32506d;
+  border-color: #32506d;
+}
+
+.btn-night:hover {
+  background-color: #263d53;
+  border-color: #22364a;
+}
+
+.btn-rainbow {
+  background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
+  background-repeat: repeat-y;
+}
+
+.btn-rainbow-rgb {
+  background-image: linear-gradient(90deg, var(--pink) 0%, var(--lime) 51%, var(--azure) 100%);
+  background-repeat: repeat-y;
+}
+
+.btn-gradient-night {
+  background-image: linear-gradient(90deg, #32506d 0%, var(--white) 100%);
+  background-repeat: repeat-y;
+}
+
+.btn-rainbow:hover, .btn-rainbow-rgb:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.btn-gradient-night:not(:disabled):not(.disabled):active {
+  background-image: linear-gradient(90deg, #000000 0%, var(--light) 100%);
+}
+
+.btn-rainbow:not(:disabled):not(.disabled):active {
+  background-image: linear-gradient(90deg, #00A0DD 0%, #FFAC00 49%, #CA2C2C 80%, #00A0DD 100%);
+}
+
+.btn-rainbow-rgb:not(:disabled):not(.disabled):active {
+  background-image: linear-gradient(90deg, var(--purple) 0%, var(--green) 51%, var(--blue) 100%);
+}

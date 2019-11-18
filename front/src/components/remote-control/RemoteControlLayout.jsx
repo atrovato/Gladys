@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import { DEVICE_FEATURE_CATEGORIES } from '../../../../server/utils/constants';
 import TelevisionRemoteBox from './templates/television/TelevisionRemoteBox';
+import LightRemoteBox from './templates/light/LightRemoteBox';
 
 const RemoteControlLayout = ({ remoteType, remoteName, onClick, editionMode, featureByType, loading, dashboard }) => {
   let remoteComponent;
@@ -9,6 +10,10 @@ const RemoteControlLayout = ({ remoteType, remoteName, onClick, editionMode, fea
       remoteComponent = (
         <TelevisionRemoteBox onClick={onClick} editionMode={editionMode} featureByType={featureByType} />
       );
+      break;
+    }
+    case DEVICE_FEATURE_CATEGORIES.LIGHT: {
+      remoteComponent = <LightRemoteBox onClick={onClick} editionMode={editionMode} featureByType={featureByType} />;
       break;
     }
     default: {
