@@ -1,6 +1,6 @@
 import { DEVICE_FEATURE_CATEGORIES, DEVICE_FEATURE_TYPES } from '../../../../../../server/utils/constants';
 import ButtonBox from '../../ButtonBox';
-import ButtonOptions from './television';
+import ButtonOptions from './template';
 
 const renderButton = (featureName, editionMode, featureByType, onClick) => (
   <ButtonBox
