@@ -22,7 +22,11 @@
   background-repeat: repeat-y;
 }
 
-.btn-rainbow:not(:disabled):hover, .btn-gradient-night:not(:disabled):hover {
+.btn-rainbow:not(:disabled):hover {
+  background-blend-mode: darken;
+}
+
+.btn-gradient-night:not(:disabled):hover {
   background-image: linear-gradient(90deg, var(--white) 0%, #BDC1C1 50%, var(--white) 100%) !important;
 }
 
