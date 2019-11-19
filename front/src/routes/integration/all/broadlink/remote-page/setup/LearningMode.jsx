@@ -49,7 +49,7 @@ class LearningMode extends Component {
 
   enterLearnAllMode(start) {
     if (start) {
-      if (!this.state.active && !this.state.timeLeft) {
+      if (!this.state.timeLeft) {
         this.setState({ timeLeft: 3 });
         this.timer = setInterval(() => {
           this.decrementTimeRemaining();
@@ -96,13 +96,15 @@ class LearningMode extends Component {
       })
     );
     session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BROADLINK.LEARN_MODE_SUCCESS, payload => {
-      this.setState({
-        errorKey: null,
-        active: false
-      });
-
-      storeButtonCode(payload.code);
-      this.enterLearnAllMode(learnAllMode);
+      if (this.state.active) {
+        this.setState({
+          errorKey: null,
+          active: false
+        });
+        
+        storeButtonCode(payload.code);
+        this.enterLearnAllMode(learnAllMode);
+      }
     });
 
     // Cancel learn mode

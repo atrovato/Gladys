@@ -45,7 +45,7 @@ const RemoteSetupTab = props => (
                   <Text id="integration.broadlink.setup.cancel" />
                 </button>
               </Link>
-              <button onClick={props.saveDevice} disabled={!props.buttons} class="btn btn-success mr-2">
+              <button onClick={props.saveDevice} disabled={!props.buttons || !props.device.name || props.device.name.length === 0} class="btn btn-success mr-2">
                 <Text id="integration.broadlink.setup.saveButton" />
               </button>
             </div>

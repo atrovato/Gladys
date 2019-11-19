@@ -83,6 +83,19 @@ function createActions(store) {
           broadlinkPeripherals: []
         });
       }
+    },
+    updateDeviceProperty(state, remoteIndex, property, value) {
+      const broadlinkDevices = update(state.broadlinkDevices, {
+        [remoteIndex]: {
+          [property]: {
+            $set: value
+          }
+        }
+      });
+
+      store.setState({
+        broadlinkDevices
+      });
     }
   };
   actions.debouncedSearch = debounce(actions.search, 200);
