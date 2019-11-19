@@ -24,6 +24,7 @@ class RemoteBox extends Component {
       loading: false
     });
   };
+
   deleteRemote = async () => {
     this.setState({
       loading: true
@@ -39,13 +40,14 @@ class RemoteBox extends Component {
       loading: false
     });
   };
+
   updateRemoteName = e => {
     this.props.updateDeviceProperty(this.props.remoteIndex, 'name', e.target.value);
   };
+
   updateRemoteRoom = e => {
     this.props.updateDeviceProperty(this.props.remoteIndex, 'room_id', e.target.value);
   };
-  componentWillMount() {}
 
   render(props, { loading, saveError }) {
     const isRemote = props.remote.model.startsWith('remote-control:');

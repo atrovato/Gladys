@@ -55,13 +55,11 @@ const RemoteTab = ({ children, ...props }) => (
                   >
                     <div class="loader" />
                     <div class="dimmer-content">
-                      <div class="row">
-                        {props.broadlinkDevices &&
+                      {props.broadlinkDevices &&
                           props.broadlinkDevices.map((remote, index) => (
                             <RemoteBox {...props} remote={remote} remoteIndex={index} />
-                          ))}
-                        {props.broadlinkDevices && props.broadlinkDevices.length === 0 && <EmptyState />}
-                      </div>
+                      ))}
+                      {props.broadlinkDevices && props.broadlinkDevices.length === 0 && <EmptyState />}
                     </div>
                   </div>
                 </div>
