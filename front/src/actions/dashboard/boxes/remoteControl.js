@@ -1,10 +1,12 @@
 import { RequestStatus } from '../../../utils/consts';
 import createBoxActions from '../boxActions';
+import createDeviceActions from '../../device';
 
 const BOX_KEY = 'Remote';
 
 function createActions(store) {
   const boxActions = createBoxActions(store);
+  const deviceActions = createDeviceActions(store);
 
   const actions = {
     async getRemoteControl(state, box, x, y) {
@@ -24,7 +26,7 @@ function createActions(store) {
       }
     }
   };
-  return Object.assign({}, actions, boxActions);
+  return Object.assign({}, actions, boxActions, deviceActions);
 }
 
 export default createActions;
