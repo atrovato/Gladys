@@ -2,7 +2,7 @@ const asyncMiddleware = require('../middlewares/asyncMiddleware');
 
 module.exports = function RemoteControlController(gladys) {
   /**
-   * @api {get} /api/v1/remote/:remote_type get
+   * @api {get} /api/v1/remote-control/:remote_type get
    * @apiName getByType
    * @apiGroup RemoteControl
    *

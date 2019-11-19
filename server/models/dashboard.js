@@ -12,6 +12,8 @@ const boxesSchema = Joi.array().items(
       room: Joi.string(),
       camera: Joi.string(),
       name: Joi.string(),
+      remoteType: Joi.string(),
+      remote: Joi.string(),
     }),
   ),
 );

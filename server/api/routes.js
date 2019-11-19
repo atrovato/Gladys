@@ -467,7 +467,7 @@ function getRoutes(gladys) {
       controller: weatherController.getByHouse,
     },
     // remote control
-    'get /api/v1/remote/:remote_type': {
+    'get /api/v1/remote-control/:remote_type': {
       authenticated: true,
       controller: remoteControlController.getByType,
     },
