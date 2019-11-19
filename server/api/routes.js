@@ -17,6 +17,7 @@ const SceneController = require('./controllers/scene.controller');
 const SystemController = require('./controllers/system.controller');
 const VariableController = require('./controllers/variable.controller');
 const WeatherController = require('./controllers/weather.controller');
+const RemoteControlController = require('./controllers/remote-control.controller');
 
 /**
  * @description Return object of routes.
@@ -45,6 +46,7 @@ function getRoutes(gladys) {
   const sceneController = SceneController(gladys);
   const systemController = SystemController(gladys);
   const weatherController = WeatherController(gladys);
+  const remoteControlController = RemoteControlController(gladys);
 
   const routes = {};
 
@@ -444,6 +446,11 @@ function getRoutes(gladys) {
     'get /api/v1/house/:house_selector/weather': {
       authenticated: true,
       controller: weatherController.getByHouse,
+    },
+    // remote control
+    'get /api/v1/remote/:remote_type': {
+      authenticated: true,
+      controller: remoteControlController.getByType,
     },
   };
 
