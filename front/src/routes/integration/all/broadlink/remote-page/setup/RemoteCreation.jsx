@@ -90,7 +90,10 @@ class RemoteCreation extends Component {
           </select>
         </div>
 
-        <RemoteControlSelector remoteType={props.selectedRemoteType} updateRemoteTypeAndButtons={this.updateDeviceType} />
+        <RemoteControlSelector
+          remoteType={props.selectedRemoteType}
+          updateRemoteTypeAndButtons={this.updateDeviceType}
+        />
 
         {props.selectedRemoteType && (
           <div class="row">

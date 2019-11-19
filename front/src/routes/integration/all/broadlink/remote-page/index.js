@@ -5,10 +5,7 @@ import BroadlinkPage from '../BroadlinkPage';
 import integrationConfig from '../../../../../config/integrations';
 import RemoteTab from './RemoteTab';
 
-@connect(
-  'session,user,broadlinkDevices,getBroadlinkDevicesStatus,houses',
-  actions
-)
+@connect('session,user,broadlinkDevices,getBroadlinkDevicesStatus,houses', actions)
 class BroadlinkRemotePage extends Component {
   componentWillMount() {
     this.props.getBroadlinkRemotes(20, 0);
