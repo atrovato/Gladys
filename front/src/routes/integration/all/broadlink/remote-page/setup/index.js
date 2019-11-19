@@ -10,10 +10,7 @@ import { route } from 'preact-router';
 import ButtonOptions from '../../../../../../components/remote-control/templates';
 import { addSelector } from '../../../../../../../../server/utils/addSelector';
 
-@connect(
-  'session,user,httpClient,currentIntegration,houses,broadlinkPeripherals',
-  actions
-)
+@connect('session,user,httpClient,currentIntegration,houses,broadlinkPeripherals', actions)
 class BroadlinkDeviceSetupPage extends Component {
   updateState(newState) {
     this.setState(newState);

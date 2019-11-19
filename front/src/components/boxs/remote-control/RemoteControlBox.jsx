@@ -5,12 +5,8 @@ import actions from '../../../actions/dashboard/boxes/remoteControl';
 import RemoteControlLayout from '../../remote-control/RemoteControlLayout';
 import { DASHBOARD_BOX_STATUS_KEY, DASHBOARD_BOX_DATA_KEY, RequestStatus } from '../../../utils/consts';
 
-@connect(
-  'DashboardBoxDataRemote,DashboardBoxStatusRemote',
-  actions
-)
+@connect('DashboardBoxDataRemote,DashboardBoxStatusRemote', actions)
 class RemoteControlBoxComponent extends Component {
-
   setValue(featureName) {
     const boxData = get(this.props, `${DASHBOARD_BOX_DATA_KEY}Remote.${this.props.x}_${this.props.y}`);
     const feature = boxData.remote.features.find(f => f.type === featureName);

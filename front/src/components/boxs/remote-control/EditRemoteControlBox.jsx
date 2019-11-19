@@ -33,10 +33,7 @@ const EditRemoteControlBox = ({ children, ...props }) => (
   </BaseEditBox>
 );
 
-@connect(
-  'DashboardRemoteControlStatusDevices',
-  actions
-)
+@connect('DashboardRemoteControlStatusDevices', actions)
 class EditRemoteControlBoxComponent extends Component {
   updateBoxRemoteControlType = remoteType => {
     this.props.updateBoxConfig(this.props.x, this.props.y, {
