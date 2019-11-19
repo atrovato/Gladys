@@ -857,7 +857,8 @@
         "category": "light",
         "type": "red-button"
       }
-    ]
+    ],
+    "params": []
   },
   "get /api/v1/device/broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0": {
     "id": "fbedb47f-4d25-4381-8923-2633b23192a0",

@@ -42,7 +42,7 @@ class EditRemoteControlBoxComponent extends Component {
     this.props.updateBoxConfig(this.props.x, this.props.y, {
       remoteType
     });
-    this.props.getDevices(remoteType);
+    this.props.getRemoteControl(remoteType);
   };
 
   updateRemoteControlDevice = e => {
