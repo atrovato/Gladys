@@ -101,7 +101,7 @@ class LearningMode extends Component {
           errorKey: null,
           active: false
         });
-        
+
         storeButtonCode(payload.code);
         this.enterLearnAllMode(learnAllMode);
       }
