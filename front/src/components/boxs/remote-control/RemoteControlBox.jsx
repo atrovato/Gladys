@@ -1,11 +1,12 @@
 import { Component } from 'preact';
 import { connect } from 'unistore/preact';
-import actions from '../../../actions/dashboard/edit-boxes/editRemoteControl';
+import get from 'get-value';
+import actions from '../../../actions/dashboard/boxes/remoteControl';
 import RemoteControlLayout from '../../remote-control/RemoteControlLayout';
-import { RequestStatus } from '../../../utils/consts';
+import { DASHBOARD_BOX_STATUS_KEY, DASHBOARD_BOX_DATA_KEY, RequestStatus } from '../../../utils/consts';
 
 @connect(
-  'DashboardRemoteControlStatus,remote',
+  'DashboardBoxDataRemote,DashboardBoxStatusRemote',
   actions
 )
 class RemoteControlBoxComponent extends Component {
@@ -14,25 +15,28 @@ class RemoteControlBoxComponent extends Component {
   }
 
   render(props) {
-    if (props.DashboardRemoteControlStatus === RequestStatus.Error) {
+    const boxData = get(props, `${DASHBOARD_BOX_DATA_KEY}Remote.${props.x}_${props.y}`);
+    const boxStatus = get(props, `${DASHBOARD_BOX_STATUS_KEY}Remote.${props.x}_${props.y}`);
+    const error = boxStatus === RequestStatus.Error;
+    if (error || !boxData) {
       return null;
     }
 
+    const { remote } = boxData;
     let remoteName;
     let featureByType;
-    if (props.remote) {
-      remoteName = props.remote.name;
+    if (remote) {
+      remoteName = remote.name;
       featureByType = {};
-      props.remote.features.map(feature => {
+      remote.features.map(feature => {
         featureByType[feature.type] = feature;
       });
-      console.log(featureByType);
     }
 
     return (
       <RemoteControlLayout
         {...props}
-        loading={props.DashboardRemoteControlStatus === RequestStatus.Getting}
+        loading={boxStatus === RequestStatus.Getting}
         editionMode={false}
         remoteType={props.box.remoteType}
         onClick={props.setValue}
