@@ -16,7 +16,7 @@ describe('BroadlinkService', () => {
   });
 
   const broadlinkService = BroadlinkService(gladys, 'faea9c35-759a-44d5-bcc9-2af1de37b8b4');
-  const { broadlink } = broadlinkService.client;
+  const { broadlink } = broadlinkService.device;
 
   it('should start service', async () => {
     await broadlinkService.start();
