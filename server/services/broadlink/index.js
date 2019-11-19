@@ -33,7 +33,7 @@ module.exports = function BroadlinkService(gladys, serviceId) {
   return Object.freeze({
     start,
     stop,
-    client: broadlinkHandler,
+    device: broadlinkHandler,
     controllers: BroadlinkController(broadlinkHandler),
   });
 };

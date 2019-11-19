@@ -10,7 +10,6 @@ const logger = require('../../../utils/logger');
  */
 function send(peripheralIdentifier, code) {
   logger.debug(`Broalink sending on ${peripheralIdentifier}`);
-  logger.debug(this.broadlinkDevices);
   const peripheral = this.broadlinkDevices[peripheralIdentifier];
 
   if (!peripheral) {
