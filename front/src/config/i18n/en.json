@@ -399,11 +399,11 @@
     },
     "broadlink": {
       "title": "Broadlink",
-      "remoteTab": "Remotes",
-      "peripheralTab": "Available peripherals",
+      "remoteTab": "Devices",
+      "peripheralTab": "Discover devices",
       "peripheral": {
-        "title": "Compatible available peripherals",
-        "description": "Here are discovered Broadlink peripherals, if one is missing, please check its network link.",
+        "title": "Compatible available devices",
+        "description": "Here are discovered Broadlink devices, if one is missing, please check its network link.",
         "noPeripherals": "No peripheral discovered on network, please check the connectivity.",
         "noNameLabel": "Type not recognized",
         "ipAddressLabel": "IP address",
@@ -416,15 +416,16 @@
         "createRemoteButton": "Create remote control"
       },
       "remote": {
-        "title": "Remotes in Gladys",
-        "searchPlaceholder": "Search for remotes",
-        "noRemoteFound": "No remote found.",
-        "saveError": "There was an error saving the remote.",
-        "nameLabel": "Remote name",
-        "namePlaceholder": "Enter the name of your remote",
+        "title": "Devices in Gladys",
+        "searchPlaceholder": "Search for devices",
+        "noRemoteFound": "No device found.",
+        "saveError": "There was an error saving the device.",
+        "nameLabel": "Device name",
+        "namePlaceholder": "Enter the name of your device",
         "roomLabel": "Room",
         "saveButton": "Save",
-        "deleteButton": "Delete"
+        "deleteButton": "Delete",
+        "featuresLabel": "Features"
       },
       "setup": {
         "cancel": "Cancel",

@@ -181,6 +181,7 @@ class BroadlinkDeviceSetupPage extends Component {
     let device;
     let buttons = {};
     let selectedModel;
+    let selectedRemoteType;
 
     if (!deviceSelector) {
       device = {
@@ -215,6 +216,7 @@ class BroadlinkDeviceSetupPage extends Component {
         // Load select peripheral
         const peripheral = device.external_id.split(':')[1];
         selectedModel = this.props.broadlinkPeripherals.find(p => p.mac === peripheral);
+        selectedRemoteType = device.model.replace('remote-control:', '');
       }
     }
 
@@ -222,7 +224,8 @@ class BroadlinkDeviceSetupPage extends Component {
       loading: false,
       device,
       buttons,
-      selectedModel
+      selectedModel,
+      selectedRemoteType
     });
   }
 
