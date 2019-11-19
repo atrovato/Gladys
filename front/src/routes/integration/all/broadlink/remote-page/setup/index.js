@@ -46,10 +46,11 @@ class BroadlinkDeviceSetupPage extends Component {
       loading: true
     });
 
-    const { device, buttons } = this.state;
+    const { device, buttons, selectedRemoteType, selectedModel } = this.state;
     device.params = [];
-    device.external_id = `broadlink:${device.model}:${uuid.v4}`;
+    device.external_id = `broadlink:${selectedModel.mac}:${uuid.v4}`;
     device.selector = device.external_id;
+    device.model = `remote-control:${selectedRemoteType}`;
     addSelector(device);
     device.features = Object.keys(buttons).map(key => {
       const externalId = `${device.external_id}:${key}`;
@@ -63,7 +64,7 @@ class BroadlinkDeviceSetupPage extends Component {
         name: key,
         external_id: externalId,
         selector: externalId,
-        category: device.model,
+        category: selectedRemoteType,
         type: key,
         read_only: false,
         keep_history: false,
@@ -139,7 +140,7 @@ class BroadlinkDeviceSetupPage extends Component {
   }
 
   learnAll() {
-    const buttons = Object.keys(ButtonOptions[this.state.device.model]);
+    const buttons = Object.keys(ButtonOptions[this.state.selectedRemoteType]);
     this.setState({
       learnAllMode: true,
       toLearn: buttons,

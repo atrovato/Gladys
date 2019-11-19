@@ -25,7 +25,9 @@ class RemoteCreation extends Component {
   };
 
   updateDeviceType = remoteType => {
-    this.props.updateDeviceProperty('model', remoteType);
+    this.props.updateState({
+      selectedRemoteType: remoteType
+    });
   };
 
   render(props) {
@@ -88,14 +90,14 @@ class RemoteCreation extends Component {
           </select>
         </div>
 
-        <RemoteControlSelector remoteType={props.device.model} updateRemoteTypeAndButtons={this.updateDeviceType} />
+        <RemoteControlSelector remoteType={props.selectedRemoteType} updateRemoteTypeAndButtons={this.updateDeviceType} />
 
-        {props.device.model && (
+        {props.selectedRemoteType && (
           <div class="row">
             <div class="col-sm-4">
               <Localizer>
                 <RemoteControlLayout
-                  remoteType={props.device.model}
+                  remoteType={props.selectedRemoteType}
                   remoteName={props.device.name || <Text id="integration.broadlink.setup.noNameLabel" />}
                   onClick={props.selectButton}
                   editionMode={true}
@@ -125,13 +127,13 @@ class RemoteCreation extends Component {
                     </label>
 
                     <ButtonBox
-                      category={props.device.model}
+                      category={props.selectedRemoteType}
                       featureName={props.selectedButton}
-                      buttonProps={ButtonOptions[props.device.model][props.selectedButton]}
+                      buttonProps={ButtonOptions[props.selectedRemoteType][props.selectedButton]}
                       edited={true}
                     />
                     <span class="ml-3">
-                      <Text id={`deviceFeatureCategory.${props.device.model}.${props.selectedButton}`}>
+                      <Text id={`deviceFeatureCategory.${props.selectedRemoteType}.${props.selectedButton}`}>
                         {props.selectedButton}
                       </Text>
                     </span>
