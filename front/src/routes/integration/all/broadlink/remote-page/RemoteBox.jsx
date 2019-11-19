@@ -1,8 +1,9 @@
 import { Text, Localizer } from 'preact-i18n';
 import { Component } from 'preact';
 import cx from 'classnames';
+import get from 'get-value';
 import { Link } from 'preact-router/match';
-import { RequestStatus } from '../../../../../utils/consts';
+import { DeviceFeatureCategoriesIcon, RequestStatus } from '../../../../../utils/consts';
 
 class RemoteBox extends Component {
   saveRemote = async () => {
@@ -47,6 +48,7 @@ class RemoteBox extends Component {
   componentWillMount() {}
 
   render(props, { loading, saveError }) {
+    const isRemote = props.remote.model.startsWith('remote-control:');
     return (
       <div class="col-md-6">
         <div class="card">
@@ -99,6 +101,30 @@ class RemoteBox extends Component {
                   </select>
                 </div>
 
+                {!isRemote && (
+                  <div class="form-group">
+                    <label class="form-label">
+                      <Text id="integration.broadlink.remote.featuresLabel" />
+                    </label>
+                    <div class="tags">
+                      {props.remote.features &&
+                        props.remote.features.map(feature => (
+                          <span class="tag">
+                            <Text id={`deviceFeatureCategory.${feature.category}.${feature.type}`} />
+                            <div class="tag-addon">
+                              <i
+                                class={`fe fe-${get(
+                                  DeviceFeatureCategoriesIcon,
+                                  `${feature.category}.${feature.type}`
+                                )}`}
+                              />
+                            </div>
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
                 <div class="form-group">
                   <button onClick={this.saveRemote} class="btn btn-success mr-2">
                     <Text id="integration.broadlink.remote.saveButton" />
@@ -107,11 +133,13 @@ class RemoteBox extends Component {
                     <Text id="integration.broadlink.remote.deleteButton" />
                   </button>
 
-                  <Link href={`/dashboard/integration/device/broadlink/edit/${props.remote.selector}`}>
-                    <button class="btn btn-secondary float-right">
-                      <Text id="integration.mqtt.device.editButton" />
-                    </button>
-                  </Link>
+                  {isRemote && (
+                    <Link href={`/dashboard/integration/device/broadlink/edit/${props.remote.selector}`}>
+                      <button class="btn btn-secondary float-right">
+                        <Text id="integration.mqtt.device.editButton" />
+                      </button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

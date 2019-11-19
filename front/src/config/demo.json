@@ -869,6 +869,7 @@
       "external_id": "broadlink:1cee8bf16731:fbedb47f-4d25-4381-8923-2633b23192a0",
       "should_poll": false,
       "poll_frequency": null,
+      "model": "remote-control:television",
       "created_at": "2019-02-12T07:49:07.556Z",
       "updated_at": "2019-02-12T07:49:07.556Z",
       "room": {
@@ -886,6 +887,7 @@
       "external_id": "broadlink:1cee8bf16731:197018ef-5110-4e3d-9022-cecb85fce5cb",
       "should_poll": false,
       "poll_frequency": null,
+      "model": "remote-control:light",
       "created_at": "2019-02-12T07:49:07.556Z",
       "updated_at": "2019-02-12T07:49:07.556Z",
       "room": {
@@ -893,6 +895,37 @@
         "name": "Living Room",
         "selector": "living-room"
       }
+    },
+    {
+      "id": "1e5412c3-a6b7-4c5f-aede-20c40adbd85d",
+      "service_id": "a810b8db-6d04-4697-bed3-c4b72c996279",
+      "room_id": "cecc52c7-3e67-4b75-9b13-9a8867b0443d",
+      "name": "SP2",
+      "selector": "broadlink-1cee8bf16731-1e5412c3-a6b7-4c5f-aede-20c40adbd85d",
+      "external_id": "broadlink:1cee8bf16731:1e5412c3-a6b7-4c5f-aede-20c40adbd85d",
+      "should_poll": false,
+      "poll_frequency": null,
+      "model": "sp2",
+      "created_at": "2019-02-12T07:49:07.556Z",
+      "updated_at": "2019-02-12T07:49:07.556Z",
+      "room": {
+        "id": "cecc52c7-3e67-4b75-9b13-9a8867b0443d",
+        "name": "Living Room",
+        "selector": "living-room"
+      },
+      "features": [
+        {
+          "name": "sp2",
+          "category": "switch",
+          "type": "binary",
+          "external_id": "broadlink:1cee8bf16731:0",
+          "selector": "broadlink-1cee8bf16731-0",
+          "min": 0,
+          "max": 1,
+          "read_only": false,
+          "has_feedback": true
+        }
+      ]
     }
   ],
   "get /api/v1/device/broadlink-1cee8bf16731-197018ef-5110-4e3d-9022-cecb85fce5cb": {
