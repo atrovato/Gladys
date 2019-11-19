@@ -121,6 +121,11 @@
         },
         {
           "type": "remote-control",
+          "remoteType": "light",
+          "remote": "broadlink-1cee8bf16731-197018ef-5110-4e3d-9022-cecb85fce5cb"
+        },
+        {
+          "type": "remote-control",
           "remoteType": "television",
           "remote": "broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0"
         }
@@ -163,6 +168,11 @@
         {
           "type": "devices-in-room",
           "room": "kitchen"
+        },
+        {
+          "type": "remote-control",
+          "remoteType": "light",
+          "remote": "broadlink-1cee8bf16731-197018ef-5110-4e3d-9022-cecb85fce5cb"
         },
         {
           "type": "remote-control",
@@ -791,8 +801,64 @@
         "name": "Living Room",
         "selector": "living-room"
       }
+    },
+    {
+      "id": "197018ef-5110-4e3d-9022-cecb85fce5cb",
+      "service_id": "a810b8db-6d04-4697-bed3-c4b72c996279",
+      "room_id": "cecc52c7-3e67-4b75-9b13-9a8867b0443d",
+      "name": "LED remote",
+      "selector": "broadlink-1cee8bf16731-197018ef-5110-4e3d-9022-cecb85fce5cb",
+      "external_id": "broadlink:1cee8bf16731:197018ef-5110-4e3d-9022-cecb85fce5cb",
+      "should_poll": false,
+      "poll_frequency": null,
+      "created_at": "2019-02-12T07:49:07.556Z",
+      "updated_at": "2019-02-12T07:49:07.556Z",
+      "room": {
+        "id": "cecc52c7-3e67-4b75-9b13-9a8867b0443d",
+        "name": "Living Room",
+        "selector": "living-room"
+      }
     }
   ],
+  "get /api/v1/device/broadlink-1cee8bf16731-197018ef-5110-4e3d-9022-cecb85fce5cb": {
+    "id": "197018ef-5110-4e3d-9022-cecb85fce5cb",
+    "service_id": "a810b8db-6d04-4697-bed3-c4b72c996279",
+    "room_id": "cecc52c7-3e67-4b75-9b13-9a8867b0443d",
+    "name": "LED remote",
+    "model": "light",
+    "selector": "broadlink-1cee8bf16731-197018ef-5110-4e3d-9022-cecb85fce5cb",
+    "external_id": "broadlink:1cee8bf16731:197018ef-5110-4e3d-9022-cecb85fce5cb",
+    "should_poll": false,
+    "poll_frequency": null,
+    "created_at": "2019-02-12T07:49:07.556Z",
+    "updated_at": "2019-02-12T07:49:07.556Z",
+    "features": [
+      {
+        "id": "db05402f-8795-4942-903e-351716ee04f9",
+        "name": "Power ON",
+        "external_id": "broadlink:1cee8bf16731:197018ef-5110-4e3d-9022-cecb85fce5cb:power-on-button",
+        "selector": "broadlink-1cee8bf16731-197018ef-5110-4e3d-9022-cecb85fce5cb-power-on-button",
+        "category": "light",
+        "type": "power-on-button"
+      },
+      {
+        "id": "239c3bee-1652-4ccf-959d-5b01b516520e",
+        "name": "Power OFF",
+        "external_id": "broadlink:1cee8bf16731:197018ef-5110-4e3d-9022-cecb85fce5cb:power-off-button",
+        "selector": "broadlink-1cee8bf16731-197018ef-5110-4e3d-9022-cecb85fce5cb-power-off-button",
+        "category": "light",
+        "type": "power-off-button"
+      },
+      {
+        "id": "239c3bee-1652-4ccf-959d-5b01b516520e",
+        "name": "Red",
+        "external_id": "broadlink:1cee8bf16731:197018ef-5110-4e3d-9022-cecb85fce5cb:red-button",
+        "selector": "broadlink-1cee8bf16731-197018ef-5110-4e3d-9022-cecb85fce5cb-red-button",
+        "category": "light",
+        "type": "red-button"
+      }
+    ]
+  },
   "get /api/v1/device/broadlink-1cee8bf16731-fbedb47f-4d25-4381-8923-2633b23192a0": {
     "id": "fbedb47f-4d25-4381-8923-2633b23192a0",
     "service_id": "a810b8db-6d04-4697-bed3-c4b72c996279",
