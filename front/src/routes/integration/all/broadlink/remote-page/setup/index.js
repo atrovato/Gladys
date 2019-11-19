@@ -203,10 +203,11 @@ class BroadlinkDeviceSetupPage extends Component {
         loadedDevice.service_id === this.props.currentIntegration.id
       ) {
         device = loadedDevice;
+        const { features, params } = device;
 
-        device.features.forEach(feature => {
+        features.forEach(feature => {
           const { type } = feature;
-          const param = device.params.find(p => p.name === `code_${type}`);
+          const param = params.find(p => p.name === `code_${type}`);
 
           if (param) {
             buttons[type] = param.value;
