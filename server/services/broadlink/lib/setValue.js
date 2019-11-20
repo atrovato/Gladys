@@ -23,7 +23,8 @@ function setValue(device, deviceFeature, value) {
     default: {
       const param = device.params.find((p) => p.name === `code_${deviceFeature.type}`);
       if (param) {
-        this.send(peripheral, param.value);
+        const code = Buffer.from(param.value, 'hex');
+        this.broadlinkDevices[peripheral].sendData(code);
       }
     }
   }
