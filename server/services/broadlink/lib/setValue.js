@@ -17,7 +17,7 @@ function setValue(device, deviceFeature, value) {
       break;
     }
     case 'mp1': {
-      this.broadlinkDevices[peripheral].setPower(convertedValue, splittedId[2]);
+      this.broadlinkDevices[peripheral].setPower(convertedValue, parseInt(splittedId[2], 10));
       break;
     }
     default: {
