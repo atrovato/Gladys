@@ -44,9 +44,9 @@ class BroadlinkDeviceSetupPage extends Component {
     });
 
     const { device, buttons, selectedRemoteType, selectedModel } = this.state;
+    device.id = device.id || uuid.v4();
     device.params = [];
-    device.external_id = `broadlink:${selectedModel.mac}:${uuid.v4()}`;
-    device.selector = device.external_id;
+    device.external_id = `broadlink:${selectedModel.mac}:${device.id}`;
     device.model = `remote-control:${selectedRemoteType}`;
     addSelector(device);
     device.features = Object.keys(buttons).map(key => {
