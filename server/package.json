@@ -7,6 +7,7 @@
     "clean:test": "shx --silent rm -f /tmp/gladys-test.db && shx echo Cleaned test database",
     "pretest": "cross-env SQLITE_FILE_PATH=/tmp/gladys-test.db npm run db-migrate:test && npm run eslint",
     "test": "cross-env SQLITE_FILE_PATH=/tmp/gladys-test.db NODE_ENV=test ./node_modules/mocha/bin/mocha --recursive ./test/bootstrap.test.js \"./test/**/*.test.js\" --exit",
+    "test-service": "cross-env SQLITE_FILE_PATH=/tmp/gladys-test.db NODE_ENV=test ./node_modules/mocha/bin/mocha --recursive ./test/bootstrap.test.js \"./test/services/$SERVICE/*.test.js\" \"./test/services/$SERVICE/**/*.test.js\" --exit",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov",
     "push-coverage": "codecov -F server",
     "prettier-check": "prettier --check '**/*.js' '**/*.json'",
