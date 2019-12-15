@@ -1,6 +1,6 @@
 const logger = require('../../../utils/logger');
 const { EVENTS } = require('../../../utils/constants');
-const { status, state, sensor, power } = require('./mqttStat');
+const { status, state, sensor, power, result } = require('./mqttStat');
 /**
  * @description Handle a new message receive in MQTT.
  * @param {string} topic - MQTT topic.
@@ -30,10 +30,16 @@ function handleMqttMessage(topic, message) {
     // Device global status
     case 'STATUS': {
       status(deviceExternalId, message, events, this);
+      // Ask for GPIO components
+      this.mqttService.device.publish(`cmnd/${deviceExternalId}/gpio`);
+      break;
+    }
+    // Device result topic
+    case 'RESULT': {
+      result(deviceExternalId, message, this);
       break;
     }
     // Device state topic
-    case 'RESULT':
     case 'STATE': {
       state(deviceExternalId, message, events);
       break;
