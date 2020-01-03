@@ -235,7 +235,8 @@
         "title": "Sonoff devices in Gladys",
         "search": "Search devices",
         "editButton": "Edit",
-        "noDeviceFound": "No Sonoff device found. You can add devices with following actions:"
+        "noDeviceFound": "No Sonoff device found. You can add devices with following actions:",
+        "featuresLabel": "Features"
       },
       "discover": {
         "title": "Sonoff discover devices over MQTT",
@@ -247,7 +248,7 @@
       "nameLabel": "Device Name",
       "namePlaceholder": "Enter the name of your device",
       "roomLabel": "Room",
-      "topicLabel": "Topic (%topic% Sonoff MQTT)",
+      "topicLabel": "Sonoff MQTT Topic",
       "topicPlaceholder": "Should starts with 'sonoff:'",
       "modelLabel": "Sonoff Model",
       "saveButton": "Save",
@@ -255,6 +256,7 @@
       "deleteButton": "Delete",
       "error": {
         "defaultError": "There was an error saving the device.",
+        "defaultDeletionError": "There was an error deleting the device.",
         "conflictError": "Current topic is already in use."
       }
     },
