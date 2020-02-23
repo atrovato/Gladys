@@ -412,6 +412,7 @@
       "setupTab": "Setup",
       "device": {
         "title": "Bluetooth Devices",
+        "noDeviceFound": "No Bluetooth device found.",
         "search": "Search devices",
         "nameLabel": "Name",
         "namePlaceholder": "Enter device name",
@@ -430,45 +431,25 @@
         "title": "Bluetooth Setup",
         "bluetoothNotReadyError": "Bluetooth device is not reachable, please check it is enabled.",
         "scanButton": "Scan",
-        "rssiLabel": "RSSI",
-        "addressLabel": "MAC address",
+        "noDeviceDiscovered": "No Bluetooth device discovered.",
+        "deviceNameLabel": "Device name",
+        "manufacturerLabel": "Manufacturer",
+        "modelLabel": "Model",
+        "externalIdLabel": "Peripheral identifier",
+        "noValue": "-",
         "lastSeenLabel": "Last seen",
         "createDeviceInGladys": "Create in Gladys",
+        "notConnectable": "Not connectable",
         "saveSuccess": "Bluetooth device successfully created.",
         "saveError": "There was an error creating the device.",
+        "noFeatures": "No identified features",
         "peripheral": {
           "title": "Bluetooth Peripheral Configuration",
           "notAvailable": "Peripheral is not available, please scan again.",
           "backToSetup": "Back to setup",
-          "autoDetect": "Automatic detection of device configuration",
-          "autoDetectConnecting": "Connecting to device, please wait...",
-          "autoDetectError": "An error occured during device information discover. Please try again.",
-          "autoDetectSuccess": "Suggested configuration is",
-          "autoDetectSuccessEmpty": "Suggested configuration is not helpful.",
-          "brandSelection": "Select device brand",
-          "modelSelection": "Select device model",
-          "matchingDevices": "Select matching device",
           "createLabel": "Create",
           "cancelLabel": "Cancel",
-          "successLabel": "Done",
-          "brands": {
-            "awox": {
-              "title": "AwoX",
-              "models": {
-                "smlw": "SmartLIGHT White",
-                "smlc": "SmartLIGHT Color",
-                "rcum": "SmartLIGHT Mesh Remote",
-                "smlcm": "SmartLIGHT Mesh Color",
-                "smlwm": "SmartLIGHT Mesh White"
-              }
-            },
-            "nut": {
-              "title": "Nut",
-              "models": {
-                "tracker": "Smart Tracker"
-              }
-            }
-          }
+          "successLabel": "Done"
         }
       }
     }

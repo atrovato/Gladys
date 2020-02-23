@@ -3,8 +3,7 @@ const BluetoothManager = require('./lib');
 const BluetoothController = require('./api/bluetooth.controller');
 
 module.exports = function BluetoothService(gladys, serviceId) {
-  const noble = require('@abandonware/noble');
-  const bluetoothManager = new BluetoothManager(noble, gladys, serviceId);
+  const bluetoothManager = new BluetoothManager(gladys, serviceId);
 
   /**
    * @public
@@ -14,7 +13,7 @@ module.exports = function BluetoothService(gladys, serviceId) {
    */
   async function start() {
     logger.info('Starting Bluetooth service');
-    bluetoothManager.start();
+    await bluetoothManager.start();
   }
 
   /**
@@ -25,7 +24,7 @@ module.exports = function BluetoothService(gladys, serviceId) {
    */
   async function stop() {
     logger.log('Stopping Bluetooth service');
-    bluetoothManager.stop();
+    await bluetoothManager.stop();
   }
 
   return Object.freeze({

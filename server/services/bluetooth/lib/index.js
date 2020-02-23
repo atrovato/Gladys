@@ -1,68 +1,38 @@
-// DEVICE IMPL
-const GenericDevice = require('../devices');
+// Bluetooth
+const { start } = require('./bluetooth/start');
+const { stop } = require('./bluetooth/stop');
+const { scan } = require('./bluetooth/scan');
+const { broadcastStatus } = require('./bluetooth/broadcastStatus');
+const { getStatus } = require('./bluetooth/getStatus');
+const { getDiscoveredDevices } = require('./bluetooth/getDiscoveredDevices');
+const { getDiscoveredDevice } = require('./bluetooth/getDiscoveredDevice');
 
-// EVENTS
-const { stateChange } = require('./events/bluetooth.stateChange');
-const { scanStart } = require('./events/bluetooth.scanStart');
-const { scanStop } = require('./events/bluetooth.scanStop');
-const { discover } = require('./events/bluetooth.discover');
-const { broadcastStatus } = require('./events/bluetooth.broadcastStatus');
+// Peripheral
+const { handleDiscovered } = require('./peripheral/handleDiscovered');
+const { explore } = require('./peripheral/explore');
 
-// COMMANDS
-const { start } = require('./commands/bluetooth.start');
-const { stop } = require('./commands/bluetooth.stop');
-const { scan } = require('./commands/bluetooth.scan');
-const { getPeripheral } = require('./commands/bluetooth.getPeripheral');
-const { getPeripherals } = require('./commands/bluetooth.getPeripherals');
-const { getStatus } = require('./commands/bluetooth.getStatus');
-const { determinePeripheral } = require('./commands/bluetooth.determinePeripheral');
-const { getMatchingDevices } = require('./commands/bluetooth.getMatchingDevices');
-const { getBrands } = require('./commands/bluetooth.getBrands');
-const { getRequiredServicesAndCharacteristics } = require('./commands/bluetooth.getRequiredServicesAndCharacteristics');
-const { getGladysDevice } = require('./commands/bluetooth.getGladysDevice');
-const { getDeviceData } = require('./commands/bluetooth.getDeviceData');
-const { readPeripheral } = require('./commands/bluetooth.readPeripheral');
-
-// DEVICE
-const { poll } = require('./commands/bluetooth.poll');
-
-const BluetoothManager = function BluetoothManager(noble, gladys, serviceId) {
-  this.bluetooth = noble;
+const BluetoothManager = function BluetoothManager(gladys, serviceId) {
+  this.bluetooth = null;
   this.gladys = gladys;
   this.serviceId = serviceId;
 
-  this.ready = false;
+  this.powered = false;
   this.scanning = false;
 
-  this.peripherals = {};
-
-  // All types of device managed by implementations
-  this.availableBrands = new Map();
+  this.discoveredDevices = {};
 };
 
-// EVENTS
-BluetoothManager.prototype.stateChange = stateChange;
-BluetoothManager.prototype.scanStart = scanStart;
-BluetoothManager.prototype.scanStop = scanStop;
-BluetoothManager.prototype.discover = discover;
-BluetoothManager.prototype.broadcastStatus = broadcastStatus;
-
-// COMMANDS
+// Bluetooth
 BluetoothManager.prototype.start = start;
 BluetoothManager.prototype.stop = stop;
 BluetoothManager.prototype.scan = scan;
-BluetoothManager.prototype.getPeripheral = getPeripheral;
-BluetoothManager.prototype.getPeripherals = getPeripherals;
+BluetoothManager.prototype.broadcastStatus = broadcastStatus;
 BluetoothManager.prototype.getStatus = getStatus;
-BluetoothManager.prototype.determinePeripheral = determinePeripheral;
-BluetoothManager.prototype.getMatchingDevices = getMatchingDevices;
-BluetoothManager.prototype.getBrands = getBrands;
-BluetoothManager.prototype.getRequiredServicesAndCharacteristics = getRequiredServicesAndCharacteristics;
-BluetoothManager.prototype.getGladysDevice = getGladysDevice;
-BluetoothManager.prototype.getDeviceData = getDeviceData;
-BluetoothManager.prototype.readPeripheral = readPeripheral;
+BluetoothManager.prototype.getDiscoveredDevices = getDiscoveredDevices;
+BluetoothManager.prototype.getDiscoveredDevice = getDiscoveredDevice;
 
-// DEVICE
-BluetoothManager.prototype.poll = poll;
+// Peripheral
+BluetoothManager.prototype.handleDiscovered = handleDiscovered;
+BluetoothManager.prototype.explore = explore;
 
 module.exports = BluetoothManager;

@@ -20,7 +20,7 @@ class ConfigurePeripheral extends Component {
 
     return (
       <div>
-        <h4>{peripheral.name || peripheral.address}</h4>
+        <h4>{peripheral.name}</h4>
 
         {bluetoothSaveStatus === RequestStatus.Error && (
           <div class="alert alert-danger">

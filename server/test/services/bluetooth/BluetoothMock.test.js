@@ -1,11 +1,10 @@
 const { fake } = require('sinon');
-const EventEmitter = require('events');
 
-const BluetoothMock = function BluetoothMock() {};
-
-BluetoothMock.prototype = EventEmitter.prototype;
-
-BluetoothMock.prototype.startScanning = fake.returns(null);
-BluetoothMock.prototype.stopScanning = fake.returns(null);
+const BluetoothMock = {
+  default: {
+    powerOn: fake.resolves('bluetoothPoweredOn'),
+    connect: fake.resolves(undefined),
+  },
+};
 
 module.exports = BluetoothMock;

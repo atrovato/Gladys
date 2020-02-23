@@ -15,6 +15,7 @@
   ],
   "scripts": {},
   "dependencies": {
-    "@abandonware/noble": "^1.9.2-2"
+    "@sblendid/adapter-node": "^0.3.0",
+    "@sblendid/sblendid": "^0.3.0"
   }
 }

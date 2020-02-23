@@ -10,7 +10,7 @@ import actions from '../actions';
 import { WEBSOCKET_MESSAGE_TYPES } from '../../../../../../../../server/utils/constants';
 
 @connect(
-  'session,httpClient,houses,bluetoothStatus',
+  'session,httpClient,houses,bluetoothPowered,bluetoothScanning',
   actions
 )
 class BluetoothConnnectPage extends Component {
@@ -34,7 +34,7 @@ class BluetoothConnnectPage extends Component {
     );
 
     try {
-      const peripheral = await this.props.httpClient.get(`/api/v1/service/bluetooth/peripheral/${this.state.uuid}`);
+      const peripheral = await this.props.httpClient.get(`/api/v1/service/bluetooth/discover/${this.state.uuid}`);
 
       this.setState({
         peripheral,
@@ -49,10 +49,10 @@ class BluetoothConnnectPage extends Component {
 
   render() {
     const { uuid, peripheral, status } = this.state;
-    const { bluetoothStatus } = this.props;
+    const { bluetoothPowered } = this.props;
 
     let content;
-    if (bluetoothStatus !== 'poweredOff') {
+    if (bluetoothPowered) {
       switch (status) {
         case RequestStatus.Getting:
           content = (
@@ -62,6 +62,11 @@ class BluetoothConnnectPage extends Component {
           );
           break;
         case RequestStatus.Success:
+          if (peripheral.features) {
+            peripheral.features.forEach(feature => {
+              feature.name = <Text id={`deviceFeatureCategory.${feature.category}.${feature.type}`} />;
+            });
+          }
           content = <ConfigurePeripheral peripheral={peripheral} />;
           break;
         case RequestStatus.Error:

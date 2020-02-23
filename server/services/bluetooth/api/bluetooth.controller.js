@@ -1,3 +1,5 @@
+const asyncMiddleware = require('../../../api/middlewares/asyncMiddleware');
+
 module.exports = function BluetoothController(bluetoothManager) {
   /**
    * @api {get} /api/v1/service/bluetooth/status Get Bluetooth status
@@ -5,52 +7,32 @@ module.exports = function BluetoothController(bluetoothManager) {
    * @apiGroup Bluetooth
    */
   async function getStatus(req, res) {
-    res.json({ bluetoothStatus: bluetoothManager.getStatus() });
+    res.json(bluetoothManager.getStatus());
   }
 
   /**
-   * @api {get} /api/v1/service/bluetooth/peripheral Get Bluetooth discovered peripherals
-   * @apiName getPeripherals
+   * @api {get} /api/v1/service/bluetooth/discover Get Bluetooth discovered peripherals
+   * @apiName getDiscoveredDevices
    * @apiGroup Bluetooth
    */
-  async function getPeripherals(req, res) {
-    const peripherals = bluetoothManager.getPeripherals();
+  async function getDiscoveredDevices(req, res) {
+    const peripherals = bluetoothManager.getDiscoveredDevices();
     res.json(peripherals);
   }
 
   /**
-   * @api {get} /api/v1/service/bluetooth/peripheral/:uuid Get Bluetooth discovered peripheral by uuid
-   * @apiName getPeripheral
+   * @api {get} /api/v1/service/bluetooth/discover/:uuid Get Bluetooth discovered peripheral by uuid
+   * @apiName getDiscoveredDevice
    * @apiGroup Bluetooth
    */
-  async function getPeripheral(req, res) {
+  async function getDiscoveredDevice(req, res) {
     const { uuid } = req.params;
-    const peripheral = bluetoothManager.getPeripheral(uuid);
-    if (!peripheral) {
+    const peripheral = bluetoothManager.getDiscoveredDevice(uuid);
+    if (peripheral) {
+      res.json(peripheral);
+    } else {
       res.status(404);
     }
-    res.json(peripheral);
-  }
-
-  /**
-   * @api {get} /api/v1/service/bluetooth/brand Get Bluetooth managed brands and models
-   * @apiName getBrands
-   * @apiGroup Bluetooth
-   */
-  async function getBrands(req, res) {
-    const brands = bluetoothManager.getBrands();
-    res.json(brands);
-  }
-
-  /**
-   * @api {get} /api/v1/service/bluetooth/brand/:brand/:model Get device features managed according to brand and model
-   * @apiName getGladysDevice
-   * @apiGroup Bluetooth
-   */
-  async function getGladysDevice(req, res) {
-    const { brand, model } = req.params;
-    const features = bluetoothManager.getGladysDevice(brand, model);
-    res.json(features);
   }
 
   /**
@@ -59,50 +41,26 @@ module.exports = function BluetoothController(bluetoothManager) {
    * @apiGroup Bluetooth
    */
   async function scan(req, res) {
-    const scanAction = req.body.scan === 'on';
-    bluetoothManager.scan(scanAction);
-    res.json({ bluetoothStatus: bluetoothManager.getStatus() });
-  }
-
-  /**
-   * @api {post} /api/v1/service/bluetooth/peripheral/:uuid/connect Connect and get Bluetooth peripheral
-   * @apiName connect
-   * @apiGroup Bluetooth
-   */
-  async function connect(req, res) {
-    const { uuid } = req.params;
-    bluetoothManager.determinePeripheral(uuid);
-    res.status(200);
+    bluetoothManager.scan();
+    res.json(bluetoothManager.getStatus());
   }
 
   return {
     'get /api/v1/service/bluetooth/status': {
       authenticated: true,
-      controller: getStatus,
+      controller: asyncMiddleware(getStatus),
     },
-    'get /api/v1/service/bluetooth/peripheral': {
+    'get /api/v1/service/bluetooth/discover': {
       authenticated: true,
-      controller: getPeripherals,
+      controller: asyncMiddleware(getDiscoveredDevices),
     },
-    'get /api/v1/service/bluetooth/peripheral/:uuid': {
+    'get /api/v1/service/bluetooth/discover/:uuid': {
       authenticated: true,
-      controller: getPeripheral,
-    },
-    'get /api/v1/service/bluetooth/brand': {
-      authenticated: true,
-      controller: getBrands,
-    },
-    'get /api/v1/service/bluetooth/brand/:brand/:model': {
-      authenticated: true,
-      controller: getGladysDevice,
+      controller: asyncMiddleware(getDiscoveredDevice),
     },
     'post /api/v1/service/bluetooth/scan': {
       authenticated: true,
-      controller: scan,
-    },
-    'post /api/v1/service/bluetooth/peripheral/:uuid/connect': {
-      authenticated: true,
-      controller: connect,
+      controller: asyncMiddleware(scan),
     },
   };
 };

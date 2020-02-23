@@ -1,11 +1,12 @@
 import { Text } from 'preact-i18n';
 import { Component } from 'preact';
+import get from 'get-value';
+import { RequestStatus, DeviceFeatureCategoriesIcon } from '../../../../../utils/consts';
+import { Link } from 'preact-router';
+import dayjs from 'dayjs';
 import cx from 'classnames';
 
-import { RequestStatus } from '../../../../../utils/consts';
-import { Link } from 'preact-router';
-
-class BluetoothNode extends Component {
+class Peripheral extends Component {
   createDevice = async () => {
     this.setState({ loading: true });
     try {
@@ -17,12 +18,20 @@ class BluetoothNode extends Component {
     this.setState({ loading: false });
   };
 
-  render(props, { error, deviceCreated }) {
+  render({ device, ...props }, { error, deviceCreated }) {
+    const parameters = {};
+    device.params.forEach(param => {
+      parameters[param.name] = param.value;
+    });
+
+    const hasFeature = device.features && device.features.length > 0;
+    const peripheralUuid = device.external_id.replace('bluetooth:', '');
+
     return (
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">{props.peripheral.name || props.peripheral.uuid}</h3>
+            <h3 class="card-title">{device.name}</h3>
           </div>
           {error && (
             <div class="alert alert-danger">
@@ -34,36 +43,93 @@ class BluetoothNode extends Component {
               <Text id="integration.bluetooth.setup.deviceCreatedSuccess" />
             </div>
           )}
-          <div class="card-body">
-            <div class="form-group">
-              <label>
-                <Text id="integration.bluetooth.setup.rssiLabel" />
-              </label>
-              <input type="text" class="form-control" disabled value={props.peripheral.rssi} />
-            </div>
-            <div class="form-group">
-              <label>
-                <Text id="integration.bluetooth.setup.addressLabel" />
-              </label>
-              <input type="text" class="form-control" disabled value={props.peripheral.address} />
-            </div>
-            <div class="form-group">
-              <label>
-                <Text id="integration.bluetooth.setup.lastSeenLabel" />
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                disabled
-                value={new Date(props.peripheral.lastSeen).toLocaleTimeString()}
-              />
-            </div>
-            <div class="form-group">
-              <Link href={'/dashboard/integration/device/bluetooth/setup/' + props.peripheral.uuid}>
-                <button class="btn btn-success" disabled={!props.peripheral.connectable}>
-                  <Text id="integration.bluetooth.setup.createDeviceInGladys" />
-                </button>
-              </Link>
+          <div
+            class={cx('dimmer', {
+              active: !parameters.loaded
+            })}
+          >
+            <div class="loader" />
+            <div class="dimmer-content">
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">
+                    <Text id="integration.bluetooth.setup.deviceNameLabel" />
+                    <div class="float-right font-weight-normal">
+                      {parameters.deviceName || <Text id="integration.bluetooth.setup.noValue" />}
+                    </div>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">
+                    <Text id="integration.bluetooth.setup.manufacturerLabel" />
+                    <div class="float-right font-weight-normal">
+                      {parameters.manufacturer || <Text id="integration.bluetooth.setup.noValue" />}
+                    </div>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">
+                    <Text id="integration.bluetooth.setup.modelLabel" />
+                    <div class="float-right font-weight-normal">
+                      {device.model || <Text id="integration.bluetooth.setup.noValue" />}
+                    </div>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">
+                    <Text id="integration.bluetooth.setup.externalIdLabel" />
+                    <div class="float-right font-weight-normal">{device.external_id.replace('bluetooth:', '')}</div>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">
+                    <Text id="integration.bluetooth.setup.lastSeenLabel" />
+                    <div class="float-right font-weight-normal">
+                      {dayjs(device.last_value_changed)
+                        .locale(props.user.language)
+                        .fromNow()}
+                    </div>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">
+                    <Text id="integration.bluetooth.device.featuresLabel" />
+                  </label>
+                  {hasFeature && (
+                    <div class="tags">
+                      {device.features.map(feature => (
+                        <span class="tag">
+                          <Text id={`deviceFeatureCategory.${feature.category}.${feature.type}`} />
+                          <div class="tag-addon">
+                            <i
+                              class={`fe fe-${get(DeviceFeatureCategoriesIcon, `${feature.category}.${feature.type}`)}`}
+                            />
+                          </div>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  {!hasFeature && (
+                    <div class="text-muted">
+                      <Text id="integration.bluetooth.setup.noFeatures" />
+                    </div>
+                  )}
+                </div>
+                <div class="form-group">
+                  {parameters.connectable && (
+                    <Link href={'/dashboard/integration/device/bluetooth/setup/' + peripheralUuid}>
+                      <button class="btn btn-success">
+                        <Text id="integration.bluetooth.setup.createDeviceInGladys" />
+                      </button>
+                    </Link>
+                  )}
+                  {!parameters.connectable && (
+                    <button class="btn btn-danger" disabled>
+                      <Text id="integration.bluetooth.setup.notConnectable" />
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -72,4 +138,4 @@ class BluetoothNode extends Component {
   }
 }
 
-export default BluetoothNode;
+export default Peripheral;

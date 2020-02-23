@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { RequestStatus } from '../../../../../utils/consts';
 import Device from './Device';
 import style from './style.css';
+import EmptyState from '../EmptyState';
 
 const NodeTab = ({ children, ...props }) => (
   <div class="card">
@@ -44,7 +45,7 @@ const NodeTab = ({ children, ...props }) => (
         <div class="loader" />
         <div class="dimmer-content">
           {props.getBluetoothDevicesStatus === RequestStatus.Getting && <div class={style.emptyDiv} />}
-          <div class="row">
+          <div class={cx('row', style.bluetoothListBody)}>
             {props.bluetoothDevices &&
               props.bluetoothDevices.map((bluetoothDevice, index) => (
                 <Device
@@ -57,7 +58,7 @@ const NodeTab = ({ children, ...props }) => (
                 />
               ))}
             {props.bluetoothDevices && props.bluetoothDevices.length === 0 && (
-              <Text id="integration.bluetooth.device.noDevices" />
+              <EmptyState messageId="integration.bluetooth.device.noDeviceFound" />
             )}
           </div>
         </div>

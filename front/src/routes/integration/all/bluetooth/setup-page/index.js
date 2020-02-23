@@ -6,7 +6,7 @@ import PeripheralTab from './PeripheralTab';
 import { WEBSOCKET_MESSAGE_TYPES } from '../../../../../../../server/utils/constants';
 
 @connect(
-  'user,session,bluetoothPeripheralUuids,bluetoothPeripherals,bluetoothStatus,bluetoothGetDriverStatus',
+  'user,session,bluetoothPeripherals,bluetoothPowered,bluetoothScanning,bluetoothGetDriverStatus',
   actions
 )
 class BluetoothSetupPage extends Component {

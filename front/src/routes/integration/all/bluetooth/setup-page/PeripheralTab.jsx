@@ -1,14 +1,14 @@
 import { Text } from 'preact-i18n';
 import cx from 'classnames';
 
-import Node from './Peripheral';
+import Peripheral from './Peripheral';
 import { RequestStatus } from '../../../../../utils/consts';
+import EmptyState from '../EmptyState';
+import style from '../style.css';
 
-const NodeTab = ({ children, ...props }) => {
-  const bluetoothNotReady =
-    props.bluetoothGetDriverStatus === RequestStatus.Error ||
-    props.bluetoothStatus === 'loading' ||
-    props.bluetoothStatus === 'poweredOff';
+const PeripheralTab = ({ children, ...props }) => {
+  const bluetoothReady = props.bluetoothGetDriverStatus === RequestStatus.Success && props.bluetoothPowered;
+  const hasBluetoothPeripherals = props.bluetoothPeripherals && props.bluetoothPeripherals.length > 0;
 
   return (
     <div class="card">
@@ -19,11 +19,11 @@ const NodeTab = ({ children, ...props }) => {
         <div class="page-options d-flex">
           <button
             class={cx('btn', {
-              'btn-outline-danger': props.bluetoothStatus === 'scanning',
-              'btn-outline-primary': props.bluetoothStatus !== 'scanning'
+              'btn-outline-danger': props.bluetoothScanning,
+              'btn-outline-primary': !props.bluetoothScanning
             })}
             onClick={props.scan}
-            disabled={bluetoothNotReady}
+            disabled={!bluetoothReady}
           >
             <Text id="integration.bluetooth.setup.scanButton" /> <i class="fe fe-radio" />
           </button>
@@ -32,28 +32,25 @@ const NodeTab = ({ children, ...props }) => {
       <div class="card-body">
         <div
           class={cx('dimmer', {
-            active:
-              props.bluetoothStatus === 'scanning' || props.bluetoothGetPeripheralsStatus === RequestStatus.Getting
+            active: props.bluetoothScanning || props.bluetoothGetPeripheralsStatus === RequestStatus.Getting
           })}
         >
           <div class="loader" />
           <div class="dimmer-content">
-            {bluetoothNotReady && (
+            {!bluetoothReady && (
               <div class="alert alert-warning">
                 <Text id="integration.bluetooth.setup.bluetoothNotReadyError" />
               </div>
             )}
-            <div class="row">
-              {!bluetoothNotReady &&
-                props.bluetoothPeripheralUuids &&
-                props.bluetoothPeripheralUuids.map((uuid, index) => (
-                  <Node
-                    peripheral={props.bluetoothPeripherals[uuid]}
-                    peripheralIndex={index}
-                    createDevice={props.createDevice}
-                  />
-                ))}
-            </div>
+            {bluetoothReady && (
+              <div class={cx('row', style.bluetoothListBody)}>
+                {hasBluetoothPeripherals &&
+                  props.bluetoothPeripherals.map((device, index) => (
+                    <Peripheral {...props} device={device} peripheralIndex={index} createDevice={props.createDevice} />
+                  ))}
+                {!hasBluetoothPeripherals && <EmptyState messageId="integration.bluetooth.setup.noDeviceDiscovered" />}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -61,4 +58,4 @@ const NodeTab = ({ children, ...props }) => {
   );
 };
 
-export default NodeTab;
+export default PeripheralTab;
