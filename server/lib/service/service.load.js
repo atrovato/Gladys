@@ -40,6 +40,9 @@ async function load(gladys) {
         if (newServiceObject.message && newServiceObject.message.send) {
           serviceToInsertOrUpdate.has_message_feature = true;
         }
+
+        // Credential information
+        newServiceObject.authenticated = this.stateManager.get('serviceCredential', newServiceObject.id) !== null;
       } catch (e) {
         logger.debug(e);
         serviceToInsertOrUpdate.enabled = false;
