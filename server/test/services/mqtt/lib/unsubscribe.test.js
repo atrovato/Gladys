@@ -11,6 +11,9 @@ const gladys = {
   event: {
     emit: fake.returns(null),
   },
+  stateManager: {
+    get: fake.returns(null),
+  },
 };
 
 const MqttHandler = require('../../../../services/mqtt/lib');

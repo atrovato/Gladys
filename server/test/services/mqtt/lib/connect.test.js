@@ -15,6 +15,9 @@ describe('mqttHandler.connect', () => {
       event: {
         emit: fake.returns(null),
       },
+      stateManager: {
+        get: fake.returns(null),
+      },
     };
     const mqttHandler = new MqttHandler(gladys, MockedMqttClient, 'faea9c35-759a-44d5-bcc9-2af1de37b8b4');
     await mqttHandler.connect();
@@ -30,6 +33,9 @@ describe('mqttHandler.connect', () => {
       },
       event: {
         emit: fake.returns(null),
+      },
+      stateManager: {
+        get: fake.returns(null),
       },
     };
     const mqttHandler = new MqttHandler(gladys, MockedMqttClient, 'faea9c35-759a-44d5-bcc9-2af1de37b8b4');
@@ -48,6 +54,9 @@ describe('mqttHandler.connect', () => {
       event: {
         emit: fake.returns(null),
       },
+      stateManager: {
+        get: fake.returns(null),
+      },
     };
     const mqttHandler = new MqttHandler(gladys, MockedMqttClient, 'faea9c35-759a-44d5-bcc9-2af1de37b8b4');
     await mqttHandler.connect();
@@ -55,6 +64,28 @@ describe('mqttHandler.connect', () => {
     assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
       type: WEBSOCKET_MESSAGE_TYPES.MQTT.ERROR,
       payload: 'DISCONNECTED',
+    });
+  });
+  it('should store credentials and connect', async () => {
+    const gladys = {
+      variable: {
+        getValue: fake.resolves('result'),
+      },
+      event: {
+        emit: fake.returns(null),
+      },
+      credentialManager: {
+        create: fake.returns(null),
+      },
+      stateManager: {
+        get: fake.returns(null),
+      },
+    };
+    const mqttHandler = new MqttHandler(gladys, MockedMqttClient, 'faea9c35-759a-44d5-bcc9-2af1de37b8b4');
+    await mqttHandler.connect({});
+    mqttHandler.mqttClient.emit('connect');
+    assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
+      type: WEBSOCKET_MESSAGE_TYPES.MQTT.CONNECTED,
     });
   });
 });

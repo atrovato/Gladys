@@ -6,33 +6,21 @@ const createActions = store => {
   const actions = {
     async loadProps(state) {
       let mqttURL;
-      let mqttUsername;
-      let mqttPassword;
       try {
         mqttURL = await state.httpClient.get('/api/v1/service/mqtt/variable/MQTT_URL');
-        mqttUsername = await state.httpClient.get('/api/v1/service/mqtt/variable/MQTT_USERNAME');
-        if (mqttUsername.value) {
-          mqttPassword = '*********'; // this is just used so that the field is filled
-        }
       } finally {
         store.setState({
           mqttURL: (mqttURL || {}).value,
-          mqttUsername: (mqttUsername || { value: '' }).value,
-          mqttPassword,
-          passwordChanges: false,
           connected: false
         });
       }
     },
-    updateConfigration(state, e) {
+    updateConfigration(state, key, value) {
       const data = {};
-      data[e.target.name] = e.target.value;
-      if (e.target.name === 'mqttPassword') {
-        data.passwordChanges = true;
-      }
+      data[key] = value;
       store.setState(data);
     },
-    async saveConfiguration(state) {
+    async saveConfiguration(state, credential) {
       event.preventDefault();
       store.setState({
         connectMqttStatus: RequestStatus.Getting,
@@ -43,15 +31,8 @@ const createActions = store => {
         await state.httpClient.post('/api/v1/service/mqtt/variable/MQTT_URL', {
           value: state.mqttURL
         });
-        await state.httpClient.post('/api/v1/service/mqtt/variable/MQTT_USERNAME', {
-          value: state.mqttUsername
-        });
-        if (state.passwordChanges) {
-          await state.httpClient.post('/api/v1/service/mqtt/variable/MQTT_PASSWORD', {
-            value: state.mqttPassword
-          });
-        }
-        await state.httpClient.post(`/api/v1/service/mqtt/connect`);
+
+        await state.httpClient.post(`/api/v1/service/mqtt/connect`, { credential });
 
         store.setState({
           connectMqttStatus: RequestStatus.Success

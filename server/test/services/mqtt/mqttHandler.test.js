@@ -12,6 +12,9 @@ const gladys = {
   event: {
     emit: fake.returns(null),
   },
+  stateManager: {
+    get: fake.returns(null),
+  },
 };
 
 const MqttHandler = require('../../../services/mqtt/lib');
@@ -35,7 +38,8 @@ describe('MqttHandler', () => {
 
   it('should call connect function', async () => {
     await mqttHandler.connect();
-    assert.callCount(gladys.variable.getValue, 3);
+    assert.calledOnce(gladys.variable.getValue);
+    assert.calledOnce(gladys.stateManager.get);
     assert.calledOnce(MockedMqttClient.internalConnect);
     expect(mqttHandler.configured).to.eq(true);
     expect(mqttHandler.connected).to.eq(false);

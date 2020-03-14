@@ -20,6 +20,6 @@ describe('CredentialManager.add', () => {
     credentialManager.add(credential);
 
     const stateCrendential = stateManager.get('deviceCredential', credential.item_id);
-    expect(stateCrendential).to.deep.eq(credential);
+    expect(stateCrendential).to.deep.eq(credential.data);
   });
 });

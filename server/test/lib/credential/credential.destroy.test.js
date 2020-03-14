@@ -13,7 +13,7 @@ describe('CredentialManager.destroy', () => {
 
     // Check that credential is well loaded
     const stateCrendential = stateManager.get('deviceCredential', itemId);
-    expect(stateCrendential).to.be.instanceOf(Object);
+    expect(stateCrendential).to.not.eq(null);
 
     const credentialManager = new CredentialManager(stateManager);
 

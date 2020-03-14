@@ -19,7 +19,7 @@ const db = require('../../models');
  *  'device',
  *  {});
  */
-async function create(credential, itemId, itemType, transaction) {
+async function create(credential, itemId, itemType, transaction = undefined) {
   const existingCredential = await db.Credential.findOne({
     where: {
       item_id: itemId,
@@ -47,9 +47,15 @@ async function create(credential, itemId, itemType, transaction) {
 
   if (credentialInDb !== null) {
     const plainCredential = await credentialInDb.get({ plain: true });
-    transaction.afterCommit(() => {
+
+    if (transaction) {
+      transaction.afterCommit(() => {
+        this.add(plainCredential);
+      });
+    } else {
       this.add(plainCredential);
-    });
+    }
+
     return plainCredential;
   }
 

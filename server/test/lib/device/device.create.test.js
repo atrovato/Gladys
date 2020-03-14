@@ -260,8 +260,6 @@ describe('Device', () => {
     expect(newDevice).to.have.property('authenticated', true);
 
     const stateCredential = stateManager.get('deviceCredential', newDevice.id);
-    expect(stateCredential).not.eq(null);
-    expect(stateCredential).to.have.property('data');
-    expect(stateCredential.data).to.deep.eq(deviceCredential);
+    expect(stateCredential).to.deep.eq(deviceCredential);
   });
 });

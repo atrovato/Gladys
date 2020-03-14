@@ -7,8 +7,8 @@ module.exports = function MqttController(mqttManager) {
    * @apiGroup Mqtt
    */
   async function connect(req, res) {
-    const { mqttURL, mqttUsername, mqttPassword } = req.body;
-    await mqttManager.connect(mqttURL, mqttUsername, mqttPassword);
+    const { credential } = req.body;
+    await mqttManager.connect(credential);
     res.json({
       success: true,
     });

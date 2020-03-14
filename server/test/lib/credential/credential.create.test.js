@@ -30,7 +30,42 @@ describe('CredentialManager.create', () => {
 
     const stateCrendential = stateManager.get('deviceCredential', itemId);
     expect(stateCrendential).to.be.instanceOf(Object);
-    expect(stateCrendential.data).to.deep.eq(credential);
+    expect(stateCrendential).to.deep.eq(credential);
+
+    const removedCrendential = await db.sequelize.transaction(async (transaction) => {
+      return credentialManager.create({}, itemId, itemType, transaction);
+    });
+
+    const nbCredentialsAfterRemove = await db.Credential.count();
+    expect(nbCredentialsAfterRemove).to.eq(nbInitial);
+
+    expect(removedCrendential).to.eq(null);
+  });
+
+  it('should create credentials into database and into state manager without transaction', async () => {
+    const stateManager = new StateManager({});
+    const credentialManager = new CredentialManager(stateManager);
+
+    const nbInitial = await db.Credential.count();
+
+    const itemId = '7f85c2f8-86cc-4600-84db-6c074dadb4e8';
+    const itemType = ITEMS.DEVICE;
+    const credential = {
+      username: 'username',
+      password: 'password',
+    };
+
+    const storedCrendential = await credentialManager.create(credential, itemId, itemType);
+
+    const nbCredentials = await db.Credential.count();
+    expect(nbCredentials).to.eq(nbInitial + 1);
+
+    expect(storedCrendential).to.haveOwnProperty('id');
+    expect(storedCrendential.data).to.deep.eq(credential);
+
+    const stateCrendential = stateManager.get('deviceCredential', itemId);
+    expect(stateCrendential).to.be.instanceOf(Object);
+    expect(stateCrendential).to.deep.eq(credential);
 
     const removedCrendential = await db.sequelize.transaction(async (transaction) => {
       return credentialManager.create({}, itemId, itemType, transaction);

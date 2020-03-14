@@ -13,6 +13,9 @@ const gladys = {
   variable: {
     getValue: fake.resolves('result'),
   },
+  stateManager: {
+    get: fake.returns(null),
+  },
 };
 
 describe('MqttService', () => {
@@ -23,14 +26,16 @@ describe('MqttService', () => {
   const mqttService = MqttService(gladys, 'faea9c35-759a-44d5-bcc9-2af1de37b8b4');
   it('should start service', async () => {
     await mqttService.start();
-    assert.callCount(gladys.variable.getValue, 3);
+    assert.calledOnce(gladys.variable.getValue);
+    assert.calledOnce(gladys.stateManager.get);
     assert.calledOnce(MockedMqttClient.internalConnect);
     expect(mqttService.device.mqttClient.disconnected).to.eq(false);
   });
 
   it('should start service while already started', async () => {
     await mqttService.start();
-    assert.callCount(gladys.variable.getValue, 3);
+    assert.calledOnce(gladys.variable.getValue);
+    assert.calledOnce(gladys.stateManager.get);
     assert.calledOnce(mqttService.device.mqttClient.internalEnd);
     assert.calledOnce(MockedMqttClient.internalConnect);
     expect(mqttService.device.mqttClient.disconnected).to.eq(false);

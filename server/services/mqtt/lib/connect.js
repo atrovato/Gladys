@@ -1,17 +1,16 @@
 const logger = require('../../../utils/logger');
 const { CONFIGURATION } = require('./constants');
-const { EVENTS, WEBSOCKET_MESSAGE_TYPES } = require('../../../utils/constants');
+const { EVENTS, WEBSOCKET_MESSAGE_TYPES, ITEMS } = require('../../../utils/constants');
 const { ServiceNotConfiguredError } = require('../../../utils/coreErrors');
 
 /**
- * @description Connect and listen to all topics
+ * @description Connect and listen to all topics.
+ * @param {Object} credential - MQTT credentials.
  * @example
- * connect('htpp://localhost:1883', 'mqttUser', 'mqttPassword');
+ * connect({ username: 'username', password: 'password' });
  */
-async function connect() {
+async function connect(credential = undefined) {
   const mqttUrl = await this.gladys.variable.getValue(CONFIGURATION.MQTT_URL_KEY, this.serviceId);
-  const mqttUsername = await this.gladys.variable.getValue(CONFIGURATION.MQTT_USERNAME_KEY, this.serviceId);
-  const mqttPassword = await this.gladys.variable.getValue(CONFIGURATION.MQTT_PASSWORD_KEY, this.serviceId);
 
   const variablesFound = mqttUrl;
   if (!variablesFound) {
@@ -24,11 +23,13 @@ async function connect() {
     this.disconnect();
   }
 
+  if (credential) {
+    await this.gladys.credentialManager.create(credential, this.serviceId, ITEMS.SERVICE);
+  }
+  const mqttCredential = this.gladys.stateManager.get('serviceCredential', this.serviceId);
+
   logger.debug(`Trying to connect to MQTT server ${mqttUrl}...`);
-  this.mqttClient = this.mqttLibrary.connect(mqttUrl, {
-    username: mqttUsername,
-    password: mqttPassword,
-  });
+  this.mqttClient = this.mqttLibrary.connect(mqttUrl, mqttCredential);
   this.mqttClient.on('connect', () => {
     logger.info(`Connected to MQTT server ${mqttUrl}`);
     Object.keys(this.topicBinds).forEach((topic) => {

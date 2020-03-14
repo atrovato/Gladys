@@ -16,9 +16,7 @@ describe('POST /api/v1/service/mqtt/connect', () => {
   it('Connect test', async () => {
     const req = {
       body: {
-        mqttURL: 'url',
-        mqttUsername: 'username',
-        mqttPassword: 'password',
+        credential: 'crediential',
       },
     };
     const res = {
@@ -26,7 +24,7 @@ describe('POST /api/v1/service/mqtt/connect', () => {
     };
 
     await controller['post /api/v1/service/mqtt/connect'].controller(req, res);
-    assert.calledWith(mqttHandler.connect, 'url', 'username', 'password');
+    assert.calledWith(mqttHandler.connect, 'crediential');
   });
 });
 

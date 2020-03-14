@@ -3,16 +3,16 @@
  * @param {Object} credential - Credential object.
  * @example
  * gladys.credentialManager.add({
- *  {
+ *  data: {
  *    username: 'user',
  *    password: 'password'
  *  },
- *  '90946a0d-5be2-4740-ac8b-26a2d78f12dd',
- *  'device',
+ *  item_id: '90946a0d-5be2-4740-ac8b-26a2d78f12dd',
+ *  item_type: 'device',
  * });
  */
 function add(credential) {
-  this.stateManager.setState(`${credential.item_type}Credential`, credential.item_id, credential);
+  this.stateManager.setState(`${credential.item_type}Credential`, credential.item_id, credential.data);
 }
 
 module.exports = {

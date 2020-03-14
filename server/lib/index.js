@@ -95,6 +95,9 @@ function Gladys(params = {}) {
       if (!params.disableBrainLoading) {
         await brain.load();
       }
+      if (!params.disableCredentialsLoading) {
+        await credentialManager.init();
+      }
       if (!params.disableService) {
         await service.load(gladys);
         await service.startAll();
@@ -104,9 +107,6 @@ function Gladys(params = {}) {
       }
       if (!params.disableDeviceLoading) {
         await device.init();
-      }
-      if (!params.disableCredentialsLoading) {
-        await credentialManager.init();
       }
       if (!params.disableUserLoading) {
         await user.init();
