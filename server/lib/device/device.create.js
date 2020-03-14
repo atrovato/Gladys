@@ -1,5 +1,6 @@
 const Promise = require('bluebird');
 const { BadParameters } = require('../../utils/coreErrors');
+const { ITEMS } = require('../../utils/constants');
 const db = require('../../models');
 
 const getByExternalId = async (externalId) => {
@@ -58,8 +59,10 @@ async function create(device) {
   // separate object
   const features = device.features || [];
   const params = device.params || [];
+  const { credential } = device;
   delete device.features;
   delete device.params;
+  delete device.credential;
 
   // we execute the whole insert in a transaction to avoir inconsistent state
   await db.sequelize.transaction(async (transaction) => {
@@ -136,6 +139,11 @@ async function create(device) {
       return paramCreated.get({ plain: true });
     });
     deviceToReturn.params = newParams;
+
+    // Store credential
+    if (credential) {
+      await this.credentialManager.create(credential, deviceToReturn.id, ITEMS.DEVICE, transaction);
+    }
 
     return deviceToReturn;
   });

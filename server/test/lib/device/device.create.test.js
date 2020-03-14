@@ -2,6 +2,7 @@ const { expect } = require('chai');
 const EventEmitter = require('events');
 const Device = require('../../../lib/device');
 const StateManager = require('../../../lib/state');
+const CredentialManager = require('../../../lib/credential');
 
 const event = new EventEmitter();
 
@@ -212,6 +213,7 @@ describe('Device', () => {
     expect(newDevice).to.have.property('features');
     expect(newDevice.params).to.have.lengthOf(0);
     expect(newDevice.features).to.have.lengthOf(0);
+    expect(newDevice).to.have.property('authenticated', false);
   });
   it('should create device, one feature and one param', async () => {
     const stateManager = new StateManager(event);
@@ -239,5 +241,27 @@ describe('Device', () => {
     expect(newDevice).to.have.property('selector', 'philips-hue-1');
     expect(newDevice).to.have.property('features');
     expect(newDevice).to.have.property('params');
+    expect(newDevice).to.have.property('authenticated', false);
+  });
+  it('should create device, with credentials', async () => {
+    const stateManager = new StateManager(event);
+    const credentialManager = new CredentialManager(stateManager);
+    const device = new Device(event, {}, stateManager, {}, {}, {}, credentialManager);
+    const deviceCredential = { username: 'username', password: 'password' };
+    const newDevice = await device.create({
+      service_id: 'a810b8db-6d04-4697-bed3-c4b72c996279',
+      name: 'Philips Hue 1',
+      external_id: 'philips-hue:1',
+      credential: deviceCredential,
+    });
+    expect(newDevice).to.have.property('name', 'Philips Hue 1');
+    expect(newDevice).to.have.property('selector', 'philips-hue-1');
+    expect(newDevice).to.not.have.property('credentials');
+    expect(newDevice).to.have.property('authenticated', true);
+
+    const stateCredential = stateManager.get('deviceCredential', newDevice.id);
+    expect(stateCredential).not.eq(null);
+    expect(stateCredential).to.have.property('data');
+    expect(stateCredential.data).to.deep.eq(deviceCredential);
   });
 });

@@ -35,16 +35,25 @@ async function create(credential, itemId, itemType, transaction) {
 
   let credentialInDb;
   if (existingCredential) {
-    credentialInDb = await existingCredential.update(credentialsToSave, { transaction });
+    if (!credential || Object.keys(credential).length === 0) {
+      await existingCredential.destroy(itemId, itemType, { transaction });
+      credentialInDb = null;
+    } else {
+      credentialInDb = await existingCredential.update(credentialsToSave, { transaction });
+    }
   } else {
     credentialInDb = await db.Credential.create(credentialsToSave, { transaction });
   }
 
-  const plainCredential = await credentialInDb.get({ plain: true });
-  transaction.afterCommit(() => {
-    this.add(plainCredential);
-  });
-  return plainCredential;
+  if (credentialInDb !== null) {
+    const plainCredential = await credentialInDb.get({ plain: true });
+    transaction.afterCommit(() => {
+      this.add(plainCredential);
+    });
+    return plainCredential;
+  }
+
+  return null;
 }
 
 module.exports = {

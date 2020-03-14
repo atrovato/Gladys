@@ -14,6 +14,10 @@ function add(device) {
     this.stateManager.setState('deviceFeature', feature.selector, feature);
     this.stateManager.setState('deviceFeatureByExternalId', feature.external_id, feature);
   });
+
+  // Credential information
+  device.authenticated = this.stateManager.get('deviceCredential', device.id) !== null;
+
   if (device.should_poll === true && device.poll_frequency) {
     if (!this.devicesByPollFrequency[device.poll_frequency]) {
       this.devicesByPollFrequency[device.poll_frequency] = [];

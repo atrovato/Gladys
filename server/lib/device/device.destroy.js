@@ -1,5 +1,5 @@
 const { NotFoundError } = require('../../utils/coreErrors');
-const { DEVICE_POLL_FREQUENCIES } = require('../../utils/constants');
+const { DEVICE_POLL_FREQUENCIES, ITEMS } = require('../../utils/constants');
 const db = require('../../models');
 
 /**
@@ -25,7 +25,10 @@ async function destroy(selector) {
     throw new NotFoundError('Device not found');
   }
 
-  await device.destroy();
+  await db.sequelize.transaction(async (transaction) => {
+    await device.destroy({ transaction });
+    await this.credentialManager.destroy(device.id, ITEMS.DEVICE, transaction);
+  });
 
   // removing from ram cache
   this.stateManager.deleteState('device', device.selector, device);

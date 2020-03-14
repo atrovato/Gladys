@@ -32,6 +32,7 @@ const DeviceManager = function DeviceManager(
   serviceManager,
   roomManager,
   variable,
+  credentialManager,
 ) {
   this.eventManager = eventManager;
   this.messageManager = messageManager;
@@ -39,6 +40,7 @@ const DeviceManager = function DeviceManager(
   this.serviceManager = serviceManager;
   this.roomManager = roomManager;
   this.variable = variable;
+  this.credentialManager = credentialManager;
 
   // initalize all types of device feature categories
   this.camera = new CameraManager(this.stateManager, messageManager, eventManager, this);
