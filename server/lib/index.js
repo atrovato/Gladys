@@ -5,6 +5,7 @@ const db = require('../models');
 const Area = require('./area');
 const Brain = require('./brain');
 const Calendar = require('./calendar');
+const CredentialManager = require('./credential');
 const Dashboard = require('./dashboard');
 const Event = require('./event');
 const House = require('./house');
@@ -33,6 +34,7 @@ const Weather = require('./weather');
  * @param {boolean} [params.disableRoomLoading] - If true, disable the loading of the rooms.
  * @param {boolean} [params.disableSceneLoading] - If true, disable the loading of the scenes.
  * @param {boolean} [params.disableDeviceLoading] - If true, disable the loading of devices in RAM.
+ * @param {boolean} [params.disableCredentialsLoading] - If true, disable the loading of credentials in RAM.
  * @param {boolean} [params.disableUserLoading] - If true, disable the loading of users in RAM.
  * @param {boolean} [params.disableSchedulerLoading] - If true, disable the loading of the scheduler.
  * @example
@@ -52,6 +54,7 @@ function Gladys(params = {}) {
   const stateManager = new StateManager(event);
   const house = new House(event);
   const room = new Room(brain);
+  const credentialManager = new CredentialManager(stateManager);
   const service = new Service(services, stateManager);
   const message = new MessageHandler(event, brain, service, stateManager);
   const session = new Session(params.jwtSecret, cache);
@@ -69,6 +72,7 @@ function Gladys(params = {}) {
     area,
     calendar,
     config,
+    credentialManager,
     dashboard,
     event,
     house,
@@ -100,6 +104,9 @@ function Gladys(params = {}) {
       }
       if (!params.disableDeviceLoading) {
         await device.init();
+      }
+      if (!params.disableCredentialsLoading) {
+        await credentialManager.init();
       }
       if (!params.disableUserLoading) {
         await user.init();

@@ -386,6 +386,11 @@ const ERROR_MESSAGES = {
   NO_CONNECTED_TO_THE_INTERNET: 'NO_CONNECTED_TO_THE_INTERNET',
 };
 
+const ITEMS = {
+  DEVICE: 'device',
+  SERVICE: 'service',
+};
+
 const createList = (obj) => {
   const list = [];
   Object.keys(obj).forEach((key) => {
@@ -413,6 +418,7 @@ const SESSION_TOKEN_TYPE_LIST = createList(SESSION_TOKEN_TYPES);
 const DEVICE_FEATURE_UNITS_LIST = createList(DEVICE_FEATURE_UNITS);
 const DASHBOARD_TYPE_LIST = createList(DASHBOARD_TYPE);
 const DASHBOARD_BOX_TYPE_LIST = createList(DASHBOARD_BOX_TYPE);
+const ITEMS_LIST = createList(ITEMS);
 
 module.exports.STATE = STATE;
 module.exports.EVENTS = EVENTS;
@@ -454,3 +460,6 @@ module.exports.DASHBOARD_BOX_TYPE = DASHBOARD_BOX_TYPE;
 module.exports.DASHBOARD_BOX_TYPE_LIST = DASHBOARD_BOX_TYPE_LIST;
 
 module.exports.ERROR_MESSAGES = ERROR_MESSAGES;
+
+module.exports.ITEMS = ITEMS;
+module.exports.ITEMS_LIST = ITEMS_LIST;

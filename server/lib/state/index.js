@@ -1,4 +1,5 @@
 const Store = require('./Store');
+const { ITEMS_LIST } = require('../../utils/constants');
 
 /**
  * @description Update the state in a given entity.
@@ -76,6 +77,11 @@ const StateManager = function StateManager(event) {
     system: {},
     variable: {},
   };
+
+  // create credential stores
+  ITEMS_LIST.forEach((item) => {
+    this.state[`${item}Credential`] = {};
+  });
 };
 
 StateManager.prototype.setState = setState;

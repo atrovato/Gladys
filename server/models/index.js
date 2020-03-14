@@ -9,6 +9,7 @@ const sequelize = new Sequelize('mainDB', null, null, config);
 const AreaModel = require('./area');
 const CalendarModel = require('./calendar');
 const CalendarEventModel = require('./calendar_event');
+const CredentialsModel = require('./credential');
 const DashboardModel = require('./dashboard');
 const DeviceFeatureStateModel = require('./device_feature_state');
 const DeviceFeatureModel = require('./device_feature');
@@ -31,6 +32,7 @@ const models = {
   Area: AreaModel(sequelize, Sequelize),
   Calendar: CalendarModel(sequelize, Sequelize),
   CalendarEvent: CalendarEventModel(sequelize, Sequelize),
+  Credential: CredentialsModel(sequelize, Sequelize),
   Dashboard: DashboardModel(sequelize, Sequelize),
   DeviceFeatureState: DeviceFeatureStateModel(sequelize, Sequelize),
   DeviceFeature: DeviceFeatureModel(sequelize, Sequelize),
