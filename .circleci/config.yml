@@ -153,7 +153,7 @@ workflows:
             tags:
               only: /v*/
             branches:
-              only: master
+              only: testing-embedded-mqtt
       - build-amd64:
           requires:
             - build-front
@@ -161,7 +161,7 @@ workflows:
             tags:
               only: /v*/
             branches:
-              only: master
+              only: testing-embedded-mqtt
       - build-i386:
           requires:
             - build-front
@@ -169,7 +169,7 @@ workflows:
             tags:
               only: /v*/
             branches:
-              only: master
+              only: testing-embedded-mqtt
       - build-arm64v8:
           requires:
             - build-front
@@ -177,4 +177,4 @@ workflows:
             tags:
               only: /v*/
             branches:
-              only: master
+              only: testing-embedded-mqtt

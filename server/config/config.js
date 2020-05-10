@@ -38,7 +38,7 @@ module.exports = {
     },
     backupsFolder: process.env.BACKUP_FOLDER || '/var/lib/gladysassistant/backups',
     gladysGatewayServerUrl: process.env.GLADYS_GATEWAY_SERVER_URL || 'https://api.gladysgateway.com',
-    dockerImage: 'gladysassistant/gladys',
+    dockerImage: 'atrovato/gladys-embedded-mqtt',
     tempFolder: '/tmp/gladysassistant',
   },
 };
