@@ -1,5 +1,5 @@
 const { BroadlinkDeviceSP2, BroadlinkDeviceMP1, BroadlinkDeviceRM2 } = require('broadlink-js');
-const { createDevice } = require('../utils/createDevice');
+const { createDevice } = require('../utils/broadlink.createDevice');
 
 /**
  * @description Store discovered peripheral.

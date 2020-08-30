@@ -1,12 +1,12 @@
-const { init } = require('./init');
-const { discover } = require('./discover');
-const { stop } = require('./stop');
-const { addPeripheral } = require('./addPeripheral');
-const { getPeripherals } = require('./getPeripherals');
-const { learn } = require('./learn');
-const { cancelLearn } = require('./cancelLearn');
-const { send } = require('./send');
-const { setValue } = require('./setValue');
+const { init } = require('./broadlink.init');
+const { discover } = require('./broadlink.discover');
+const { stop } = require('./broadlink.stop');
+const { addPeripheral } = require('./broadlink.addPeripheral');
+const { getPeripherals } = require('./broadlink.getPeripherals');
+const { learn } = require('./broadlink.learn');
+const { cancelLearn } = require('./broadlink.cancelLearn');
+const { send } = require('./broadlink.send');
+const { setValue } = require('./broadlink.setValue');
 
 /**
  * @description Add ability to connect to a Broadlink broker.

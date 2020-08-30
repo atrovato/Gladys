@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { createDevice } = require('../../../../services/broadlink/utils/createDevice');
+const { createDevice } = require('../../../../services/broadlink/utils/broadlink.createDevice');
 const {
   DEVICE_FEATURE_CATEGORIES,
   DEVICE_FEATURE_TYPES,

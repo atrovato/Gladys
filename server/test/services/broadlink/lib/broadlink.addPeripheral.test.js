@@ -21,12 +21,12 @@ const broadlinkjs = {
   BroadlinkDeviceRM2,
 };
 
-const addPeripheral = proxyrequire('../../../../services/broadlink/lib/addPeripheral', {
+const addPeripheral = proxyrequire('../../../../services/broadlink/lib/broadlink.addPeripheral', {
   'broadlink-js': broadlinkjs,
 });
 
 const BroadlinkHandler = proxyrequire('../../../../services/broadlink/lib', {
-  './addPeripheral': addPeripheral,
+  './broadlink.addPeripheral': addPeripheral,
 });
 
 const gladys = {};
