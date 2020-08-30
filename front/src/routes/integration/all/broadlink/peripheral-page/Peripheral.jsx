@@ -15,7 +15,7 @@ const BroadlinkPeripheralBox = ({ peripheral }) => (
             <label class="form-label" for="ipAddress">
               <Text id="integration.broadlink.peripheral.ipAddressLabel" />
             </label>
-            <input id="ipAddress" type="text" class="form-control" disabled={true} value={peripheral.address} />
+            <input id="ipAddress" type="text" class="form-control" disabled value={peripheral.address} />
           </div>
         )}
         {peripheral.device && (
@@ -23,14 +23,14 @@ const BroadlinkPeripheralBox = ({ peripheral }) => (
             <label class="form-label" for="name">
               <Text id="integration.broadlink.peripheral.nameLabel" />
             </label>
-            <input id="name" type="text" class="form-control" disabled={true} value={peripheral.device.name} />
+            <input id="name" type="text" class="form-control" disabled value={peripheral.device.name} />
           </div>
         )}
         <div class="form-group">
           <label class="form-label" for="macAddress">
             <Text id="integration.broadlink.peripheral.macAddressLabel" />
           </label>
-          <input id="macAddress" type="text" class="form-control" disabled={true} value={peripheral.mac} />
+          <input id="macAddress" type="text" class="form-control" disabled value={peripheral.mac} />
         </div>
         {!peripheral.device && (
           <div class="form-group">

@@ -54,7 +54,7 @@ class RemoteControlBoxComponent extends Component {
         onClick={this.setValue}
         remoteName={remoteName}
         featureByType={featureByType}
-        dashboard={true}
+        dashboard
       />
     );
   }

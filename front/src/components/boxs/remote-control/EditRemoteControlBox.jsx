@@ -10,7 +10,7 @@ const EditRemoteControlBox = ({ children, ...props }) => (
     <RemoteControlSelector
       updateRemoteTypeAndButtons={props.updateBoxRemoteControlType}
       remoteType={props.box.remoteType}
-      dashboard={true}
+      dashboard
     />
 
     <div class="form-group">

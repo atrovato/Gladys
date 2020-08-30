@@ -2,7 +2,6 @@ import { Component } from 'preact';
 import { connect } from 'unistore/preact';
 import actions from '../actions';
 import BroadlinkPage from '../../BroadlinkPage';
-import integrationConfig from '../../../../../../config/integrations';
 import uuid from 'uuid';
 import update from 'immutability-helper';
 import RemoteSetupTab from './RemoteSetupTab';
@@ -231,7 +230,7 @@ class BroadlinkDeviceSetupPage extends Component {
 
   render(props, state) {
     return (
-      <BroadlinkPage integration={integrationConfig[props.user.language].broadlink}>
+      <BroadlinkPage>
         <RemoteSetupTab
           {...props}
           {...state}

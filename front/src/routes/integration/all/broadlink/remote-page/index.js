@@ -2,7 +2,6 @@ import { Component } from 'preact';
 import { connect } from 'unistore/preact';
 import actions from './actions';
 import BroadlinkPage from '../BroadlinkPage';
-import integrationConfig from '../../../../../config/integrations';
 import RemoteTab from './RemoteTab';
 
 @connect('session,user,broadlinkDevices,getBroadlinkDevicesStatus,houses', actions)
@@ -15,7 +14,7 @@ class BroadlinkRemotePage extends Component {
 
   render(props) {
     return (
-      <BroadlinkPage integration={integrationConfig[props.user.language].broadlink}>
+      <BroadlinkPage>
         <RemoteTab {...props} />
       </BroadlinkPage>
     );

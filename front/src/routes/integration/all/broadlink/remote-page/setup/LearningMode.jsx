@@ -60,10 +60,6 @@ class LearningMode extends Component {
     }
   }
 
-  componentDidMount() {
-    this.enterLearnAllMode(this.props.learnAllMode);
-  }
-
   constructor(props) {
     super(props);
 
@@ -121,23 +117,27 @@ class LearningMode extends Component {
     });
   }
 
+  componentDidMount() {
+    this.enterLearnAllMode(this.props.learnAllMode);
+  }
+
   render({}, state) {
     return (
       <div class="mt-5">
         <div class="text-center">
           {state.active && (
             <button onClick={this.cancelLearnMode} class="btn btn-outline-secondary btn-sm">
-              {<Text id="integration.broadlink.setup.learningModeInProgress" />}
+              <Text id="integration.broadlink.setup.learningModeInProgress" />
             </button>
           )}
           {!state.timeLeft && !state.active && (
             <button onClick={this.activateLearnMode} class="btn btn-outline-primary btn-sm">
-              {<Text id="integration.broadlink.setup.learnModeTitle" />}
+              <Text id="integration.broadlink.setup.learnModeTitle" />
             </button>
           )}
           {state.timeLeft && !state.active && (
-            <button disabled={true} class="btn btn-outline-primary btn-sm">
-              {<Text id="integration.broadlink.setup.learnAllModeLabel" fields={{ timeLeft: state.timeLeft }} />}
+            <button disabled class="btn btn-outline-primary btn-sm">
+              <Text id="integration.broadlink.setup.learnAllModeLabel" fields={{ timeLeft: state.timeLeft }} />
             </button>
           )}
 

@@ -20,7 +20,7 @@ const LightRemoteBox = ({ editionMode, featureByType, onClick }) => (
         {renderButton(DEVICE_FEATURE_TYPES.LIGHT.DIMMER_BUTTON, editionMode, featureByType, onClick)}
         {renderButton(DEVICE_FEATURE_TYPES.LIGHT.BRIGHTER_BUTTON, editionMode, featureByType, onClick)}
       </div>
-      <div class="flex-fill"></div>
+      <div class="flex-fill" />
       <div class="flex-fill btn-group">
         {renderButton(DEVICE_FEATURE_TYPES.LIGHT.POWER_OFF_BUTTON, editionMode, featureByType, onClick)}
         {renderButton(DEVICE_FEATURE_TYPES.LIGHT.POWER_ON_BUTTON, editionMode, featureByType, onClick)}

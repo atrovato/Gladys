@@ -30,7 +30,7 @@ const RemoteSetupTab = props => (
               </p>
               <Link href="/dashboard/integration/device/broadlink">
                 <button type="button" class="btn btn-outline-secondary btn-sm">
-                  <Text id="integration.broadlink.setup.backToList" />
+                  <Text id="global.backButton" />
                 </button>
               </Link>
             </div>

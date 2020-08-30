@@ -32,7 +32,7 @@ const RemoteControlLayout = ({ remoteType, remoteName, onClick, editionMode, fea
           active: loading
         })}
       >
-        <div class="loader"></div>
+        <div class="loader" />
         <div class="dimmer-content">
           <div class="card-header">{remoteName}</div>
 

@@ -23,7 +23,7 @@ const RemoteControlSelector = ({ updateRemoteTypeAndButtons, remoteType, dashboa
       </option>
       {Object.keys(RemoteCategories).map(category => (
         <option selected={category === remoteType} value={category}>
-          <Text id={`deviceCategory.${category}`}>{category}</Text>
+          <Text id={`deviceFeatureCategory.${category}.shortCategoryName`}>{category}</Text>
         </option>
       ))}
     </select>

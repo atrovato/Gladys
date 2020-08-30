@@ -75,7 +75,7 @@ class RemoteCreation extends Component {
             <Text id="integration.broadlink.setup.peripheralLabel" />
           </label>
           <select onChange={this.updatePeripheralModel} class="form-control" id="remotePeripheral">
-            <option value="" disabled={true} selected={!props.selectedModel}>
+            <option value="" disabled selected={!props.selectedModel}>
               <Text id="global.emptySelectOption" />
             </option>
             {props.broadlinkPeripherals &&
@@ -84,7 +84,13 @@ class RemoteCreation extends Component {
                   selected={props.selectedModel && peripheral.mac === props.selectedModel.mac}
                   value={peripheral.name}
                 >
-                  {peripheral.name} ({peripheral.address})
+                  <Text
+                    id="integration.broadlink.setup.peripheralSelectLabel"
+                    fields={{
+                      name: peripheral.name,
+                      address: peripheral.address
+                    }}
+                  />
                 </option>
               ))}
           </select>
@@ -103,7 +109,7 @@ class RemoteCreation extends Component {
                   remoteType={props.selectedRemoteType}
                   remoteName={props.device.name || <Text id="integration.broadlink.setup.noNameLabel" />}
                   onClick={props.selectButton}
-                  editionMode={true}
+                  editionMode
                   featureByType={props.buttons}
                 />
               </Localizer>
@@ -133,7 +139,7 @@ class RemoteCreation extends Component {
                       category={props.selectedRemoteType}
                       featureName={props.selectedButton}
                       buttonProps={ButtonOptions[props.selectedRemoteType][props.selectedButton]}
-                      edited={true}
+                      edited
                     />
                     <span class="ml-3">
                       <Text id={`deviceFeatureCategory.${props.selectedRemoteType}.${props.selectedButton}`}>
@@ -154,7 +160,7 @@ class RemoteCreation extends Component {
 
                   {!props.learnAllMode && (
                     <div class="d-flex justify-content-around mt-3">
-                      <button class="btn btn-warning" onClick={() => props.selectButton()}>
+                      <button class="btn btn-warning" onClick={props.selectButton}>
                         <Text id="integration.broadlink.setup.cancel" />
                       </button>
 

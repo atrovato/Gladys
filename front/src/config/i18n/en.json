@@ -502,7 +502,7 @@
         "noNameLabel": "Type not recognized",
         "ipAddressLabel": "IP address",
         "macAddressLabel": "MAC address",
-        "features": "Features",
+        "featuresLabel": "Features",
         "noFeatures": "No features",
         "nameLabel": "Name",
         "saveButton": "Save",
@@ -526,7 +526,6 @@
         "noNameLabel": "No name",
         "saveError": "Error saving or deleting device",
         "notFound": "Requested device not found.",
-        "backToList": "Back to device list",
         "saveButton": "Save",
         "peripheralLabel": "Linked peripheral",
         "learnModeTitle": "Entering learn mode from your remote",
@@ -537,6 +536,7 @@
         "learnFailed": "Failed to enter in learn mode.",
         "selectButtonLabel": "Select a button on the remote control or click button bellow.",
         "selectedButtonLabel": "Selected remote button",
+        "peripheralSelectLabel": "{{name}} ({{address}})",
         "testLabel": "Test button",
         "deleteLabel": "Delete button",
         "learnAllLabel": "Learn all buttons",
@@ -1026,10 +1026,6 @@
     "percent": "%",
     "ppm": "ppm"
   },
-  "deviceCategory": {
-    "light": "Light",
-    "television": "Television"
-  },
   "deviceFeatureCategory": {
     "light": {
       "shortCategoryName": "Light",
@@ -1135,6 +1131,7 @@
       "bed-activity": "Bed Activity"
     },
     "television": {
+      "shortCategoryName": "Television",
       "power-button": "Power",
       "source-button": "Source",
       "channel-0-button": "Channel 0",
