@@ -25,6 +25,7 @@ async function applyOnPeripheral(peripheralUuid, applyFunc, keepConnected = fals
           throw e;
         }
       }).finally(() => {
+        peripheral.removeAllListeners();
         if (!keepConnected) {
           peripheral.disconnectAsync();
         }

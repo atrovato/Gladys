@@ -53,6 +53,7 @@ describe('bluetooth.scanDevice', () => {
       connect: fake.yields(null),
       disconnectAsync: fake.resolves(null),
       discoverServices: fake.yields(null, services),
+      removeAllListeners: fake.returns(null),
     };
 
     device = {
@@ -100,6 +101,7 @@ describe('bluetooth.scanDevice', () => {
     });
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.callCount(peripheral.discoverServices, expectedCount);
     assert.callCount(gladys.event.emit, 3);
@@ -136,6 +138,7 @@ describe('bluetooth.scanDevice', () => {
     });
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.callCount(peripheral.discoverServices, expectedCount);
 
@@ -173,6 +176,7 @@ describe('bluetooth.scanDevice', () => {
     });
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.callCount(peripheral.discoverServices, expectedCount);
 
@@ -214,6 +218,7 @@ describe('bluetooth.scanDevice', () => {
     });
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.callCount(peripheral.discoverServices, expectedCount);
 
@@ -252,6 +257,7 @@ describe('bluetooth.scanDevice', () => {
     });
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.callCount(peripheral.discoverServices, expectedCount);
 
@@ -305,6 +311,7 @@ describe('bluetooth.scanDevice', () => {
     });
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.callCount(peripheral.discoverServices, expectedCount);
 
@@ -354,6 +361,7 @@ describe('bluetooth.scanDevice', () => {
     });
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.callCount(peripheral.discoverServices, expectedCount);
 
@@ -404,6 +412,7 @@ describe('bluetooth.scanDevice', () => {
     });
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.callCount(peripheral.discoverServices, expectedCount);
 
@@ -454,6 +463,7 @@ describe('bluetooth.scanDevice', () => {
     });
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.callCount(peripheral.discoverServices, expectedCount);
 

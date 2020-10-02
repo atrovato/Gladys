@@ -59,6 +59,7 @@ describe('bluetooth.readDevice', () => {
       connect: fake.yields(null),
       disconnectAsync: fake.resolves(null),
       discoverServices: fake.yields(null, [service]),
+      removeAllListeners: fake.returns(null),
     };
 
     device = {
@@ -95,6 +96,7 @@ describe('bluetooth.readDevice', () => {
     expect(readValue).deep.eq(expectedResult);
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.calledOnce(peripheral.discoverServices);
     assert.calledOnce(service.discoverCharacteristics);
@@ -110,6 +112,7 @@ describe('bluetooth.readDevice', () => {
     await bluetoothManager.readDevice(device);
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.calledOnce(peripheral.discoverServices);
     assert.calledOnce(service.discoverCharacteristics);
@@ -125,6 +128,7 @@ describe('bluetooth.readDevice', () => {
     await bluetoothManager.readDevice(device);
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.calledOnce(peripheral.discoverServices);
     assert.calledOnce(service.discoverCharacteristics);
@@ -140,6 +144,7 @@ describe('bluetooth.readDevice', () => {
     await bluetoothManager.readDevice(device);
 
     assert.calledOnce(peripheral.connect);
+    assert.calledOnce(peripheral.removeAllListeners);
     assert.calledOnce(peripheral.disconnectAsync);
     assert.calledOnce(peripheral.discoverServices);
     assert.calledOnce(service.discoverCharacteristics);
