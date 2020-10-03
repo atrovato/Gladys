@@ -12,11 +12,12 @@ const { getCharacteristic } = require('../utils/bluetooth.getCharacteristic');
 /**
  * @description Look for peripheral details.
  * @param {string} peripheralUuid - Perpiheral UUID.
+ * @param {Object} serviceMap - Object with service UUID as key, containing linked characteristics and functions.
  * @returns {Promise} All discovered promises.
  * @example
  * await bluetoothManager.scanDevice('0011223344');
  */
-async function scanDevice(peripheralUuid) {
+async function scanDevice(peripheralUuid, serviceMap = INFORMATION_SERVICES) {
   logger.debug(`Bluetooth: scanning for device information on ${peripheralUuid}`);
 
   const device = this.discoveredDevices[peripheralUuid];
@@ -29,14 +30,14 @@ async function scanDevice(peripheralUuid) {
 
   const loop = (peripheral) => {
     return Promise.map(
-      Object.keys(INFORMATION_SERVICES),
+      Object.keys(serviceMap),
       (serviceUuid) =>
         Promise.map(
-          Object.keys(INFORMATION_SERVICES[serviceUuid]),
+          Object.keys(serviceMap[serviceUuid]),
           (characteristicUuid) => {
             return getCharacteristic(peripheral, serviceUuid, characteristicUuid)
               .then((characteristic) => {
-                const actionMapper = INFORMATION_SERVICES[serviceUuid][characteristicUuid];
+                const actionMapper = serviceMap[serviceUuid][characteristicUuid];
 
                 if (actionMapper.discover) {
                   actionMapper.discover(serviceUuid, characteristic, device);

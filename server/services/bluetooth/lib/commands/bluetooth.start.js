@@ -5,7 +5,7 @@ const logger = require('../../../../utils/logger');
 const { TIMERS } = require('../device/bluetooth.information');
 
 /**
- * @description Starts to Bluetooth device.
+ * @description Starts Bluetooth service.
  * @returns {any} Null.
  * @example
  * bluetooth.start();
@@ -26,7 +26,7 @@ function start() {
   this.bluetooth.on('discover', this.discover.bind(this));
   this.bluetooth.on('connect', (peripheral) => Promise.delay(TIMERS.CONNECTION).then(() => peripheral.disconnect()));
 
-  this.connectDevices();
+  this.connectDevices('bluteooth');
 
   return null;
 }

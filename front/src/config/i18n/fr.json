@@ -327,6 +327,8 @@
         "noDeviceFound": "Aucun périphérique Bluetooth détecté.",
         "createDeviceInGladys": "Connecter dans Gladys",
         "updateDeviceInGladys": "Mettre à jour dans Gladys",
+        "notManagedByBluteoothButton": "Géré par le service \"{{service}}\"",
+        "notManagedByBluteooth": "Vous ne pouvez gérer cet appareil ici car il est déjà attaché au service \"{{service}}\".",
         "deviceCreatedSuccess": "L'appareil a été ajouté avec succès.",
         "createDeviceError": "Une erreur s'est produite lors de la création de cet appareil dans Gladys.",
         "saveSuccess": "L'appareil Bluetooth a été créé avec succés.",

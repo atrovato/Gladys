@@ -611,6 +611,8 @@
         "noDeviceFound": "No bluetooth device discovered.",
         "createDeviceInGladys": "Connect in Gladys",
         "updateDeviceInGladys": "Update in Gladys",
+        "notManagedByBluteoothButton": "Managed by \"{{service}}\" service",
+        "notManagedByBluteooth": "You cannot manage this device here as it is already manager by \"{{service}}\" service.",
         "deviceCreatedSuccess": "The device was successfully added",
         "createDeviceError": "There was an error while creating this device in Gladys. ",
         "saveSuccess": "Bluetooth device successfully created.",

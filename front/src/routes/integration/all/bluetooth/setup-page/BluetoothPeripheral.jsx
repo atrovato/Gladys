@@ -23,10 +23,11 @@ class BluetoothPeripheral extends Component {
     this.setState({ loading: false });
   };
 
-  render({ peripheral, bluetoothStatus }, { error, deviceCreated }) {
+  render({ peripheral, bluetoothStatus, currentIntegration }, { error, deviceCreated }) {
     const params = peripheral.params || [];
     const manufacturerParam = params.find(p => p.name === PARAMS.MANUFACTURER);
     const manufacturerValue = (manufacturerParam || { value: null }).value;
+    const bluetoothDevice = !peripheral.service_id || peripheral.service_id === currentIntegration.id;
 
     return (
       <div class="col-md-6">
@@ -46,37 +47,52 @@ class BluetoothPeripheral extends Component {
           )}
           <div class="card-body">
             <div class="form-group">
-              <label>
+              <label class="form-label">
                 <Text id="integration.bluetooth.device.externalIdLabel" />
               </label>
               <input type="text" class="form-control" disabled value={peripheral.external_id} />
             </div>
             <div class="form-group">
-              <label>
+              <label class="form-label">
                 <Text id="integration.bluetooth.device.manufacturerLabel" />
               </label>
               <input type="text" class="form-control" disabled value={manufacturerValue} />
             </div>
             <div class="form-group">
-              <label>
+              <label class="form-label">
                 <Text id="integration.bluetooth.device.modelLabel" />
               </label>
               <input type="text" class="form-control" disabled value={peripheral.model} />
             </div>
-            <BluetoothPeripheralFeatures peripheral={peripheral} bluetoothStatus={bluetoothStatus} scan={this.scan} />
+            <BluetoothPeripheralFeatures
+              peripheral={peripheral}
+              bluetoothStatus={bluetoothStatus}
+              scan={this.scan}
+              bluetoothDevice={bluetoothDevice}
+            />
             <div class="form-group">
-              <Link href={'/dashboard/integration/device/bluetooth/setup/' + peripheral.selector}>
-                {!peripheral.id && (
-                  <button class="btn btn-success">
-                    <Text id="integration.bluetooth.setup.createDeviceInGladys" />
-                  </button>
-                )}
-                {peripheral.id && (
-                  <button class="btn btn-primary">
-                    <Text id="integration.bluetooth.setup.updateDeviceInGladys" />
-                  </button>
-                )}
-              </Link>
+              {bluetoothDevice && (
+                <Link href={'/dashboard/integration/device/bluetooth/setup/' + peripheral.selector}>
+                  {!peripheral.id && (
+                    <button class="btn btn-success">
+                      <Text id="integration.bluetooth.setup.createDeviceInGladys" />
+                    </button>
+                  )}
+                  {peripheral.id && (
+                    <button class="btn btn-primary">
+                      <Text id="integration.bluetooth.setup.updateDeviceInGladys" />
+                    </button>
+                  )}
+                </Link>
+              )}
+              {!bluetoothDevice && (
+                <button class="btn btn-outline-secondary" disabled>
+                  <Text
+                    id="integration.bluetooth.setup.notManagedByBluteoothButton"
+                    fields={{ service: peripheral.service.name }}
+                  />
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -12,7 +12,8 @@ const BluetoothPeripheralTab = ({
   bluetoothGetDriverStatus,
   bluetoothStatus = {},
   bluetoothGetPeripheralsStatus,
-  bluetoothPeripherals = []
+  bluetoothPeripherals = [],
+  currentIntegration = {}
 }) => {
   const bluetoothNotReady = bluetoothGetDriverStatus === RequestStatus.Error || !bluetoothStatus.ready;
   const scanning = bluetoothStatus.scanning || bluetoothGetPeripheralsStatus === RequestStatus.Getting;
@@ -62,6 +63,7 @@ const BluetoothPeripheralTab = ({
                     createDevice={createDevice}
                     scan={scan}
                     bluetoothStatus={bluetoothStatus}
+                    currentIntegration={currentIntegration}
                   />
                 ))}
             </div>

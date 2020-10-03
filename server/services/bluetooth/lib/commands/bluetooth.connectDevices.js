@@ -2,16 +2,20 @@ const Promise = require('bluebird');
 
 const logger = require('../../../../utils/logger');
 
+const { INFORMATION_SERVICES } = require('../device/bluetooth.information');
+
 /**
  * @description Look for Gladys Bluetooth devices and subscribe to notifications.
+ * @param {string} service - Service name to scan device for.
+ * @param {Object} serviceMap - Object with service UUID as key, containing linked characteristics and functions.
  * @returns {Promise} All subscription promises.
  * @example
- * await bluetooth.connectDevices();
+ * await bluetooth.connectDevices('bluetooth);
  */
-async function connectDevices() {
-  logger.debug(`Bluetooth: subscribing to existing devices...`);
+async function connectDevices(service, serviceMap = INFORMATION_SERVICES) {
+  logger.debug(`Bluetooth: subscribing to existing devices on service ${service}...`);
   const devices = await this.gladys.device.get({
-    service: 'bluetooth',
+    service,
   });
 
   return Promise.map(
@@ -24,7 +28,7 @@ async function connectDevices() {
           device.features,
           (feature) => {
             const [, , serviceUuid, characteristicUuid] = feature.external_id.split(':');
-            return this.subscribePeripheral(peripheral, serviceUuid, characteristicUuid, feature);
+            return this.subscribePeripheral(peripheral, serviceUuid, characteristicUuid, feature, serviceMap);
           },
           { concurrency: 1 },
         ).catch((e) => {

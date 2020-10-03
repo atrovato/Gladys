@@ -4,55 +4,56 @@ const {
   decodeValue,
   encodeValue,
   encodeParamValue,
-} = require('../../../../../services/bluetooth/lib/device/bluetooth.information');
+} = require('../../../../../services/bluetooth/lib/utils/bluetooth.utils');
+const { INFORMATION_SERVICES } = require('../../../../../services/bluetooth/lib/device/bluetooth.information');
 
-describe('bluetooth.device.information decodeValue', () => {
+describe('bluetooth.utils decodeValue', () => {
   it('decodeValue no service', async () => {
     const originalValue = 'value';
-    const value = decodeValue(null, null, null, originalValue);
+    const value = decodeValue(INFORMATION_SERVICES, null, null, null, originalValue);
     expect(value).is.eq(originalValue);
   });
 
   it('decodeValue no characteristic', async () => {
     const originalValue = 'value';
-    const value = decodeValue('1809', null, null, originalValue);
+    const value = decodeValue(INFORMATION_SERVICES, '1809', null, null, originalValue);
     expect(value).is.eq(originalValue);
   });
 
   it('decodeValue no specific decode func', async () => {
     const originalValue = 'value';
-    const value = decodeValue('1809', '2a6e', null, originalValue);
+    const value = decodeValue(INFORMATION_SERVICES, '1809', '2a6e', null, originalValue);
     expect(value).is.eq(originalValue);
   });
 
   it('decodeValue no specific decode func, with feature', async () => {
     const originalValue = 'd';
-    const value = decodeValue('1809', '2a6e', {}, originalValue);
+    const value = decodeValue(INFORMATION_SERVICES, '1809', '2a6e', {}, originalValue);
     expect(value).is.eq(13);
   });
 });
 
-describe('bluetooth.device.information encodeValue', () => {
+describe('bluetooth.utils encodeValue', () => {
   it('encodeValue no service', async () => {
     const originalValue = 'value';
-    const value = encodeValue(null, null, originalValue);
+    const value = encodeValue(INFORMATION_SERVICES, null, null, originalValue);
     expect(value).is.eq(originalValue);
   });
 
   it('encodeValue no characteristic', async () => {
     const originalValue = 'value';
-    const value = encodeValue('1809', null, originalValue);
+    const value = encodeValue(INFORMATION_SERVICES, '1809', null, originalValue);
     expect(value).is.eq(originalValue);
   });
 
   it('encodeValue no specific decode func', async () => {
     const originalValue = 'value';
-    const value = encodeValue('1809', '2a6e', originalValue);
+    const value = encodeValue(INFORMATION_SERVICES, '1809', '2a6e', originalValue);
     expect(value).is.eq(originalValue);
   });
 });
 
-describe('bluetooth.device.information encodeParamValue', () => {
+describe('bluetooth.utils encodeParamValue', () => {
   it('encodeParamValue no value', async () => {
     const originalValue = null;
     const value = encodeParamValue(originalValue);

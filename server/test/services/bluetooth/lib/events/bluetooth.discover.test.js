@@ -14,7 +14,7 @@ const gladys = {
   stateManager: {
     get: (arg1, externalId) => {
       if (externalId === 'bluetooth:UUID2') {
-        return { id: '1234' };
+        return { id: '1234', service_id: 's-1234', service: { id: 's-1234', name: 'service2' } };
       }
       return null;
     },
@@ -58,7 +58,6 @@ describe('bluetooth.discover event', () => {
       selector: 'bluetooth-uuid',
       features: [],
       params: [{ name: 'loaded', value: true }],
-      service_id: serviceId,
     };
 
     assert.calledWith(eventWS, { payload: expectedWSPeripheral, type: 'bluetooth.discover' });
@@ -85,7 +84,11 @@ describe('bluetooth.discover event', () => {
       selector: 'bluetooth-uuid2',
       features: [],
       params: [],
-      service_id: serviceId,
+      service_id: 's-1234',
+      service: {
+        id: 's-1234',
+        name: 'service2',
+      },
     };
 
     assert.calledWith(eventWS, { payload: expectedWSPeripheral, type: 'bluetooth.discover' });
@@ -109,7 +112,6 @@ describe('bluetooth.discover event', () => {
       selector: 'bluetooth-uuid',
       features: [],
       params: [],
-      service_id: serviceId,
     };
 
     assert.calledWith(eventWS, { payload: expectedWSPeripheral, type: 'bluetooth.discover' });

@@ -5,9 +5,13 @@ import BluetoothPage from '../BluetoothPage';
 import BluetoothPeripheralTab from './BluetoothPeripheralTab';
 import { WEBSOCKET_MESSAGE_TYPES } from '../../../../../../../server/utils/constants';
 
-@connect('user,session,bluetoothPeripheralUuids,bluetoothPeripherals,bluetoothStatus,bluetoothGetDriverStatus', actions)
+@connect(
+  'user,session,bluetoothPeripheralUuids,bluetoothPeripherals,bluetoothStatus,bluetoothGetDriverStatus,currentIntegration',
+  actions
+)
 class BluetoothSetupPage extends Component {
   componentWillMount() {
+    this.props.getIntegrationByName('bluetooth');
     this.props.getPeripherals();
     this.props.getStatus();
 

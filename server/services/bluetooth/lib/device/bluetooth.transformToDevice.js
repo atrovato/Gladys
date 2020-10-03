@@ -2,7 +2,7 @@ const { addSelector } = require('../../../../utils/addSelector');
 const { setDeviceParam } = require('../../../../utils/setDeviceParam');
 
 const { PARAMS } = require('../utils/bluetooth.constants');
-const { encodeParamValue } = require('./bluetooth.information');
+const { encodeParamValue } = require('../utils/bluetooth.utils');
 
 /**
  * @description Transform Noble peripheral to Gladys Bluetooth peripheral.

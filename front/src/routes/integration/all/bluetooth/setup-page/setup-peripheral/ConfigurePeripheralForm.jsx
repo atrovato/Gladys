@@ -62,7 +62,9 @@ class ConfigurePeripheralForm extends Component {
   createDevice = e => {
     e.preventDefault();
 
-    this.props.createDevice(this.state.device);
+    const { device } = this.state;
+    device.service_id = this.props.currentIntegration.id;
+    this.props.createDevice(device);
   };
 
   constructor(props) {
@@ -82,7 +84,7 @@ class ConfigurePeripheralForm extends Component {
     this.props.getIntegrationByName('bluetooth');
   }
 
-  render({ houses, bluetoothStatus, reloadDevice }, { device, bluetoothSaveStatus }) {
+  render({ houses, bluetoothStatus, reloadDevice, currentIntegration = {} }, { device, bluetoothSaveStatus }) {
     const disableForm = bluetoothSaveStatus === RequestStatus.Getting;
     const deviceFeatures = device.features || [];
 
@@ -90,11 +92,18 @@ class ConfigurePeripheralForm extends Component {
     const manufacturerParam = params.find(p => p.name === PARAMS.MANUFACTURER);
     const manufacturerValue = (manufacturerParam || { value: null }).value;
 
+    const bluetoothDevice = !device.service_id || device.service_id === currentIntegration.id;
+
     return (
       <form>
         {bluetoothSaveStatus === RequestStatus.Error && (
           <div class="alert alert-danger">
             <Text id="integration.bluetooth.setup.saveError" />
+          </div>
+        )}
+        {!bluetoothDevice && (
+          <div class="alert alert-warning">
+            <Text id="integration.bluetooth.setup.notManagedByBluteooth" fields={{ service: device.service.name }} />
           </div>
         )}
 
@@ -164,7 +173,12 @@ class ConfigurePeripheralForm extends Component {
             </div>
           </div>
 
-          <BluetoothPeripheralFeatures peripheral={device} bluetoothStatus={bluetoothStatus} scan={reloadDevice}>
+          <BluetoothPeripheralFeatures
+            peripheral={device}
+            bluetoothStatus={bluetoothStatus}
+            scan={reloadDevice}
+            bluetoothDevice={bluetoothDevice}
+          >
             {deviceFeatures.map((feature, index) => (
               <UpdateDeviceFeature
                 feature={feature}
@@ -179,7 +193,7 @@ class ConfigurePeripheralForm extends Component {
               <button
                 type="submit"
                 class="btn btn-success"
-                disabled={disableForm || !device.features}
+                disabled={disableForm || !device.features || !bluetoothDevice}
                 onClick={this.createDevice}
               >
                 <Text id="integration.bluetooth.setup.peripheral.createLabel" />

@@ -16,9 +16,11 @@ function discover(noblePeripheral) {
   if (!this.peripheralLookup || !this.discoveredDevices[noblePeripheral.uuid]) {
     const device = transformToDevice(noblePeripheral);
     const existingDevice = this.gladys.stateManager.get('deviceByExternalId', device.external_id);
-    device.service_id = this.serviceId;
+
     if (existingDevice) {
       device.id = existingDevice.id;
+      device.service_id = existingDevice.service_id;
+      device.service = existingDevice.service;
     }
 
     this.discoveredDevices[noblePeripheral.uuid] = device;

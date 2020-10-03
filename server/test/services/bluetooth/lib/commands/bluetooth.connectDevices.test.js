@@ -70,7 +70,7 @@ describe('bluetooth.connectDevices command', () => {
   });
 
   it('subscribe to peripheral', async () => {
-    await bluetoothManager.connectDevices();
+    await bluetoothManager.connectDevices('bluetooth');
 
     assert.calledOnce(peripheral.connect);
     assert.calledOnce(peripheral.discoverServices);

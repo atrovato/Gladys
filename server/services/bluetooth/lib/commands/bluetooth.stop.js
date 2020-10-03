@@ -1,7 +1,7 @@
 const logger = require('../../../../utils/logger');
 
 /**
- * @description Stop Bluetooth device, remove all listeners.
+ * @description Stops Bluetooth service, remove all listeners.
  * @example
  * bluetooth.stop();
  */
