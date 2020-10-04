@@ -84,7 +84,7 @@ class ConfigurePeripheralForm extends Component {
     this.props.getIntegrationByName('bluetooth');
   }
 
-  render({ houses, bluetoothStatus, reloadDevice, currentIntegration = {} }, { device, bluetoothSaveStatus }) {
+  render({ houses, bluetoothStatus, reloadDevice, currentIntegration = {}, bluetoothSaveStatus }, { device }) {
     const disableForm = bluetoothSaveStatus === RequestStatus.Getting;
     const deviceFeatures = device.features || [];
 
@@ -96,11 +96,6 @@ class ConfigurePeripheralForm extends Component {
 
     return (
       <form>
-        {bluetoothSaveStatus === RequestStatus.Error && (
-          <div class="alert alert-danger">
-            <Text id="integration.bluetooth.setup.saveError" />
-          </div>
-        )}
         {!bluetoothDevice && (
           <div class="alert alert-warning">
             <Text id="integration.bluetooth.setup.notManagedByBluteooth" fields={{ service: device.service.name }} />

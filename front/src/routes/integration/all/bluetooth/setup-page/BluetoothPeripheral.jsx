@@ -2,7 +2,6 @@ import { Text } from 'preact-i18n';
 import { Component } from 'preact';
 import { Link } from 'preact-router';
 
-import { RequestStatus } from '../../../../../utils/consts';
 import { PARAMS } from '../../../../../../../server/services/bluetooth/lib/utils/bluetooth.constants';
 
 import BluetoothPeripheralFeatures from './BluetoothPeripheralFeatures';
@@ -12,18 +11,7 @@ class BluetoothPeripheral extends Component {
     this.props.scan(this.props.peripheral.selector);
   };
 
-  createDevice = async () => {
-    this.setState({ loading: true });
-    try {
-      await this.props.createDevice(this.props.node);
-      this.setState({ deviceCreated: true });
-    } catch (e) {
-      this.setState({ error: RequestStatus.Error });
-    }
-    this.setState({ loading: false });
-  };
-
-  render({ peripheral, bluetoothStatus, currentIntegration }, { error, deviceCreated }) {
+  render({ peripheral, bluetoothStatus, currentIntegration }) {
     const params = peripheral.params || [];
     const manufacturerParam = params.find(p => p.name === PARAMS.MANUFACTURER);
     const manufacturerValue = (manufacturerParam || { value: null }).value;
@@ -35,16 +23,6 @@ class BluetoothPeripheral extends Component {
           <div class="card-header">
             <h3 class="card-title">{peripheral.name}</h3>
           </div>
-          {error && (
-            <div class="alert alert-danger">
-              <Text id="integration.bluetooth.setup.createDeviceError" />
-            </div>
-          )}
-          {deviceCreated && (
-            <div class="alert alert-success">
-              <Text id="integration.bluetooth.setup.deviceCreatedSuccess" />
-            </div>
-          )}
           <div class="card-body">
             <div class="form-group">
               <label class="form-label">

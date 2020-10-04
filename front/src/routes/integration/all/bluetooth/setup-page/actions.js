@@ -2,10 +2,12 @@ import update from 'immutability-helper';
 import { RequestStatus } from '../../../../../utils/consts';
 
 import createActionsHouse from '../../../../../actions/house';
+import createActionsIntegration from '../../../../../actions/integration';
 import createActionsBluetooth from '../commons/actions';
 
 const createActions = store => {
   const houseActions = createActionsHouse(store);
+  const integrationActions = createActionsIntegration(store);
   const bluetoothActions = createActionsBluetooth(store);
   const actions = {
     async getPeripherals(state) {
@@ -26,15 +28,15 @@ const createActions = store => {
     },
     async addPeripheral(state, peripheral) {
       const peripheralKey = peripheral.selector;
-      const currentIndex = (state.bluetoothPeripherals || []).findIndex(p => p.selector === peripheralKey);
+      let bluetoothPeripherals = state.bluetoothPeripherals || [];
+      const currentIndex = bluetoothPeripherals.findIndex(p => p.selector === peripheralKey);
 
-      let bluetoothPeripherals;
       if (currentIndex >= 0) {
-        bluetoothPeripherals = update(state.bluetoothPeripherals, {
+        bluetoothPeripherals = update(bluetoothPeripherals, {
           [currentIndex]: { $set: peripheral }
         });
       } else {
-        bluetoothPeripherals = update(state.bluetoothPeripherals, {
+        bluetoothPeripherals = update(bluetoothPeripherals, {
           $push: [peripheral]
         });
       }
@@ -66,15 +68,9 @@ const createActions = store => {
           bluetoothSaveStatus: RequestStatus.Error
         });
       }
-    },
-    async getIntegrationByName(state, name) {
-      const currentIntegration = await state.httpClient.get(`/api/v1/service/${name}`);
-      store.setState({
-        currentIntegration
-      });
     }
   };
-  return Object.assign({}, actions, houseActions, bluetoothActions);
+  return Object.assign({}, actions, houseActions, integrationActions, bluetoothActions);
 };
 
 export default createActions;

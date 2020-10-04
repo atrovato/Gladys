@@ -26,7 +26,7 @@ const createActions = store => {
         action = 'on';
       }
 
-      let bluetoothStatus = { ...this.state.bluetoothStatus, scanning: true, peripheralLookup: useSelector };
+      let bluetoothStatus = { ...state.bluetoothStatus, scanning: true, peripheralLookup: useSelector };
       store.setState({
         bluetoothStatus
       });
