@@ -301,6 +301,7 @@
       "description": "Contrôler vos appareils Bluetooth.",
       "deviceTab": "Appareils",
       "setupTab": "Configuration",
+      "bluetoothNotReadyError": "Le module Bluetooth n'est pas disponible, merci de vérifier qu'il est bien activé.",
       "device": {
         "title": "Appareils Bluetooth",
         "search": "Chercher un appareil",
@@ -323,7 +324,6 @@
         "title": "Configuration Bluetooth",
         "scanButton": "Rechercher",
         "reloadButton": "Recharger",
-        "bluetoothNotReadyError": "Le module Bluetooth n'est pas disponible, merci de vérifier qu'il est bien activé.",
         "noDeviceFound": "Aucun périphérique Bluetooth détecté.",
         "createDeviceInGladys": "Connecter dans Gladys",
         "updateDeviceInGladys": "Mettre à jour dans Gladys",

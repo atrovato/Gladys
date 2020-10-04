@@ -585,6 +585,7 @@
       "description": "Control your Bluetooth devices.",
       "deviceTab": "Devices",
       "setupTab": "Setup",
+      "bluetoothNotReadyError": "Bluetooth device is not reachable, please check it is enabled.",
       "device": {
         "title": "Bluetooth Devices",
         "search": "Search devices",
@@ -605,7 +606,6 @@
       },
       "setup": {
         "title": "Bluetooth Setup",
-        "bluetoothNotReadyError": "Bluetooth device is not reachable, please check it is enabled.",
         "scanButton": "Scan",
         "reloadButton": "Reload",
         "noDeviceFound": "No bluetooth device discovered.",

@@ -1,26 +1,13 @@
-import { RequestStatus } from '../../../../../utils/consts';
-import createActionsHouse from '../../../../../actions/house';
 import update from 'immutability-helper';
+import { RequestStatus } from '../../../../../utils/consts';
+
+import createActionsHouse from '../../../../../actions/house';
+import createActionsBluetooth from '../commons/actions';
 
 const createActions = store => {
   const houseActions = createActionsHouse(store);
+  const bluetoothActions = createActionsBluetooth(store);
   const actions = {
-    async getStatus(state) {
-      store.setState({
-        bluetoothGetDriverStatus: RequestStatus.Getting
-      });
-      try {
-        const bluetoothStatus = await state.httpClient.get('/api/v1/service/bluetooth/status');
-        store.setState({
-          bluetoothStatus,
-          bluetoothGetDriverStatus: RequestStatus.Success
-        });
-      } catch (e) {
-        store.setState({
-          bluetoothGetDriverStatus: RequestStatus.Error
-        });
-      }
-    },
     async getPeripherals(state) {
       store.setState({
         bluetoothGetPeripheralsStatus: RequestStatus.Getting
@@ -36,44 +23,6 @@ const createActions = store => {
           bluetoothGetPeripheralsStatus: RequestStatus.Error
         });
       }
-    },
-    async scan(state, selector) {
-      const useSelector = typeof selector === 'string';
-
-      if (!useSelector) {
-        store.setState({
-          bluetoothScanStatus: RequestStatus.Getting
-        });
-      }
-
-      let action;
-      if (state.bluetoothStatus.scanning) {
-        action = 'off';
-      } else {
-        action = 'on';
-      }
-
-      try {
-        const uri = `/api/v1/service/bluetooth/scan${useSelector ? `/${selector}` : ''}`;
-        const bluetoothStatus = await state.httpClient.post(uri, {
-          scan: action
-        });
-        store.setState({
-          bluetoothStatus,
-          bluetoothScanStatus: RequestStatus.Success
-        });
-      } catch (e) {
-        if (!useSelector) {
-          store.setState({
-            bluetoothScanStatus: RequestStatus.Error
-          });
-        }
-      }
-    },
-    async updateStatus(state, bluetoothStatus) {
-      store.setState({
-        bluetoothStatus
-      });
     },
     async addPeripheral(state, peripheral) {
       const peripheralKey = peripheral.selector;
@@ -125,7 +74,7 @@ const createActions = store => {
       });
     }
   };
-  return Object.assign({}, actions, houseActions);
+  return Object.assign({}, actions, houseActions, bluetoothActions);
 };
 
 export default createActions;

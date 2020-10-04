@@ -1,15 +1,17 @@
 import { Component } from 'preact';
 import { connect } from 'unistore/preact';
+
 import actions from './actions';
-import BluetoothPage from '../BluetoothPage';
+import AwoxPage from '../AwoxPage';
 import BluetoothPeripheralTab from './BluetoothPeripheralTab';
 import { WEBSOCKET_MESSAGE_TYPES } from '../../../../../../../server/utils/constants';
 
-@connect('user,session,bluetoothPeripherals,bluetoothStatus,currentIntegration', actions)
-class BluetoothSetupPage extends Component {
+@connect('user,session,bluetoothPeripheralUuids,bluetoothPeripherals,bluetoothStatus,currentIntegration', actions)
+class AwoxBluetoothPage extends Component {
   componentWillMount() {
-    this.props.getIntegrationByName('bluetooth');
+    this.props.getIntegrationByName('awox');
     this.props.getPeripherals();
+    this.props.getStatus();
 
     this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER, this.props.addPeripheral);
   }
@@ -20,11 +22,11 @@ class BluetoothSetupPage extends Component {
 
   render(props, {}) {
     return (
-      <BluetoothPage>
+      <AwoxPage>
         <BluetoothPeripheralTab {...props} />
-      </BluetoothPage>
+      </AwoxPage>
     );
   }
 }
 
-export default BluetoothSetupPage;
+export default AwoxBluetoothPage;
