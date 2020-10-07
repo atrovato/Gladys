@@ -174,13 +174,15 @@ class ConfigurePeripheralForm extends Component {
             scan={reloadDevice}
             bluetoothDevice={bluetoothDevice}
           >
-            {deviceFeatures.map((feature, index) => (
-              <UpdateDeviceFeature
-                feature={feature}
-                featureIndex={index}
-                updateFeatureProperty={this.updateFeatureProperty}
-              />
-            ))}
+            <div class="row">
+              {deviceFeatures.map((feature, index) => (
+                <UpdateDeviceFeature
+                  feature={feature}
+                  featureIndex={index}
+                  updateFeatureProperty={this.updateFeatureProperty}
+                />
+              ))}
+            </div>
           </BluetoothPeripheralFeatures>
 
           <div class="row mt-5">
