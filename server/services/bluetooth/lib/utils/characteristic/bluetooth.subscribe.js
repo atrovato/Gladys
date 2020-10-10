@@ -24,13 +24,12 @@ async function subscribe(characteristic, onNotify) {
   return new Promise((resolve, reject) => {
     characteristic.subscribe((error) => {
       if (error) {
-        reject(new Error(`Bluetooth: failed to subscribe characteristic ${characteristic.uuid} - ${error}`));
-      } else {
-        characteristic.on('notify', (value) => onNotify(value));
-
-        logger.debug(`Bluetooth: subscribed to characteristic ${characteristic.uuid}`);
-        resolve();
+        return reject(new Error(`Bluetooth: failed to subscribe characteristic ${characteristic.uuid} - ${error}`));
       }
+      characteristic.on('notify', (value) => onNotify(value));
+
+      logger.debug(`Bluetooth: subscribed to characteristic ${characteristic.uuid}`);
+      return resolve();
     });
   }).timeout(TIMERS.READ);
 }

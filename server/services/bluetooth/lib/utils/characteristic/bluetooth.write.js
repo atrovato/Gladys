@@ -24,11 +24,12 @@ async function write(characteristic, value) {
   return new Promise((resolve, reject) => {
     characteristic.write(commandBuffer, false, (error) => {
       if (error) {
-        reject(new Error(`Bluetooth: failed to write ${value} on characteristic ${characteristic.uuid} - ${error}`));
-      } else {
-        logger.debug(`Bluetooth: write ${value} on characteristic ${characteristic.uuid}`);
-        resolve(value);
+        return reject(
+          new Error(`Bluetooth: failed to write ${value} on characteristic ${characteristic.uuid} - ${error}`),
+        );
       }
+      logger.debug(`Bluetooth: write ${value} on characteristic ${characteristic.uuid}`);
+      return resolve(value);
     });
   }).timeout(TIMERS.WRITE);
 }

@@ -41,13 +41,11 @@ async function scan(state, peripheralUuid = undefined) {
 
         if (peripheralUuid) {
           if (peripherals[peripheralUuid]) {
-            resolve(peripherals[peripheralUuid]);
-          } else {
-            reject(new NotFoundError(`Bluetooth: peripheral ${peripheralUuid} not found`));
+            return resolve(peripherals[peripheralUuid]);
           }
-        } else {
-          resolve(Object.values(peripherals));
+          return reject(new NotFoundError(`Bluetooth: peripheral ${peripheralUuid} not found`));
         }
+        return resolve(Object.values(peripherals));
       };
 
       this.bluetooth.on('discover', onDiscover);
