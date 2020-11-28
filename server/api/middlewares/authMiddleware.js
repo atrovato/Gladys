@@ -4,14 +4,14 @@ const { Error401 } = require('../../utils/httpErrors');
 module.exports = function AuthMiddleware(scope, gladys) {
   return asyncMiddleware(async (req, res, next) => {
     try {
-      const authHeader = req.headers.authorization;
+      const authHeader = req.get('Authorization');
       let userId;
 
       // if it's an access token
       if (authHeader && authHeader.startsWith('Bearer ')) {
         const token = authHeader.substring(7, authHeader.length);
         // we validate the token
-        const payload = gladys.session.validateAccessToken(token, scope);
+        const payload = await gladys.session.validateAccessToken(token, scope);
         userId = payload.user_id;
         req.session_id = payload.session_id;
       } else if (authHeader || req.body.api_key || req.query.api_key) {

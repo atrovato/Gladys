@@ -9,6 +9,8 @@ const ACCESS_TOKEN_VALIDITY = 24 * 60 * 60; // access token is valid 24 hour
  * @param {Array} scope - The scope.
  * @param {string} sessionId - The session ID.
  * @param {string} jwtSecret - JWT secret.
+ * @param {string} audience - JWT audience.
+ * @param {string} issuer - JWT issuer.
  * @example
  * const accessToken = generateAccessToken(
  *  '31a4d8d9-bf39-49be-8588-dac2b8cfa74a',
@@ -18,11 +20,11 @@ const ACCESS_TOKEN_VALIDITY = 24 * 60 * 60; // access token is valid 24 hour
  * );
  * @returns {string} Return accessToken.
  */
-function generateAccessToken(userId, scope, sessionId, jwtSecret) {
+function generateAccessToken(userId, scope, sessionId, jwtSecret, audience = 'user', issuer = 'gladys') {
   return jwt.sign({ user_id: userId, scope, session_id: sessionId }, jwtSecret, {
     algorithm: 'HS256',
-    audience: 'user',
-    issuer: 'gladys',
+    audience,
+    issuer,
     expiresIn: ACCESS_TOKEN_VALIDITY,
   });
 }

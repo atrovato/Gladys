@@ -110,7 +110,7 @@ function init() {
         case WEBSOCKET_MESSAGE_TYPES.AUTHENTICATION.REQUEST:
           try {
             // we validate the token
-            const payload = this.gladys.session.validateAccessToken(
+            const payload = await this.gladys.session.validateAccessToken(
               parsedMessage.payload.accessToken,
               'dashboard:write',
             );
