@@ -16,6 +16,8 @@ function transformToDevice(peripheral) {
   const { localName, manufacturerData } = advertisement;
   const externalId = `bluetooth:${uuid}`;
 
+  console.log(advertisement);
+
   const device = {
     name: encodeParamValue(localName) || address || uuid,
     external_id: externalId,
