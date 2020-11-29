@@ -28,5 +28,9 @@
   {
     "key": "bluetooth",
     "img": "/assets/integrations/cover/bluetooth.jpg"
+  },
+  {
+    "key": "awox",
+    "img": "/assets/integrations/cover/awox.jpg"
   }
 ]

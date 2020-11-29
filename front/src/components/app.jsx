@@ -86,6 +86,12 @@ import BluetoothEditDevicePage from '../routes/integration/all/bluetooth/edit-pa
 import BluetoothSetupPage from '../routes/integration/all/bluetooth/setup-page';
 import BluetoothSetupPeripheralPage from '../routes/integration/all/bluetooth/setup-page/setup-peripheral';
 
+// AwoX
+import AwoxDevicePage from '../routes/integration/all/awox/device-page';
+import AwoxEditDevicePage from '../routes/integration/all/awox/edit-page';
+import AwoxBluetoothPage from '../routes/integration/all/awox/bluetooth-page';
+import AwoxDeviceSetupPage from '../routes/integration/all/awox/bluetooth-page/setup-peripheral';
+
 const defaultState = getDefaultState();
 const store = createStore(defaultState);
 
@@ -189,6 +195,11 @@ const AppRouter = connect(
         <BluetoothEditDevicePage path="/dashboard/integration/device/bluetooth/:deviceSelector" />
         <BluetoothSetupPage path="/dashboard/integration/device/bluetooth/setup" />
         <BluetoothSetupPeripheralPage path="/dashboard/integration/device/bluetooth/setup/:uuid" />
+
+        <AwoxDevicePage path="/dashboard/integration/device/awox" />
+        <AwoxEditDevicePage path="/dashboard/integration/device/awox/:deviceSelector" />
+        <AwoxBluetoothPage path="/dashboard/integration/device/awox/bluetooth" />
+        <AwoxDeviceSetupPage path="/dashboard/integration/device/awox/bluetooth/:uuid" />
 
         <ChatPage path="/dashboard/chat" />
         <MapPage path="/dashboard/maps" />
