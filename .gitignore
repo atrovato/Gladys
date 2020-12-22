@@ -12,6 +12,7 @@ static
 gladys-backups
 qemu-*
 coverage
+.duplication-report
 
 # VSCode
 .vscode
