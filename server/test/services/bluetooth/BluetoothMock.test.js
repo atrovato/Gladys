@@ -7,5 +7,6 @@ BluetoothMock.prototype.startScanning = fake.returns(null);
 
 BluetoothMock.prototype.stopScanning = fake.returns(null);
 BluetoothMock.prototype.stopScanningAsync = fake.resolves(null);
+BluetoothMock.prototype.reset = fake.returns(null);
 
 module.exports = BluetoothMock;
