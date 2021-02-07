@@ -34,7 +34,7 @@ describe('bluetooth.getDiscoveredDevice command', () => {
   });
 
   it('get peripheral by uuid', () => {
-    bluetoothManager.discoveredDevices.uuid = {
+    bluetoothManager.discoveredPeripherals.uuid = {
       external_id: 'bluetooth:P1',
       features: [],
       name: 'P1',
@@ -52,7 +52,7 @@ describe('bluetooth.getDiscoveredDevice command', () => {
     };
 
     const result = bluetoothManager.getDiscoveredDevice('uuid');
-    expect(result).deep.eq(bluetoothManager.discoveredDevices.uuid);
+    expect(result).deep.eq(bluetoothManager.discoveredPeripherals.uuid);
     assert.calledOnce(gladys.stateManager.get);
   });
 

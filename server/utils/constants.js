@@ -422,7 +422,6 @@ const WEBSOCKET_MESSAGE_TYPES = {
   },
   BLUETOOTH: {
     STATE: 'bluetooth.status',
-    DISCOVER: 'bluetooth.discover',
   },
   EWELINK: {
     CONNECTED: 'ewelink.connected',

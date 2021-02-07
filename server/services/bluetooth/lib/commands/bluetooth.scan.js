@@ -19,7 +19,7 @@ async function scan(state, peripheralUuid = undefined) {
       logger.trace(`Bluetooth: scanning for ${peripheralUuid} peripheral`);
     } else {
       logger.trace(`Bluetooth: scanning for all peripherals`);
-      this.discoveredDevices = {};
+      this.discoveredPeripherals = {};
     }
 
     this.scanCounter += 1;

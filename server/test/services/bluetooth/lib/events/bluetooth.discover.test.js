@@ -122,7 +122,7 @@ describe('bluetooth.discover event', () => {
       connectable: true,
     };
 
-    bluetoothManager.discoveredDevices.UUID = {};
+    bluetoothManager.discoveredPeripherals.UUID = {};
     bluetoothManager.discover(newPeripheral);
 
     assert.notCalled(eventWS);

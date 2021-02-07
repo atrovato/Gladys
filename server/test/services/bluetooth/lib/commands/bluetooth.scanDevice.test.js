@@ -62,7 +62,7 @@ describe('bluetooth.scanDevice', () => {
     bluetooth = new BluetoothMock();
     bluetoothManager = new BluetoothManager(gladys, serviceId);
     bluetoothManager.bluetooth = bluetooth;
-    bluetoothManager.discoveredDevices[peripheral.uuid] = device;
+    bluetoothManager.discoveredPeripherals[peripheral.uuid] = device;
 
     bluetooth.startScanning = () => {
       bluetooth.emit('discover', peripheral);
@@ -107,10 +107,6 @@ describe('bluetooth.scanDevice', () => {
     assert.calledOnce(service.discoverCharacteristics);
 
     assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-      payload: device,
-    });
-    assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
       type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.STATE,
       payload: { peripheralLookup: false, ready: false, scanning: false },
     });
@@ -138,11 +134,6 @@ describe('bluetooth.scanDevice', () => {
     assert.calledOnce(peripheral.connect);
     assert.calledOnce(peripheral.disconnect);
     assert.callCount(peripheral.discoverServices, expectedCount);
-
-    assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-      payload: device,
-    });
 
     assert.calledOnce(service.discoverCharacteristics);
   });
@@ -175,11 +166,6 @@ describe('bluetooth.scanDevice', () => {
     assert.calledOnce(peripheral.connect);
     assert.calledOnce(peripheral.disconnect);
     assert.callCount(peripheral.discoverServices, expectedCount);
-
-    assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-      payload: device,
-    });
 
     assert.callCount(service.discoverCharacteristics, Object.keys(INFORMATION_SERVICES[service.uuid]).length);
     assert.calledOnce(characterisctic.read);
@@ -217,11 +203,6 @@ describe('bluetooth.scanDevice', () => {
     assert.calledOnce(peripheral.disconnect);
     assert.callCount(peripheral.discoverServices, expectedCount);
 
-    assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-      payload: device,
-    });
-
     assert.callCount(service.discoverCharacteristics, Object.keys(INFORMATION_SERVICES[service.uuid]).length);
     assert.calledOnce(characterisctic.read);
   });
@@ -254,11 +235,6 @@ describe('bluetooth.scanDevice', () => {
     assert.calledOnce(peripheral.connect);
     assert.calledOnce(peripheral.disconnect);
     assert.callCount(peripheral.discoverServices, expectedCount);
-
-    assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-      payload: device,
-    });
 
     assert.callCount(service.discoverCharacteristics, Object.keys(INFORMATION_SERVICES[service.uuid]).length);
     assert.calledOnce(characterisctic.read);
@@ -308,11 +284,6 @@ describe('bluetooth.scanDevice', () => {
     assert.calledOnce(peripheral.disconnect);
     assert.callCount(peripheral.discoverServices, expectedCount);
 
-    assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-      payload: device,
-    });
-
     assert.callCount(service.discoverCharacteristics, Object.keys(INFORMATION_SERVICES[service.uuid]).length);
   });
 
@@ -356,11 +327,6 @@ describe('bluetooth.scanDevice', () => {
     assert.calledOnce(peripheral.connect);
     assert.calledOnce(peripheral.disconnect);
     assert.callCount(peripheral.discoverServices, expectedCount);
-
-    assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-      payload: device,
-    });
 
     assert.callCount(service.discoverCharacteristics, Object.keys(INFORMATION_SERVICES[service.uuid]).length);
   });
@@ -407,11 +373,6 @@ describe('bluetooth.scanDevice', () => {
     assert.calledOnce(peripheral.disconnect);
     assert.callCount(peripheral.discoverServices, expectedCount);
 
-    assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-      payload: device,
-    });
-
     assert.callCount(service.discoverCharacteristics, Object.keys(INFORMATION_SERVICES[service.uuid]).length);
   });
 
@@ -456,11 +417,6 @@ describe('bluetooth.scanDevice', () => {
     assert.calledOnce(peripheral.connect);
     assert.calledOnce(peripheral.disconnect);
     assert.callCount(peripheral.discoverServices, expectedCount);
-
-    assert.calledWith(gladys.event.emit, EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-      payload: device,
-    });
 
     assert.callCount(service.discoverCharacteristics, Object.keys(INFORMATION_SERVICES[service.uuid]).length);
   });

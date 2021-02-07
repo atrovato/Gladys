@@ -18,13 +18,9 @@ const { read } = require('../utils/characteristic/bluetooth.read');
 async function scanDevice(peripheralUuid) {
   logger.debug(`Bluetooth: scanning for device information on ${peripheralUuid}`);
 
-  const device = this.discoveredDevices[peripheralUuid];
+  const device = this.discoveredPeripherals[peripheralUuid];
 
   setDeviceParam(device, PARAMS.LOADED, false);
-  this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
-    type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-    payload: device,
-  });
 
   const loop = (peripheral) => {
     return Promise.map(
@@ -62,10 +58,6 @@ async function scanDevice(peripheralUuid) {
     .catch((error) => logger.warn(`Bluetooth: unable to scan ${peripheralUuid} - ${error}`))
     .finally(() => {
       setDeviceParam(device, PARAMS.LOADED, true);
-      this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
-        type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-        payload: device,
-      });
       return device;
     });
 }

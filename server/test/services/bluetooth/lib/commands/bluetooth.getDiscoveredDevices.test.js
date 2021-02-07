@@ -41,7 +41,7 @@ describe('bluetooth.getDiscoveredDevices command', () => {
   });
 
   it('should get retrieved peripherals', () => {
-    bluetoothManager.discoveredDevices.P1 = {
+    bluetoothManager.discoveredPeripherals.P1 = {
       external_id: 'bluetooth:P1',
       features: [],
       name: 'P1',
@@ -57,7 +57,7 @@ describe('bluetooth.getDiscoveredDevices command', () => {
       ],
       selector: 'bluetooth-p1',
     };
-    bluetoothManager.discoveredDevices.P2 = {
+    bluetoothManager.discoveredPeripherals.P2 = {
       external_id: 'bluetooth:P2',
       features: [],
       name: 'P2',
@@ -73,7 +73,7 @@ describe('bluetooth.getDiscoveredDevices command', () => {
       ],
       selector: 'bluetooth-p2',
     };
-    bluetoothManager.discoveredDevices.P3 = {
+    bluetoothManager.discoveredPeripherals.P3 = {
       external_id: 'bluetooth:P3',
       features: [],
       name: 'P3',
@@ -92,9 +92,9 @@ describe('bluetooth.getDiscoveredDevices command', () => {
 
     const result = bluetoothManager.getDiscoveredDevices();
     expect(result).deep.eq([
-      bluetoothManager.discoveredDevices.P1,
-      bluetoothManager.discoveredDevices.P2,
-      bluetoothManager.discoveredDevices.P3,
+      bluetoothManager.discoveredPeripherals.P1,
+      bluetoothManager.discoveredPeripherals.P2,
+      bluetoothManager.discoveredPeripherals.P3,
     ]);
     assert.notCalled(eventWS);
     assert.callCount(gladys.stateManager.get, 3);

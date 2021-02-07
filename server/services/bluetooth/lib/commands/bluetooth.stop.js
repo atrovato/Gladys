@@ -6,7 +6,7 @@ const logger = require('../../../../utils/logger');
  * bluetooth.stop();
  */
 async function stop() {
-  this.discoveredDevices = {};
+  this.discoveredPeripherals = {};
 
   logger.debug(`Bluetooth: Stop discovering`);
   await this.bluetooth.stopScanningAsync();

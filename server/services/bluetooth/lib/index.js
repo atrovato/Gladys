@@ -41,7 +41,7 @@ const BluetoothManager = function BluetoothManager(gladys, serviceId) {
   this.scanning = false;
   this.peripheralLookup = false;
 
-  this.discoveredDevices = {};
+  this.discoveredPeripherals = {};
 
   this.presenceScanner = {
     status: PRESENCE_STATUS.ENABLED,

@@ -11,17 +11,7 @@ const { transformToDevice } = require('../device/bluetooth.transformToDevice');
  */
 function discover(noblePeripheral) {
   logger.trace(`Bluetooth: discover ${noblePeripheral.uuid}`);
-
-  // Store device if not already there
-  if (!this.peripheralLookup && !this.discoveredDevices[noblePeripheral.uuid]) {
-    const device = transformToDevice(noblePeripheral);
-    this.discoveredDevices[noblePeripheral.uuid] = device;
-
-    this.gladys.event.emit(EVENTS.WEBSOCKET.SEND_ALL, {
-      type: WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER,
-      payload: this.completeDevice(device),
-    });
-  }
+  this.discoveredPeripherals[noblePeripheral.uuid] = noblePeripheral;
 }
 
 module.exports = {

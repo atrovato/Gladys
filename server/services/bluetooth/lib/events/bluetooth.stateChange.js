@@ -15,7 +15,7 @@ function stateChange(state) {
     default:
       this.ready = false;
       this.scanning = false;
-      this.discoveredDevices = {};
+      this.discoveredPeripherals = {};
   }
 
   this.broadcastStatus();

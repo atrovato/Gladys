@@ -16,12 +16,6 @@ import style from '../../style.css';
 
 @connect('session,httpClient,houses,bluetoothStatus', actions)
 class BluetoothConnnectPage extends Component {
-  updatePeripheral = peripheral => {
-    if (peripheral.uuid === this.state.peripheral.uuid) {
-      this.setState({ peripheral });
-    }
-  };
-
   loadDevice = async () => {
     try {
       const peripheral = await this.props.httpClient.get(`/api/v1/service/bluetooth/peripheral/${this.state.uuid}`);
@@ -52,13 +46,7 @@ class BluetoothConnnectPage extends Component {
     this.props.getStatus();
     this.props.getHouses();
 
-    this.props.session.dispatcher.addListener(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER, this.updatePeripheral);
-
     await this.loadDevice();
-  }
-
-  componentWillUnmount() {
-    this.props.session.dispatcher.removeListener(WEBSOCKET_MESSAGE_TYPES.BLUETOOTH.DISCOVER, this.updatePeripheral);
   }
 
   render({ bluetoothStatus = {} }, { uuid, peripheral, status }) {

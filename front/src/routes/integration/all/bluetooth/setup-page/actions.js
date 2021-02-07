@@ -26,25 +26,6 @@ const createActions = store => {
         });
       }
     },
-    async addPeripheral(state, peripheral) {
-      const peripheralKey = peripheral.selector;
-      let bluetoothPeripherals = state.bluetoothPeripherals || [];
-      const currentIndex = bluetoothPeripherals.findIndex(p => p.selector === peripheralKey);
-
-      if (currentIndex >= 0) {
-        bluetoothPeripherals = update(bluetoothPeripherals, {
-          [currentIndex]: { $set: peripheral }
-        });
-      } else {
-        bluetoothPeripherals = update(bluetoothPeripherals, {
-          $push: [peripheral]
-        });
-      }
-
-      store.setState({
-        bluetoothPeripherals
-      });
-    },
     async resetSaveStatus() {
       store.setState({
         bluetoothSaveStatus: undefined
