@@ -9,11 +9,12 @@ const containerDescriptor = require('../docker/eclipse-mosquitto-container.json'
 
 /**
  * @description Get MQTT configuration.
+ * @param {boolean} saveConfiguration - Save new configuration.
  * @returns {Promise} Current MQTT network configuration.
  * @example
  * installContainer();
  */
-async function installContainer() {
+async function installContainer(saveConfiguration = true) {
   logger.info('MQTT broker is being installed as Docker container...');
 
   try {
@@ -54,12 +55,14 @@ async function installContainer() {
     throw e;
   }
 
-  await this.saveConfiguration({
-    mqttUrl: 'mqtt://localhost',
-    mqttUsername: 'gladys',
-    mqttPassword: generate(20, { number: true, lowercase: true, uppercase: true }),
-    useEmbeddedBroker: true,
-  });
+  if (saveConfiguration) {
+    await this.saveConfiguration({
+      mqttUrl: 'mqtt://localhost',
+      mqttUsername: 'gladys',
+      mqttPassword: generate(20, { number: true, lowercase: true, uppercase: true }),
+      useEmbeddedBroker: true,
+    });
+  }
 }
 
 module.exports = {
