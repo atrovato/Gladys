@@ -1,3 +1,7 @@
 {
-  "baseUrl": "http://localhost:1444"
+  "baseUrl": "http://localhost:1444",
+  "env": {
+    "serverUrl": "http://localhost:1443",
+    "language": "en-US"
+  }
 }
