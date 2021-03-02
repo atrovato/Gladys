@@ -141,7 +141,7 @@ jobs:
           path: front/build
   docker:
     if: github.event.pull_request.draft == false
-    needs: build-front
+    needs: cypress-run
     name: Docker magic !
     runs-on: ubuntu-20.04
     steps:
